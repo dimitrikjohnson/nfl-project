@@ -7,12 +7,11 @@ export default function Instructions() {
             <div className="flex justify-center md:block">
                 <Image
                     src={NFLLogo}
-                    width={175}
+                    width={200}
                     alt="NFL Logo"
                     priority
                 /> 
-            </div>
-            
+            </div> 
             <div>
                 <h1 className="font-protest text-5xl uppercase mb-6">Select a team</h1>
                 <p className="font-rubik text-lg">
