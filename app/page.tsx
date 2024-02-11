@@ -11,14 +11,13 @@ export default function Home() {
   
   const childToParent = (childData) => {
     setSelectedTeam(childData)
-    console.log(selectedTeam)
   }
   
   return (
     <>
       <NavBar />
-      <main className="flex min-h-screen flex-col items-center justify-between px-11">
-        { selectedTeam ? <SelectedTeam /> : <Instructions />}
+      <main className="flex min-h-screen flex-col items-center px-11">
+        { selectedTeam ? <SelectedTeam teamID={ selectedTeam }/> : <Instructions />}
         <ListOfTeams childToParent={childToParent} />
       </main>
     </>
