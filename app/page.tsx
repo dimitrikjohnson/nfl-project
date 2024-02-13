@@ -15,6 +15,7 @@ export default function Home() {
   
   return (
     <>
+      <span id="top-of-page"></span>
       <NavBar />
       <main className="flex min-h-screen flex-col items-center px-11">
         { selectedTeam ? <SelectedTeam teamID={ selectedTeam }/> : <Instructions />}
