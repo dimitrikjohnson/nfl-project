@@ -12,6 +12,9 @@ const config: Config = {
         protest: ['"Protest Strike"', 'sans-serif'],
         rubik: ['Rubik', 'sans-serif'],
       },
+      colors: {
+        secondaryGrey: "#848484",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
