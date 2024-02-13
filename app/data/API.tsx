@@ -5,7 +5,7 @@ async function getAllTeams() {
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
+        throw new Error('Failed to fetch all teams data')
     }
 
     var data = await res.json()
@@ -20,7 +20,7 @@ async function getTeam({ teamID }) {
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
+        throw new Error('Failed to fetch team data')
     }
 
     var data = await res.json()
@@ -34,7 +34,7 @@ async function getTeamRecord({ teamID }) {
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
+        throw new Error('Failed to fetch team record data')
     }
 
     var data = await res.json()
@@ -48,7 +48,7 @@ async function getTeamSchedule({ teamID, seasonYear, seasonType }) {
 
     if (!res.ok) {
         // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch data')
+        throw new Error('Failed to fetch team schedule data')
     }
 
     var data = await res.json()
