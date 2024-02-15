@@ -14,6 +14,7 @@ const config: Config = {
       },
       colors: {
         secondaryGrey: "#848484",
+        gold: "#FFD700",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
