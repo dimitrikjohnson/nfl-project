@@ -1,48 +1,51 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
-import { getTeam, getTeamRecord } from "../data/API";
+import { getTeam, getTeamSchedule, getSuperBowlWinner } from "../data/API";
 import Tabs from './SelectedTeamTabs/Tabs';
 
-export default function SelectedTeam({ teamID }) {
+export default function SelectedTeam({teamID}) {
     const [team, setTeam] = useState([])
     const [teamRecord, setTeamRecord] = useState("")
     const [teamLogo, setTeamLogo] = useState([])
-    //const [teamSchedule, setTeamSchedule] = useState([])
-    const [currentSeason, setCurrentSeason] = useState([])
-    
-    const getSelectedTeam = () => getTeam({ teamID }).then(
+    const [sbWinner, setSBWinner] = useState({})
+
+    const getSelectedTeam = () => getTeam({teamID}).then(
         (res) => {
             setTeam(res)
             res.shortDisplayName == "Giants" ? setTeamLogo(res.logos[1]) : setTeamLogo(res.logos[0])
         }
     )
 
-    const getSelectedTeamRecord = () => getTeamRecord({ teamID }).then(
+    const getSelectedTeamRecord = () => getTeamSchedule({teamID}).then(
         (res) => {
             setTeamRecord(res.team.recordSummary)
         }
     )
 
-    const getCurrentSeason = () => getTeamRecord({ teamID }).then(
+    const getSBWinner = () => getSuperBowlWinner().then(
         (res) => {
-            setCurrentSeason(res.season)
+            if (res) {
+                setSBWinner({
+                    headline: res.headline, 
+                    winner: res.winnerID
+                })
+            }
         }
     )
     
-    // only run getCurrentSeason() on the first render
     useEffect(() => {
-        getCurrentSeason()
+        getSBWinner()
     }, [])
-
-    // run getSelectedTeam() every time teamID updates (aka when a new card is clicked)
+   
+    // run these functions every time teamID updates (aka when a new card is clicked)
     useEffect(() => {
         getSelectedTeam(),
         getSelectedTeamRecord()
     }, [teamID])
     
     return (
-        <section className="w-full mb-20">
-            <div className="grid md:flex gap-y-2.5 gap-x-5 items-center mb-7">
+        <section className="w-full mb-16">
+            <div className="grid md:flex gap-y-2.5 gap-x-5 items-center mb-9">
                 <div className="flex justify-center md:block">
                     <div 
                     className="w-72 md:w-36 p-1 rounded-md" 
@@ -53,7 +56,9 @@ export default function SelectedTeam({ teamID }) {
                 </div>
                 <div className="grid md:flex gap-3 h-1/2">
                     <h1 className="font-protest flex items-end text-5xl uppercase">{ team.displayName }</h1>
-                    <p className="font-rubik flex items-end text-secondaryGrey">{ teamRecord } | { team.standingSummary}</p> 
+                    <p className="font-rubik flex items-end text-secondaryGrey">
+                        { teamRecord } | { team.standingSummary} { sbWinner.winner == teamID ? " | " + sbWinner.headline + " Champions" : null }
+                    </p> 
                 </div>          
             </div>
             <Tabs teamID={ teamID } />
