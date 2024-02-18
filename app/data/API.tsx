@@ -41,18 +41,31 @@ async function getTeamSchedule({ teamID }) {
     return data
 }
 
-async function getTeamScheduleDetailed({ teamID, seasonYear, seasonType }) {
-    const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/" + teamID + "/schedule?season=" + seasonYear + "&seasontype=" + seasonType, {
-        method: "GET"
-    })
+async function getTeamScheduleDetailed( teamID, seasonYear ) {
+    let output = []
 
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch team schedule data')
+    // fetch the post, regular, and preseason schedules for the chosen team
+    for(let counter = 3; counter >= 1; counter -= 1) {
+        const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/" + teamID + "/schedule?season=" + seasonYear + "&seasontype=" + counter, { method: "GET" })
+
+        if (!res.ok) {
+            // This will activate the closest `error.js` Error Boundary
+            throw new Error('Failed to fetch team season data')
+        }
+
+        var data = await res.json()
+
+        if (data.requestedSeason) {
+            if (data.requestedSeason.type == "2") {
+                output.push({ requestedSeason: data.requestedSeason.name, games: data.events, byeWeek: data.byeWeek })
+            }
+            else {
+                output.push({ requestedSeason: data.requestedSeason.name, games: data.events, byeWeek: null })
+            }
+        }
     }
-
-    var data = await res.json()
-    return data
+    
+    return output
 }
 
 async function getSuperBowlWinner() {
