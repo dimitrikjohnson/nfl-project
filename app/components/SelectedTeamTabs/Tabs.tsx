@@ -2,6 +2,7 @@ import 'client-only';
 import { useState, useEffect } from 'react';
 import Overview from './Overview';
 import Schedule from './Schedule';
+import Roster from './Roster';
 
 export default function Tabs({ teamID }) {
     const [selectedTab, setSelectedTab] = useState("Overview")
@@ -18,6 +19,8 @@ export default function Tabs({ teamID }) {
                 return <Overview teamID={ teamID } />
             case "Schedule":
                 return <Schedule teamID={ teamID } />
+            case "Roster":
+                return <Roster teamID={ teamID } />
             default:
                 return null
         }
@@ -30,7 +33,7 @@ export default function Tabs({ teamID }) {
     
     return (
         <>
-            <div className="font-rubik w-full bg-sectionColor rounded-md flex flex-nowrap justify-between md:justify-around overflow-x-auto mb-9">
+            <div className="font-rubik w-full bg-sectionColor flex flex-nowrap justify-between overflow-x-auto px-4 md:px-6 lg:px-14 3xl:m-auto mb-11">
                 { tabs.map((tab) =>
                     <button 
                     key={ tab } 
@@ -42,7 +45,9 @@ export default function Tabs({ teamID }) {
                     </button> 
                 )}
             </div>
-            { tabWindows(selectedTab) }
+            <section className="mx-4 md:mx-6 lg:mx-14 3xl:m-auto 3xl:max-w-[1700px]">
+                { tabWindows(selectedTab) }
+            </section>
         </>
     )
 }
