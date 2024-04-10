@@ -3,14 +3,17 @@ import fetchCurrentSeason from "./fetchCurrentSeason";
 export default async function getRoster( teamID ) {
     const currentSeason = await fetchCurrentSeason()
 
-    const rosterRes = await fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/" + teamID + "/roster", { method: "get" })
-    const depthRes = await fetch("https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/" + currentSeason + "/teams/" + teamID + "/depthcharts", { method: "get" })
+    const rosterLink = `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/roster`
+    const depthLink = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/teams/${teamID}/depthcharts`
+
+    const rosterRes = await fetch(rosterLink, { method: "get" })
+    const depthRes = await fetch(depthLink, { method: "get" })
     
     const rosterData = await rosterRes.json()
     const depthData = await depthRes.json() 
     
     // This will activate the closest `error.js` Error Boundary
-    if ( !(depthRes.ok || rosterData.ok) ) { throw new Error('Failed to fetch the roster or depth chart') }
+    if ( !(depthRes.ok || rosterRes.ok) ) { throw new Error('Failed to fetch the roster or depth chart') }
 
     // both API responses are broken up into offense, defense, and special teams
     const rosterSides = [rosterData.athletes[0], rosterData.athletes[1], rosterData.athletes[2]]
@@ -19,9 +22,10 @@ export default async function getRoster( teamID ) {
     const specialTeams = depthData.items[1].positions
 
     /* 
-        manually add the offense to the array because I want them to be displayed in a specific order
-        then, only try to add it to the array if the team has a fullback slot
-        finally, add the rest of the offensive positions to the array
+     *   Manually add the offense to the array because I want them to be displayed in a specific order.
+     *   Then, determine if the team has a fullback slot (some teams don't, so an error will be thrown 
+     *   for some teams without the check).
+     *   Finally, add the rest of the offensive positions to the array.
     */
     let positionsArr = [offense.qb, offense.rb]
 
@@ -46,110 +50,88 @@ export default async function getRoster( teamID ) {
         }
     }
 
-    let positionsAndPlayers = {}
+    /*
+     * partialPlayerInfo will hold the player ID, position, and rank of every player on the depth chart
+     * allPlayers is for all player info that will be displayed on the page
+    */
+    let partialPlayerInfo = {}
+    let allPlayers = {}
     
     for (const position of positionsArr) {
-        // the positions will be added to an object when we come across them in the loop
-        positionsAndPlayers[position.position.displayName] = {}
+        // all positions will be added to the object when we come across each one in the loop
+        allPlayers[position.position.displayName] = {}
 
         for (const player of position.athletes) {
             // slice the player ID out of the link
             const playerID = player.athlete.$ref.slice(player.athlete.$ref.indexOf("athletes/")+9, player.athlete.$ref.indexOf('?'))
-            
-            // call a different API than the one in the response for extra data
-            const playerRes = await fetch("https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/" + playerID, { method: "get" })
-            const playerResToJson = await playerRes.json()
-            const playerData = playerResToJson.athlete
 
-            let playerValues = {
-                name: playerData.displayName,
-                jersey: playerData.displayJersey,
-                age: playerData.age,
-                weight: playerData.displayWeight,
-                height: playerData.displayHeight,
-                experience: playerData.displayExperience
+           /*
+            * determine if this player has already been added to the object
+            * if he hasn't, create an array. if he has, push to the existing one
+            * he may have because some players are listed under multiple positions
+           */
+            if (!partialPlayerInfo[playerID]) {
+                partialPlayerInfo[playerID] = [{
+                    position: position.position.displayName,
+                    rank: player.rank
+                }]
             }
-
-            try {
-                playerValues.headshot = playerData.headshot.href
-                playerValues.college = playerData.college.name
+            else {
+                partialPlayerInfo[playerID].push({
+                    position: position.position.displayName,
+                    rank: player.rank
+                })
             }
-            // if an error is thrown, add the value that is present
-            catch (err) {
-                if (playerData.headshot) {
-                    playerValues.headshot = playerData.headshot.href  
-                }
-                if (playerData.college) {
-                    playerValues.college = playerData.college.name
-                }
-            }
-            
-            // add the player data to the object
-            positionsAndPlayers[position.position.displayName][player.rank] = { playerValues/*playerID: playerID*/ }
         }
     }
+
     /*
+     * loop through offense, defense, and special teams
+     * then, loop through all of the players in each section
+    */
     for (const side of rosterSides) {
         for (const athlete of side.items) {
-
-        }
-    }
-    */
-    // the API response is broken up into offense, defense, special teams, and more
-    /*
-    const sidesOfBall = data.athletes
-    
-    for (const side of sidesOfBall) {
-        // end for loop before it gets to players on injured reserve 
-        if (side.position == 'injuredReserveOrOut') {
-            break
-        }
-
-        // go through the list of players and put each player in their corresponding position array
-        for (const player of side.items) {
-            let playerValues = {
-                playerName: player.displayName,
-                playerJersey: player.jersey,
-                playerAge: player.age,
-                playerWeight: player.displayWeight,
-                playerHeight: player.displayHeight,
-                playerExperience: player.experience.years
-            }
-            // an error will be thrown if the player doesn't have a headshot or a college
-            try {
-                playerValues.playerHeadshot = player.headshot.href
-                playerValues.playerCollege = player.college.name
-            }
-            // if an error is thrown, add the value that is present
-            catch (err) {
-                if (player.headshot) {
-                    playerValues.playerHeadshot = player.headshot.href
-                    
+            // determine if the current athlete's ID is in the depth chart
+            if (partialPlayerInfo.hasOwnProperty(athlete.id)) {               
+                
+                let playerValues = {
+                    name: athlete.displayName,
+                    jersey: athlete.jersey,
+                    age: athlete.age,
+                    weight: athlete.displayWeight,
+                    height: athlete.displayHeight,
+                    experience: athlete.experience.years
                 }
-                if (player.college) {
-                    playerValues.playerCollege = player.college.name
+
+                // an error will be thrown if the player doesn't have a headshot or a college
+                try {
+                    playerValues.headshot = athlete.headshot.href
+                    playerValues.college = athlete.college.name
                 }
-                //console.log("hello")
-            }
-            try {
-                positions[player.position.displayName].push(playerValues)
-            }
-            catch(err) {
-                console.log(player)
+                // if an error is thrown, add the value that is present
+                catch (err) {
+                    if (athlete.headshot) {
+                        playerValues.headshot = athlete.headshot.href  
+                    }
+                    if (athlete.college) {
+                        playerValues.college = athlete.college.name
+                    }
+                }
+
+                // go through this player object(s) and add them to the allPlayers object
+                for (const object of partialPlayerInfo[athlete.id]) {
+                    allPlayers[object.position][object.rank] = { playerValues }
+                }
             }
         }
     }
-    */
 
-    // remove the positions that don't have any players (will most likely only be the fullback position)
-    /*
-    Object.keys(positionsAndPlayers).map(position => {
-        if (positionsAndPlayers[position].length == 0) {
-            delete positionsAndPlayers[position]
+    // remove the positions that don't have any players  
+    Object.keys(allPlayers).map(position => {
+        if (Object.keys(allPlayers[position]).length == 0) {
+            delete allPlayers[position]
         }
     })
-    */
-    //console.log(positionsAndPlayers)
-    
-    return positionsAndPlayers
+        
+    return allPlayers
 }

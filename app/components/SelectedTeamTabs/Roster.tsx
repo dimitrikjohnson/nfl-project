@@ -10,8 +10,10 @@ export default function Roster({ teamID }) {
     const [teamAltColor, setTeamAltColor] = useState("");
     const [roster, setRoster] = useState([]);
     const [spinner, setSpinner] = useState(false);
-    const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2.5";
 
+    // establish the styling for the labels
+    const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2.5";
+    
     const getTeamRoster = () => {
         setSpinner(true);
         
@@ -20,7 +22,7 @@ export default function Roster({ teamID }) {
             setRoster(res);
         });
     }
-
+    
     const getTeamAltColor = () => getTeam({teamID}).then(
         (res) => setTeamAltColor(res.alternateColor)
     );
@@ -47,7 +49,7 @@ export default function Roster({ teamID }) {
         const getOrdinal = (num) => {
             let ord = 'th';
 
-            if (num % 10 == 1 && n % 100 != 11) { ord = 'st'; }
+            if (num % 10 == 1 && num % 100 != 11) { ord = 'st'; }
             else if (num % 10 == 2 && num % 100 != 12) { ord = 'nd'; }
             else if (num % 10 == 3 && num % 100 != 13) { ord = 'rd'; }
 
@@ -62,7 +64,7 @@ export default function Roster({ teamID }) {
                             <p className="flex gap-1.5 text-lighterSecondaryGrey">
                                 { position[player].playerValues.jersey 
                                   ? <>
-                                        <span>{ position[player].playerValues.jersey }</span>
+                                        <span>#{ position[player].playerValues.jersey }</span>
                                         <span>&#183;</span>
                                     </>
                                   : null 
@@ -85,7 +87,7 @@ export default function Roster({ teamID }) {
                             <div>
                                 <p className="pb-1.5">
                                     <span className={ labelClasslist }>Age:</span>
-                                    <span>{ position[player].playerValues.age }</span>
+                                    <span>{ position[player].playerValues.age ? position[player].playerValues.age : "N/A" }</span>
                                 </p>
                                 <p className="pb-1.5">
                                     <span className={ labelClasslist }>HT/WT:</span>
@@ -97,7 +99,12 @@ export default function Roster({ teamID }) {
                                 </p>
                                 <p>
                                     <span className={ labelClasslist }>Experience:</span>
-                                    <span>{ position[player].playerValues.experience }</span>
+                                    <span>
+                                        { position[player].playerValues.experience == 0
+                                          ? "Rookie"
+                                          : position[player].playerValues.experience + getOrdinal(position[player].playerValues.experience) + " season" 
+                                        }
+                                    </span>
                                 </p>
                             </div>
                         </div>
@@ -124,12 +131,14 @@ export default function Roster({ teamID }) {
                 </select> 
                 */}
             </div>
+            
             { spinner 
               ? <div className="w-full flex justify-center mt-5">
                     <ReactLoading type="spin" height={100} width={75} />
                 </div> 
               : displayPositions()
             }
+        
         </>
     )
 }
