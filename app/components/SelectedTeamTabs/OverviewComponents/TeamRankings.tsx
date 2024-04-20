@@ -1,6 +1,7 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
 import getTeamStats from '@/app/apiCalls/getTeamStats';
+import getRankColor from '../../helpers/getRankColor';
 
 export default function TeamRankings({ teamID }) {
     const [offensiveRanks, setOffensiveRanks] = useState({})
@@ -21,13 +22,6 @@ export default function TeamRankings({ teamID }) {
             })
         }
     )
-
-    const determineRankColor = (rankValue) => {
-        if (rankValue <= 8) { return "text-green-500" } else
-        if (rankValue <= 16) { return "text-yellow-500" } else
-        if (rankValue <= 24) { return "text-orange-500" } else
-        return "text-red-500"
-    }
     
     const displayTeamRankings = (ranks) => {
         var output = []
@@ -35,7 +29,7 @@ export default function TeamRankings({ teamID }) {
             output.push(
                 <div key={ ranks[rank].name }>
                     <p className="pb-2">{ ranks[rank].displayName }</p>
-                    <p className={ determineRankColor(ranks[rank].rank) }>{ ranks[rank].rankDisplayValue }</p>
+                    <p className={ getRankColor(ranks[rank].rank, false) }>{ ranks[rank].rankDisplayValue }</p>
                 </div>
             )  
         }
