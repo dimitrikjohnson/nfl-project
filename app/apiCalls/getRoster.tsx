@@ -1,69 +1,91 @@
 import fetchCurrentSeason from "./fetchCurrentSeason";
 
 export default async function getRoster( teamID ) {
-    const currentSeason = await fetchCurrentSeason()
+    const currentSeason = await fetchCurrentSeason();
 
-    const rosterLink = `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/roster`
-    const depthLink = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/teams/${teamID}/depthcharts`
+    const rosterLink = `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/roster`;
+    const depthLink = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/teams/${teamID}/depthcharts`;
 
-    const rosterRes = await fetch(rosterLink, { method: "get" })
-    const depthRes = await fetch(depthLink, { method: "get" })
+    const rosterRes = await fetch(rosterLink, { method: "get" });
+    const depthRes = await fetch(depthLink, { method: "get" });
     
-    const rosterData = await rosterRes.json()
-    const depthData = await depthRes.json() 
+    const rosterData = await rosterRes.json();
+    const depthData = await depthRes.json();
     
     // This will activate the closest `error.js` Error Boundary
     if ( !(depthRes.ok || rosterRes.ok) ) { throw new Error('Failed to fetch the roster or depth chart') }
 
     // both API responses are broken up into offense, defense, and special teams
-    const rosterSides = [rosterData.athletes[0], rosterData.athletes[1], rosterData.athletes[2]]
-    const offense = depthData.items[2].positions
-    const defense = depthData.items[0].positions
-    const specialTeams = depthData.items[1].positions
+    const rosterSides = [rosterData.athletes[0], rosterData.athletes[1], rosterData.athletes[2]];
+    const offense = depthData.items[2].positions;
+    const defense = depthData.items[0].positions;
+    const specialTeams = depthData.items[1].positions;
 
     /* 
      *   Manually add the offense to the array because I want them to be displayed in a specific order.
-     *   Then, determine if the team has a fullback slot (some teams don't, so an error will be thrown 
-     *   for some teams without the check).
-     *   Finally, add the rest of the offensive positions to the array.
+     *   Determine if the team has a fullback slot (some teams don't, so an error will be thrown 
+     *   for some teams if the 'if' statement isn't present). Include tags for the filter on the Roster page.
+     *   Finally, add the offensive line positions to the array.
     */
-    let positionsArr = [offense.qb, offense.rb]
-
-    offense.fb ? positionsArr.push(offense.fb) : null
     
-    positionsArr.push(
-        offense.wr,
-        offense.te,
-        offense.c,
-        offense.lg,
-        offense.lt,
-        offense.rg,
-        offense.rt
-    )
-
-    const sidesOfBall = [defense, specialTeams]
-
-    // add the defense and special teams to the array like this because I don't care what order it's displayed in
-    for (const side of sidesOfBall) {
-        for (const position in side) {
-            positionsArr.push(side[position])
-        }
+    let positionsArr = [
+        { data: offense.qb, tags: ["fantasy"] },
+        { data: offense.rb, tags: ["fantasy"] }
+    ];
+  
+    if (offense.fb) {
+        positionsArr.push({
+            data: offense.fb,
+            tags: ["fantasy"]
+        });
     }
 
+    positionsArr.push(
+        { data: offense.wr, tags: ["fantasy"] },
+        { data: offense.te, tags: ["fantasy"] }
+    );
+
+    const oLine = [offense.c, offense.lg, offense.lt, offense.rg, offense.rt];
+
+    oLine.map(position =>
+        positionsArr.push({ 
+            data: position, 
+            tags: [] 
+        })
+    );
+
+    // add common tags to all offensive positions; did it this way to avoid repeating code
+    for (const position of positionsArr) {
+        position.tags.push("offense", "all");
+    }
+
+    const sidesOfBall = [defense, specialTeams];
+
+    // add the defense and special teams to the array like this because I don't care what order the positions are displayed in
+    for (const side of sidesOfBall) {
+        for (const position in side) { 
+            positionsArr.push({
+                data: side[position],
+                tags: side == defense ? ["defense", "all"] : ["special teams", "all"]
+            }); 
+            //positionsArr.push(side[position]);
+        }
+    }
+    
     /*
      * partialPlayerInfo will hold the player ID, position, and rank of every player on the depth chart
      * allPlayers is for all player info that will be displayed on the page
     */
-    let partialPlayerInfo = {}
-    let allPlayers = {}
+    let partialPlayerInfo = {};
+    let allPlayers = {};
     
     for (const position of positionsArr) {
         // all positions will be added to the object when we come across each one in the loop
-        allPlayers[position.position.displayName] = {}
+        allPlayers[position.data.position.displayName] = { players: {}, tags: position.tags };
 
-        for (const player of position.athletes) {
+        for (const player of position.data.athletes) {
             // slice the player ID out of the link
-            const playerID = player.athlete.$ref.slice(player.athlete.$ref.indexOf("athletes/")+9, player.athlete.$ref.indexOf('?'))
+            const playerID = player.athlete.$ref.slice(player.athlete.$ref.indexOf("athletes/")+9, player.athlete.$ref.indexOf('?'));
 
            /*
             * determine if this player has already been added to the object
@@ -72,15 +94,15 @@ export default async function getRoster( teamID ) {
            */
             if (!partialPlayerInfo[playerID]) {
                 partialPlayerInfo[playerID] = [{
-                    position: position.position.displayName,
+                    position: position.data.position.displayName,
                     rank: player.rank
-                }]
+                }];
             }
             else {
                 partialPlayerInfo[playerID].push({
-                    position: position.position.displayName,
+                    position: position.data.position.displayName,
                     rank: player.rank
-                })
+                });
             }
         }
     }
@@ -101,37 +123,30 @@ export default async function getRoster( teamID ) {
                     weight: athlete.displayWeight,
                     height: athlete.displayHeight,
                     experience: athlete.experience.years
-                }
+                };
 
                 // an error will be thrown if the player doesn't have a headshot or a college
                 try {
-                    playerValues.headshot = athlete.headshot.href
-                    playerValues.college = athlete.college.name
+                    playerValues.headshot = athlete.headshot.href;
+                    playerValues.college = athlete.college.name;
                 }
                 // if an error is thrown, add the value that is present
                 catch (err) {
                     if (athlete.headshot) {
-                        playerValues.headshot = athlete.headshot.href  
+                        playerValues.headshot = athlete.headshot.href; 
                     }
                     if (athlete.college) {
-                        playerValues.college = athlete.college.name
+                        playerValues.college = athlete.college.name;
                     }
                 }
 
                 // go through this player object(s) and add them to the allPlayers object
                 for (const object of partialPlayerInfo[athlete.id]) {
-                    allPlayers[object.position][object.rank] = { playerValues }
+                    allPlayers[object.position]["players"][object.rank] = { playerValues };
                 }
             }
         }
     }
-
-    // remove the positions that don't have any players  
-    Object.keys(allPlayers).map(position => {
-        if (Object.keys(allPlayers[position]).length == 0) {
-            delete allPlayers[position]
-        }
-    })
         
-    return allPlayers
+    return allPlayers;
 }
