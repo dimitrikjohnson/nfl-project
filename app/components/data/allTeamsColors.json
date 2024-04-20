@@ -1,0 +1,162 @@
+{
+    "22": {
+        "name": "Cardinals",
+        "textColor": "#ffffff",
+        "bgColor": "#a4113e"
+    },
+    "1": {
+        "name": "Falcons",
+        "textColor": "#a71930",
+        "bgColor": "#000000"
+    },
+    "2": {
+        "name": "Bills",
+        "textColor": "#ffffff",
+        "bgColor": "#00338d"
+    },
+    "33": {
+        "name": "Ravens",
+        "textColor": "#ffffff",
+        "bgColor": "#29126f"
+    },
+    "29": {
+        "name": "Panthers",
+        "textColor": "#000000",
+        "bgColor": "#0085ca"
+    },
+    "3": {
+        "name": "Bears",
+        "textColor": "#e64100",
+        "bgColor": "#0b1c3a"
+    },
+    "4": {
+        "name": "Bengals",
+        "textColor": "#fb4f14",
+        "bgColor": "#000000"
+    },
+    "5": {
+        "name": "Browns",
+        "textColor": "#472a08",
+        "bgColor": "#ff3c00"
+    },
+    "6": {
+        "name": "Cowboys",
+        "textColor": "#b0b7bc",
+        "bgColor": "#002a5c"
+    },
+    "7": {
+        "name": "Broncos",
+        "textColor": "#fc4c02",
+        "bgColor": "#0a2343"
+    },
+    "8": {
+        "name": "Lions",
+        "textColor": "#bbbbbb",
+        "bgColor": "#0076b6"
+    },
+    "9": {
+        "name": "Packers",
+        "textColor": "#ffb612",
+        "bgColor": "#204e32"
+    },
+    "34": {
+        "name": "Texans",
+        "textColor": "#ffffff",
+        "bgColor": "#00143f"
+    },
+    "11": {
+        "name": "Colts",
+        "textColor": "#ffffff",
+        "bgColor": "#003b75"
+    },
+    "30": {
+        "name": "Jaguars",
+        "textColor": "#d7a22a",
+        "bgColor": "#007487"
+    },
+    "12": {
+        "name": "Chiefs",
+        "textColor": "#e31837",
+        "bgColor": "#ffb612"
+    },
+    "13": {
+        "name": "Raiders",
+        "textColor": "#a5acaf",
+        "bgColor": "#000000"
+    },
+    "24": {
+        "name": "Chargers",
+        "textColor": "#ffc20e",
+        "bgColor": "#0080c6"
+    },
+    "14": {
+        "name": "Rams",
+        "textColor": "#ffd100",
+        "bgColor": "#003594"
+    },
+    "15": {
+        "name": "Dolphins",
+        "textColor": "#ffffff",
+        "bgColor": "#008e97"
+    },
+    "16": {
+        "name": "Vikings",
+        "textColor": "#ffc62f",
+        "bgColor": "#4f2683"
+    },
+    "17": {
+        "name": "Patriots",
+        "textColor": "#ffffff",
+        "bgColor": "#002a5c"
+    },
+    "18": {
+        "name": "Saints",
+        "textColor": "#d3bc8d",
+        "bgColor": "#000000"
+    },
+    "19": {
+        "name": "Giants",
+        "textColor": "#ffffff",
+        "bgColor": "#003c7f"
+    },
+    "20": {
+        "name": "Jets",
+        "textColor": "#ffffff",
+        "bgColor": "#115740"
+    },
+    "21": {
+        "name": "Eagles",
+        "textColor": "#ffffff",
+        "bgColor": "#06424d"
+    },
+    "23": {
+        "name": "Steelers",
+        "textColor": "#ffb612",
+        "bgColor": "#000000"
+    },
+    "25": {
+        "name": "49ers",
+        "textColor": "#aa0000",
+        "bgColor": "#b3995d"
+    },
+    "26": {
+        "name": "Seahawks",
+        "textColor": "#69be28",
+        "bgColor": "#002a5c"
+    },
+    "27": {
+        "name": "Buccaneers",
+        "textColor": "#ffffff",
+        "bgColor": "#bd1c36"
+    },
+    "10": {
+        "name": "Titans",
+        "textColor": "#002a5c",
+        "bgColor": "#4b92db"
+    },
+    "28": {
+        "name": "Commanders",
+        "textColor": "#ffb612",
+        "bgColor": "#5a1414"
+    } 
+}
