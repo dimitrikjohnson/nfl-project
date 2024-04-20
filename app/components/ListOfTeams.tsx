@@ -2,6 +2,7 @@ import 'client-only';
 import { useState, useEffect, memo } from 'react';
 import getAllTeams from '../apiCalls/getAllTeams';
 import getSuperBowlWinner from '../apiCalls/getSuperBowlWinner';
+import teamDivisions from './data/teamDivisions.json';
 
 function ListOfTeams({ childToParent }) {
     const [teams, setTeams] = useState([])
@@ -9,7 +10,7 @@ function ListOfTeams({ childToParent }) {
     
     const getTeams = () => getAllTeams().then(
         (res) => {
-            console.log(res)
+            //console.log(res)
             setTeams(res)
         } 
     )
