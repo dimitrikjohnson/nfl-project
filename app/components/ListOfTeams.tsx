@@ -8,7 +8,10 @@ function ListOfTeams({ childToParent }) {
     const [sbWinner, setSBWinner] = useState({})
     
     const getTeams = () => getAllTeams().then(
-        (res) => setTeams(res)
+        (res) => {
+            console.log(res)
+            setTeams(res)
+        } 
     )
 
     const getSBWinner = () => getSuperBowlWinner().then(
@@ -50,7 +53,7 @@ function ListOfTeams({ childToParent }) {
                             : null 
                         }
                         <div>
-                            <img src={ x.team.shortDisplayName == 'Giants' 
+                            <img src={ x.team.shortDisplayName == 'Giants' || 'Jets'
                                 ? x.team.logos[1].href 
                                 : x.team.logos[0].href } alt={ x.team.displayName + " logo" 
                             } />
