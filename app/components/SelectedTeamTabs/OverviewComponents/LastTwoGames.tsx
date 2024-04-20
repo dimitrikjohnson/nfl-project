@@ -30,10 +30,12 @@ export default function LastTwoGames({ teamID }) {
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Season Type:</span>
-                            <span>{ game.seasonType }</span>
+                            <span className="hidden md:inline-block">{ game.seasonType.long }</span>
+                            <span className="md:hidden">{ game.seasonType.short }</span>
                         </p>
                         <p className="flex pb-2">
-                            <span className={ labelClasslist }>Opponent:</span>
+                            <span className={ "hidden md:inline-block " + labelClasslist }>Opponent:</span>
+                            <span className={ "md:hidden " + labelClasslist }>OPP:</span>
                             { displayHomeAway(game.teams, teamID) }
                         </p>
                         <p>

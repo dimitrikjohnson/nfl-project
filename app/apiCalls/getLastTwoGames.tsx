@@ -15,9 +15,18 @@ export default async function getLastTwoGames( teamID ) {
     const mostRecent = data.items[data.items.length-1]
     const games = [penultimate, mostRecent]
     const seasonType = {
-        1: "Preseason",
-        2: "Regular Season",
-        3: "Postseason",
+        1: {
+            long: "Preseason",
+            short: "PRE"
+        },
+        2: {
+            long: "Regular Season",
+            short: "REG"
+        },
+        3: {
+            long: "Postseason",
+            short: "POST"
+        },
         4: "Offseason"
     }
 
