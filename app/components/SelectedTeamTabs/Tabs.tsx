@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Overview from './Overview';
 import Schedule from './Schedule';
 import Roster from './Roster';
+import Statistics from './Statistics';
 
 export default function Tabs({ teamID }) {
     const [selectedTab, setSelectedTab] = useState("Overview")
@@ -21,6 +22,8 @@ export default function Tabs({ teamID }) {
                 return <Schedule teamID={ teamID } />
             case "Roster":
                 return <Roster teamID={ teamID } />
+            case "Statistics":
+                return <Statistics teamID={ teamID } />
             default:
                 return null
         }
