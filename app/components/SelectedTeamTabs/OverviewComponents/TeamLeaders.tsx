@@ -29,7 +29,7 @@ export default function TeamLeaders({ teamID, teamAltColor }) {
                         </div>
                         <div>
                             <div className="flex gap-2 flex-wrap">
-                                <p className="font-semibold"> { stat.playerName } </p>
+                                <p className="font-semibold">{ stat.playerName }</p>
                                 <p className="pb-2 text-lighterSecondaryGrey">{ stat.playerPosition } { isJerseyNumPresent(stat.playerJersey) }</p>
                             </div>
                             <p>{ stat.statValue }</p>
