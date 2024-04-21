@@ -2,14 +2,16 @@ import 'client-only';
 import { useState, useEffect } from 'react';
 import { formatDateTime } from '../helpers/dateFormatter';
 import { displayHomeAway, displayGameResult, displayRecordAfterGame } from '../helpers/displayGameInfo';
+import ReactLoading from "react-loading";
 import fetchCurrentSeason from "../../apiCalls/fetchCurrentSeason";
 import getTeamScheduleDetailed from '@/app/apiCalls/getTeamScheduleDetailed';
 
 export default function Schedule({ teamID }) {
-    const [currentSeason, setCurrentSeason] = useState("")
-    const [detailedSchedule, setDetailedSchedule] = useState([])
-    const [teamBye, setTeamBye] = useState("")
-    const tableHeadings = ["Week", "Date", "Opponent", "Result", "Record"]
+    const [currentSeason, setCurrentSeason] = useState("");
+    const [detailedSchedule, setDetailedSchedule] = useState([]);
+    const [teamBye, setTeamBye] = useState("");
+    const [spinner, setSpinner] = useState(false);
+    const tableHeadings = ["Week", "Date", "Opponent", "Result", "Record"];
     
     const getCurrentSeason = () => fetchCurrentSeason().then(
       (res) => setCurrentSeason(res)
@@ -17,12 +19,13 @@ export default function Schedule({ teamID }) {
     
     const getDetailedSchedule = () => getTeamScheduleDetailed( teamID ).then(
         (res) => {
-            setDetailedSchedule(res)
+            setSpinner(false);
+            setDetailedSchedule(res);
             
             // find byeWeek variable
             for (var x = 0; x < res.length; x += 1) {
                if (res[x].requestedSeason == "Regular Season") {
-                  setTeamBye(res[x].byeWeek)
+                  setTeamBye(res[x].byeWeek);
                   break
                }
             }
@@ -85,18 +88,23 @@ export default function Schedule({ teamID }) {
     
     // only run getCurrentSeason() on the first render
     useEffect(() => {
-        getCurrentSeason()
-        //setCurrentSeason(getCurrentSeason())
-    }, [])
+      getCurrentSeason()
+    }, []);
 
     useEffect(() => {
-        getDetailedSchedule()
-    }, [teamID])
+      setSpinner(true),
+      getDetailedSchedule()
+    }, [teamID]);
 
     return (
         <>
             <h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">{ currentSeason } Season Schedule</h2>
-            { displayTables() }
+            { spinner 
+              ? <div className="w-full flex justify-center mt-5">
+                    <ReactLoading type="spin" height={100} width={75} />
+                </div> 
+              : displayTables()
+            }
         </>
     )
 }
