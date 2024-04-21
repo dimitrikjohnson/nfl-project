@@ -1,13 +1,13 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
-import getTeamStats from '@/app/apiCalls/getTeamStats';
+import getOverviewRankings from '@/app/apiCalls/getOverviewRankings';
 import getRankColor from '../../helpers/getRankColor';
 
 export default function TeamRankings({ teamID }) {
     const [offensiveRanks, setOffensiveRanks] = useState({})
     const [defensiveRanks, setDefensiveRanks] = useState({})
 
-    const getTeamRankings = () => getTeamStats(teamID).then(
+    const getTeamRankings = () => getOverviewRankings(teamID).then(
         (res) => {
             setOffensiveRanks({
                 ppg: res.ppg,

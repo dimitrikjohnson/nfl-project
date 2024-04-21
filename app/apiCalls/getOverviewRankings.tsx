@@ -1,6 +1,6 @@
 import fetchCurrentSeason from "./fetchCurrentSeason";
 
-export default async function getTeamStats( teamID ) {
+export default async function getOverviewRankings( teamID ) {
     const currentSeason = await fetchCurrentSeason()
 
     const res = await fetch("https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/" + currentSeason + "/types/2/teams/" + teamID + "/statistics", { method: "get" })
@@ -23,5 +23,3 @@ export default async function getTeamStats( teamID ) {
         takeaways: categories[10].stats[20]
     }
 }
-
-//export default getTeamStats
