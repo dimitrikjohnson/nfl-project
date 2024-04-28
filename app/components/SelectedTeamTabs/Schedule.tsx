@@ -68,9 +68,14 @@ export default function Schedule({ teamID }) {
                             </thead>
                             <tbody>
                                 { seasonType.games.map(game =>
-                                    <tr key={ game.id + " week: " + game.week.number } className="odd:bg-[#282e37]">
+                                    <tr key={ game.id } className="odd:bg-[#282e37]">
                                         <td className="text-start py-2 px-3">
-                                            { seasonType.requestedSeason == "Postseason" ? game.week.text : game.week.number }    
+                                            { seasonType.requestedSeason == "Postseason" 
+                                              ? game.week.text 
+                                              : seasonType.requestedSeason == "Preseason" && seasonType.games[0].week.number != 1 
+                                                ? game.week.number - 1
+                                                : game.week.number
+                                            }    
                                         </td>
                                         { game.week.number == teamBye 
                                             ? <td colSpan={ tableHeadings.length - 1 } className="py-1.5 px-3 uppercase">Bye Week</td> 
@@ -98,7 +103,7 @@ export default function Schedule({ teamID }) {
 
     return (
         <>
-            <h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">{ currentSeason } Season Schedule</h2>
+            <h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">{ currentSeason } Schedule</h2>
             { spinner 
               ? <div className="w-full flex justify-center mt-5">
                     <ReactLoading type="spin" height={100} width={75} />
