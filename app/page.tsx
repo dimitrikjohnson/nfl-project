@@ -1,9 +1,13 @@
 'use client'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import NavBar from "./components/NavBar";
 import ListOfTeams from "./components/ListOfTeams";
 import Instructions from "./components/Instructions";
 import SelectedTeam from "./components/SelectedTeam";
 import { useState } from "react";
+
+library.add(faCircleInfo);
 
 export default function Home() {
   const [selectedTeam, setSelectedTeam] = useState("");
