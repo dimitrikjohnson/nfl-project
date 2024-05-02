@@ -1,6 +1,7 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
-import { formatDateTime } from '../../helpers/dateFormatter';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { formatDate, formatDateTime } from '../../helpers/dateFormatter';
 import { displayHomeAway, displayGameResult } from '../../helpers/displayGameInfo';
 import getLastTwoGames from '@/app/apiCalls/getLastTwoGames';
 import getTeam from '@/app/apiCalls/getTeam';
@@ -25,18 +26,18 @@ export default function LastTwoGames({ teamID }) {
                     <div key={ game.date + " game" } className="first-of-type:border-r-2 border-cyan-400">
                         <p className="pb-2">
                             <span className={ labelClasslist }>Date:</span>
-                            <span className="hidden md:inline-block">{ formatDateTime(game.date).long }</span>
-                            <span className="md:hidden">{ formatDateTime(game.date).short }</span>
+                            <span className="hidden md:inline-block">{ formatDateTime(game.date).short }</span>
+                            <span className="md:hidden">{ formatDate(game.date).short }</span>
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Season Type:</span>
-                            <span className="hidden md:inline-block">{ game.seasonType.long }</span>
-                            <span className="md:hidden">{ game.seasonType.short }</span>
+                            <span className="hidden md:inline-block lg:hidden xl:inline-block">{ game.seasonType.long }</span>
+                            <span className="md:hidden lg:inline-block xl:hidden">{ game.seasonType.short }</span>
                         </p>
                         <p className="flex pb-2">
                             <span className={ "hidden md:inline-block " + labelClasslist }>Opponent:</span>
                             <span className={ "md:hidden " + labelClasslist }>OPP:</span>
-                            { displayHomeAway(game.teams, teamID) }
+                            { displayHomeAway(game.teams, teamID, true) }
                         </p>
                         <p>
                             <span className={ labelClasslist }>Result:</span>
@@ -79,32 +80,32 @@ export default function LastTwoGames({ teamID }) {
                 heading: "Offense",
                 stats: {
                     ypg: avgYPG,
-                    ypgLabel: "Yards Per Game:",
-                    ypgLabelShort: "YDS/G:",
+                    //ypgLabel: "Yards Per Game",
+                    ypgLabelShort: "YDS/G",
                     
                     pypg: avgPassing,
-                    pypgLabel: "Passing Yards Per Game:",
-                    pypgLabelShort: "PYDS/G:",
+                    //pypgLabel: "Passing Yards Per Game",
+                    pypgLabelShort: "PYDS/G",
 
                     rypg: avgRushing,
-                    rypgLabel: "Rushing Yards Per Game:",
-                    rypgLabelShort: "RYDS/G:"
+                    //rypgLabel: "Rushing Yards Per Game",
+                    rypgLabelShort: "RYDS/G"
                 }
             },
             {
                 heading: "Defense",
                 stats: {
                     ypg: avgYPGAllowed,
-                    ypgLabel: "Yards Allowed Per Game:",
-                    ypgLabelShort: "YDS A/G:",
+                    //ypgLabel: "Yards Allowed Per Game",
+                    ypgLabelShort: "YDS A/G",
                     
                     pypg: avgPassingAllowed,
-                    pypgLabel: "Passing Yards Allowed Per Game:",
-                    pypgLabelShort: "PYDS A/G:",
+                    //pypgLabel: "Passing Yards Allowed Per Game",
+                    pypgLabelShort: "PYDS A/G",
 
                     rypg: avgRushingAllowed,
-                    rypgLabel: "Rushing Yards Allowed Per Game:",
-                    rypgLabelShort: "RYDS A/G:",
+                    //rypgLabel: "Rushing Yards Allowed Per Game",
+                    rypgLabelShort: "RYDS A/G",
                 }
             }
         ]
@@ -115,18 +116,15 @@ export default function LastTwoGames({ teamID }) {
                     <div key={ section.heading } className="first-of-type:border-r-2 border-cyan-400">
                         <p className="font-semibold pb-2">{ section.heading }</p>
                         <p className="pb-2">
-                            <span className={ "hidden md:inline-block " + labelClasslist }>{ section.stats.ypgLabel }</span>
-                            <span className={ "md:hidden " + labelClasslist }>{ section.stats.ypgLabelShort }</span>
+                            <span className={ labelClasslist }>{ section.stats.ypgLabelShort }:</span>
                             <span>{ section.stats.ypg }</span>
                         </p>
                         <p className="pb-2">
-                            <span className={ "hidden md:inline-block " + labelClasslist }>{ section.stats.pypgLabel }</span>
-                            <span className={ "md:hidden " + labelClasslist }>{ section.stats.pypgLabelShort }</span>
+                            <span className={ labelClasslist }>{ section.stats.pypgLabelShort }:</span>
                             <span>{ section.stats.pypg }</span>
                         </p>
                         <p className="pb-2">
-                            <span className={ "hidden md:inline-block " + labelClasslist }>{ section.stats.rypgLabel }</span>
-                            <span className={ "md:hidden " + labelClasslist }>{ section.stats.rypgLabelShort }</span>
+                            <span className={ labelClasslist }>{ section.stats.rypgLabelShort }:</span>
                             <span>{ section.stats.rypg }</span>
                         </p>
                     </div>
@@ -142,19 +140,41 @@ export default function LastTwoGames({ teamID }) {
 
     return (
         <div>
-            <h3 className="font-protest text-2xl 2xl:text-3xl pb-2">Last Two Games</h3>
-            <div className="font-rubik bg-sectionColor rounded-md p-3 mb-2">
-                <div className="grid grid-cols-2 gap-5 pb-10">
+            <h3 className="font-protest pb-2 text-2xl 2xl:text-3xl">Last Two Games</h3>    
+            <div className="font-rubik bg-sectionColor rounded-md p-3">
+                <div className="grid grid-cols-2 gap-4 pb-10">
                     { displayGames() }
                 </div>
-                <h4 className="uppercase text-lg pb-2 mb-3 border-b-2">
-                    { team.name } Stats Over Span
-                </h4>
-                <div className="grid grid-cols-2 gap-5">
+                <div className="flex pb-2 mb-3 border-b-2">
+                    <h4 className="uppercase md:text-lg mr-1.5">
+                        { team.name } Stats Over Span
+                    </h4>
+                    <div className="relative group">
+                        <FontAwesomeIcon className="text-lighterSecondaryGrey group-hover:text-white group-hover:cursor-pointer" icon="fa-solid fa-circle-info" />
+                        <legend className="invisible group-hover:visible absolute bottom-10 p-3 -left-44 md:-left-24 bg-stone-900 rounded-md border border-secondaryGrey/[.50] w-56 after:content-[''] after:absolute after:-bottom-1 after:w-2 after:h-2 after:left-[179px] md:after:left-[100px] after:rotate-45 after:bg-stone-900">
+                            <div className="pb-2">
+                                <span className="font-semibold">YDS/G</span> 
+                                <span> = Yards Per Game</span>
+                            </div>
+                            <div className="pb-2">
+                                <span className="font-semibold">PYDS</span> 
+                                <span> = Passing Yards</span>
+                            </div>
+                            <div className="pb-2">
+                                <span className="font-semibold">RYDS</span> 
+                                <span> = Rushing Yards</span>
+                            </div>
+                            <div>
+                                <span className="font-semibold">A/G</span> 
+                                <span> = Allowed Per Game</span>
+                            </div>
+                        </legend>
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                     { displayStats() }
                 </div>
             </div>
-            <legend className="md:hidden text-sm">Legend: YDS/G = Yards Per Game, PYDS = Passing Yards, RYDS = Rushing Yards, YDS A = Yards Allowed</legend>
         </div>
     )
 }
