@@ -30,14 +30,14 @@ function teamsInGame(teams, chosenTeamID) {
     })
 }
 
-function displayHomeAway(teamsArgument, chosenTeamID) {
+function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
     const teams = teamsInGame(teamsArgument, chosenTeamID)
     return (
         <span className="flex gap-x-1 md:gap-x-2.5">
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             <img className="w-5 md:w-7" src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
-            <span className="hidden md:block">{ teams.otherTeam.name }</span>
-            <span className="md:hidden">{ teams.otherTeam.abbreviation }</span>
+            <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
+            <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>
         </span>
     ) 
 }
