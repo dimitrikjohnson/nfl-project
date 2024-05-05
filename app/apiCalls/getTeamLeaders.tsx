@@ -13,7 +13,7 @@ export default async function getTeamLeaders( teamID, responseType ) {
 
     var categories
     // if the response type is "detailed" send more stat leaders; otherwise, only send the main ones
-    responseType == "detailed" ? categories = data.categories : categories = [data.categories[0], data.categories[1], data.categories[2], data.categories[7]]
+    responseType == "detailed" ? categories = data.categories : categories = [data.categories[3], data.categories[4], data.categories[5], data.categories[7]]
     const output = []
 
     for (const category of categories) {
