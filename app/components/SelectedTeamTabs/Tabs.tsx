@@ -1,6 +1,6 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
-import Overview from './Overview';
+import Overview from './OverviewComponents/Overview';
 import Schedule from './Schedule';
 import Roster from './Roster';
 import Statistics from './Statistics';
@@ -48,7 +48,12 @@ export default function Tabs({ teamID }) {
                     </button> 
                 )}
             </div>
+            {/*
             <section className="mx-4 md:mx-6 lg:mx-14 3xl:m-auto 3xl:max-w-[1700px]">
+                { tabWindows(selectedTab) }
+            </section>
+            */}
+            <section className="m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
                 { tabWindows(selectedTab) }
             </section>
         </>
