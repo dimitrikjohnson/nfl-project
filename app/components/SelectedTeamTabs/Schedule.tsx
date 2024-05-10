@@ -11,96 +11,111 @@ export default function Schedule({ teamID }) {
     const [detailedSchedule, setDetailedSchedule] = useState([]);
     const [teamBye, setTeamBye] = useState("");
     const [spinner, setSpinner] = useState(false);
-    const tableHeadings = ["Week", "Date", "Opponent", "Result", "Record"];
+    const tablePadding = "py-2 px-2 md:px-3";
     
     const getCurrentSeason = () => fetchCurrentSeason().then(
       (res) => setCurrentSeason(res)
-    )
+    );
     
     const getDetailedSchedule = () => getTeamScheduleDetailed( teamID ).then(
         (res) => {
+            // indicate that loading is finished by setting the spinner to false
             setSpinner(false);
             setDetailedSchedule(res);
             
-            // find byeWeek variable
+            // set byeWeek variable
             for (var x = 0; x < res.length; x += 1) {
-               if (res[x].requestedSeason == "Regular Season") {
-                  setTeamBye(res[x].byeWeek);
-                  break
-               }
+                if (res[x].byeWeek) {
+                    setTeamBye(res[x].byeWeek);
+                    break;
+                }
             }
         }
-    )
-
+    );
+ 
     const displayNonByeRows = (game) => { 
-        return (
-            <>
-               <td className="py-2 px-3">
-                  <span className="hidden lg:inline-block">{ formatDateTime(game.date).long }</span>
-                  <span className="lg:hidden">{ formatDateTime(game.date).short }</span>
-               </td>
-               <td className="flex gap-x-1 md:gap-x-2.5 py-2 px-3">
-                  { displayHomeAway(game.competitors, teamID) }
-               </td>
-               <td className="py-2 px-3">
-                  { displayGameResult(game.competitors, game.status.type, teamID) }
-               </td>
-               <td className="py-2 px-3">
-                  { displayRecordAfterGame(game.competitors, teamID) }
-               </td>
-            </>
-        )
+        return (<>
+            <td className={ tablePadding }>
+                <span className="hidden lg:inline-block">{ formatDateTime(game.date).long }</span>
+                <span className="lg:hidden">{ formatDateTime(game.date).short }</span>
+            </td>
+            <td className={ "flex gap-x-1 md:gap-x-2.5 " + tablePadding }>
+                { displayHomeAway(game.teams, teamID) }
+            </td>
+            { game.status.type.state == "pre"
+                ? <>
+                    <td className={ tablePadding }>
+                        { game.spread }
+                    </td>
+                    <td className={ tablePadding }>
+                        { game.overUnder }
+                    </td>
+                </>
+                : <>
+                    <td className={ tablePadding }>
+                        { displayGameResult(game.teams, game.status.type, teamID) }
+                    </td>
+                    <td className={ tablePadding }>
+                        { displayRecordAfterGame(game.teams, teamID) }
+                    </td>
+                </>
+            }
+        </>)
     }
         
     const displayTables = () => {
-        return ( <>
+       return (<>
             { detailedSchedule.map(seasonType =>
-                <div key={ seasonType.requestedSeason + " section" } className="mb-8">
+                <div key={ seasonType.requestedSeason } className="mb-8">
                     <h3  className="font-protest text-2xl 2xl:text-3xl pb-2">{ seasonType.requestedSeason }</h3>
                     <div className="overflow-x-auto">
-                        <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md">
-                            <thead className="border-b border-secondaryGrey">
-                                <tr>
-                                    { tableHeadings.map(heading =>
-                                        <th className="py-2.5 px-3 text-start" key={ heading + " column heading" }>{ heading }</th>
-                                    )}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                { seasonType.games.map(game =>
-                                    <tr key={ game.id } className="odd:bg-[#282e37]">
-                                        <td className="text-start py-2 px-3">
-                                            { seasonType.requestedSeason == "Postseason" 
-                                              ? game.week.text 
-                                              : seasonType.requestedSeason == "Preseason" && seasonType.games[0].week.number != 1 
-                                                ? game.week.number - 1
-                                                : game.week.number
-                                            }    
-                                        </td>
-                                        { game.week.number == teamBye 
-                                            ? <td colSpan={ tableHeadings.length - 1 } className="py-1.5 px-3 uppercase">Bye Week</td> 
-                                            : displayNonByeRows(game.competitions[0]) 
-                                        }
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>    
-                    </div>    
+                        <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
+                            { seasonType.allGames.filter(pastOrUpcoming => pastOrUpcoming.games.length > 0)
+                                .map(filteredPastOrUpcoming => <>
+                                    <thead key={ filteredPastOrUpcoming } className="border-b border-secondaryGrey">
+                                        <tr>
+                                            { filteredPastOrUpcoming.tableHeadings.map(heading =>
+                                                <th key={ heading } className="py-2.5 px-2 md:px-3 text-start" >{ heading }</th>
+                                            )}    
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        { filteredPastOrUpcoming.games.map(game =>
+                                            <tr key={ game.id } className="odd:bg-[#282e37]">
+                                                <td className={ "text-start " + tablePadding }>
+                                                    { seasonType.requestedSeason == "Postseason" 
+                                                        ? game.week.text
+                                                        : seasonType.requestedSeason == "Preseason" && filteredPastOrUpcoming.games[0].week.number != 1 
+                                                            ? game.week.number - 1
+                                                            : game.week.number
+                                                    }    
+                                                </td>
+                                                { game.week.number == teamBye
+                                                    ? <td colSpan={ filteredPastOrUpcoming.tableHeadings.length - 1 } className={ "uppercase " + tablePadding }>Bye Week</td> 
+                                                    : displayNonByeRows(game)
+                                                }
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </>)
+                            }    
+                        </table>
+                    </div>
                 </div>
             )}
-        </>)
+       </>)
     }
     
     // only run getCurrentSeason() on the first render
     useEffect(() => {
       getCurrentSeason()
     }, []);
-
+    
     useEffect(() => {
       setSpinner(true),
       getDetailedSchedule()
     }, [teamID]);
-
+    
     return (
         <>
             <h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">{ currentSeason } Schedule</h2>

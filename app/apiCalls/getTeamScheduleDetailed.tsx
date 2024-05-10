@@ -1,5 +1,6 @@
 async function getTeamScheduleDetailed( teamID ) {
     let output = [];
+    const tableHeadings = ["Week", "Date & Time", "Opponent"];
 
     // fetch the post, regular, and preseason schedules for the chosen team
     for(let counter = 3; counter >= 1; counter -= 1) {
@@ -11,21 +12,68 @@ async function getTeamScheduleDetailed( teamID ) {
 
         // skip empty arrays (occurs for teams that didn't make the playoffs)
         if (schedule.requestedSeason) {
-            if (schedule.requestedSeason.type == "2") {
-                let weeks = [];
+            let weeks = [];
+            let pastGames = [];
+            let upcomingGames = [];
                 
-                for (const game of schedule.events) {
-                    weeks.push(game.week.number)
+            for (const game of schedule.events) {
+                // for reg season games, keep track of their week numbers to find the bye week
+                if (schedule.requestedSeason.type == "2") weeks.push(game.week.number);
+
+                let data = {
+                    id: game.id,
+                    date: game.date,
+                    teams: game.competitions[0].competitors,
+                    status: game.competitions[0].status,
+                    week: game.week,
+                    seasonType: game.seasonType
                 }
-                const byeWeek = findByeWeek(weeks, weeks.length);
                 
-                schedule.events.splice(byeWeek-1, 0, { week: { number: byeWeek }});
-                output.push({ requestedSeason: schedule.requestedSeason.name, games: schedule.events, byeWeek: byeWeek });
+                // if the game hasn't happened yet, add the DraftKings spread and over/under
+                if (game.competitions[0].status.type.state == "pre") {
+                    const fetchGameOdds = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/odds/40`, { method: "GET" });
+                    
+                    if (!fetchGameOdds.ok) throw new Error('Failed to fetch game details');
+                    
+                    const gameOdds = await fetchGameOdds.json();
+
+                    data.spread = gameOdds.details;
+                    data.overUnder = gameOdds.overUnder;
+
+                    upcomingGames.push(data);
+                }
+                else pastGames.push(data);
             }
-            // the pre and post seasons don't need the byeWeek value
-            else {
-                output.push({ requestedSeason: schedule.requestedSeason.name, games: schedule.events, byeWeek: null });
+
+            if (schedule.requestedSeason.type == "2") {
+                const byeWeek = findByeWeek(weeks, weeks.length);
+                const postByeWeekGame = upcomingGames.find(({ week }) => week.number == byeWeek + 1);
+
+                // determine which array the bye week should be in and add it
+                if (postByeWeekGame) {
+                    upcomingGames.splice(byeWeek-1, 0, { week: { number: byeWeek }});
+                }
+                else {
+                    pastGames.splice(byeWeek-1, 0, { week: { number: byeWeek }});
+                }
             }
+
+            const allGames = [
+                {
+                    tableHeadings: [...tableHeadings, "Result", "Record"],
+                    games: pastGames
+                },
+                {
+                    tableHeadings: [...tableHeadings, "Spread", "Over/Under"],
+                    games: upcomingGames
+                }
+            ];
+
+            output.push({ 
+                requestedSeason: schedule.requestedSeason.name, 
+                allGames: allGames,
+                byeWeek: schedule.requestedSeason.type == "2" && findByeWeek(weeks, weeks.length)
+            });
         }
     }
     
