@@ -81,7 +81,7 @@ export default function Schedule({ teamID }) {
                                     </thead>
                                     <tbody>
                                         { filteredPastOrUpcoming.games.map(game =>
-                                            <tr key={ game.id } className="odd:bg-[#282e37]">
+                                            <tr key={ game.id } className="odd:bg-altTableRow">
                                                 <td className={ "text-start " + tablePadding }>
                                                     { seasonType.requestedSeason == "Postseason" 
                                                         ? game.week.text

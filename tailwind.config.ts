@@ -16,7 +16,8 @@ const config: Config = {
         secondaryGrey: "#848484",
         gold: "#FFD700",
         sectionColor: "#323A45",
-        lighterSecondaryGrey: "#B3B3B3"
+        lighterSecondaryGrey: "#B3B3B3",
+        altTableRow: "#282E37"
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

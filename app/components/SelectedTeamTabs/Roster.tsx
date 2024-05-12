@@ -36,9 +36,8 @@ export default function Roster({ teamID }) {
         (res) => setTeamAltColor(res.alternateColor)
     );
 
-    const childToParent = (dataFromChild) => {
-        setFilter(dataFromChild);
-    }
+    // gets the selected filter from FilterList
+    const childToParent = (dataFromChild) => setFilter(dataFromChild);
     
     const displayPositions = () => {
         return (<>
@@ -55,7 +54,7 @@ export default function Roster({ teamID }) {
                         { Object.keys(roster).map(position =>
                             roster[position].tags.includes(filter) &&
                             <>
-                                <tr key={ position } className="bg-[#282e37] border-b border-secondaryGrey/[.50]">
+                                <tr key={ position } className="bg-altTableRow border-b border-secondaryGrey/[.50]">
                                     <th colSpan={ tableHeadings.length } className="text-start py-2 px-2 md:px-3">
                                         { position }{ Object.keys(roster[position].players).length > 1 ? "s" : null }
                                     </th>
