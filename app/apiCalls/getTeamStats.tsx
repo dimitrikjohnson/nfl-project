@@ -1,6 +1,6 @@
 import fetchCurrentSeason from "./fetchCurrentSeason";
 
-export default async function getStats( teamID ) {
+export default async function getTeamStats( teamID ) {
     const currentSeason = await fetchCurrentSeason();
 
     const res = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/types/2/teams/${teamID}/statistics`, { method: "get" });
@@ -36,8 +36,6 @@ export default async function getStats( teamID ) {
         ],
         "Downs": [
             createStatObject("1st Downs", 10, 0, data[10].stats[0].shortDisplayName),
-            //createStatObject("3rd Down Attempts", 10, 14),
-            //createStatObject("3rd Down Conversion %", 10, 15),
             {
                 label: "3rd Down Conversion %",
                 shortLabel: "3RDC%",
@@ -52,8 +50,7 @@ export default async function getStats( teamID ) {
                 total: data[10].stats[6].value.toFixed(2),
                 rank: data[10].stats[6].rank,
                 rankDisplay: data[10].stats[6].rankDisplayValue,
-            },
-            //createStatObject("4th Down Conversion %", 10, 6),
+            }
         ],
         "Offense": [
             createStatObject("Offensive Plays", 1, 28, "OP"),
@@ -64,18 +61,23 @@ export default async function getStats( teamID ) {
             {
                 label: "Yards Per Pass Attempt",
                 shortLabel: "YDS/PA",
-                total: data[1].stats[40].value,
+                total: data[1].stats[40].value.toFixed(2),
                 rank: data[1].stats[40].rank,
                 rankDisplay: data[1].stats[40].rankDisplayValue,
             },
             createStatObject("Completions", 1, 2),
-            createStatObject("Completion Percentage", 1, 1),
+            {
+                label: "Completion Percentage",
+                shortLabel: "CMP%",
+                total: data[1].stats[1].displayValue,
+                rank: data[1].stats[1].rank,
+                rankDisplay: data[1].stats[1].rankDisplayValue
+            },
             createStatObject("Passing Yards", 1, 19, "PYDS", data[1].stats[22].value),
             createStatObject("Passing Touchdowns", 1, 18, "PTDS"),
             createStatObject("Interceptions", 1, 5, "INT"),
             createStatObject("Interception Percentage", 1, 4),
             createStatObject("Sacked", 1, 24, "SACK", data[1].stats[24].value / GAMES_PLAYED, true),
-            //createStatObject("Sack Yards Lost", 1, 25, "SYL", data[1].stats[25].value / GAMES_PLAYED),
             {
                 label: "ESPN Quarterback Rating",
                 shortLabel: "ESPN QBR",
@@ -104,6 +106,7 @@ export default async function getStats( teamID ) {
             createStatObject("Passes Defended", 4, 12, "PD"),
             createStatObject("Interceptions", 5, 0, "INT"),
             createStatObject("Fumble Recoveries", 7, 2),
+            createStatObject("Takeaways", 10, 20, "TAKE"),
             {
                 label: "Defensive Touchdowns",
                 shortLabel: "DEF TD",
