@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import getTeamLeaders from '@/app/apiCalls/getTeamLeaders';
 //import allTeamsColors from "../../data/allTeamsColors.json";
 
-export default function TeamLeaders({ teamID }) {
+export default function TeamLeaders({ teamID, responseType }) {
     const [teamLeaders, setTeamLeaders] = useState([{}]);
     //const [teamColors, setTeamColors] = useState({});
 
-    const getStatLeaders = () => getTeamLeaders(teamID, "overview").then(
+    const getStatLeaders = () => getTeamLeaders(teamID, responseType).then(
         (res) => setTeamLeaders(res)
     )
 
@@ -18,7 +18,6 @@ export default function TeamLeaders({ teamID }) {
             if (num) {
                 return <span>&#183; #{ num }</span>
             }
-            return null
         }
 
         return (<>
@@ -41,7 +40,7 @@ export default function TeamLeaders({ teamID }) {
                         </div>
                     </div>
                     */}
-                    <div key={ stat.statName + stat.playerName } className="bg-sectionColor grid justify-center text-center pt-3 px-3 pb-0 rounded-md"
+                    <div key={ stat.statName + stat.playerName } className="bg-sectionColor grid justify-center justify-items-center text-center pt-3 px-3 pb-0 rounded-md"
                     //style={{ backgroundColor: teamColors.bgColor, color: teamColors.textColor }}
                     >
                         <p className="mb-2 uppercase">{ stat.statName }</p>
