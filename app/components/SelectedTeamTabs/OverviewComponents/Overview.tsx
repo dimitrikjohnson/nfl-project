@@ -30,7 +30,7 @@ export default function Overview({ teamID }) {
     return (
         <>
             <h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">{ currentSeason } overview</h2>
-            <TeamLeaders teamID={ teamID } />
+            <TeamLeaders teamID={ teamID } responseType={ "overview" }/>
             <TeamRankings teamID={ teamID } />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <LastTwoGames teamID={ teamID }/>
