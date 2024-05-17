@@ -1,0 +1,371 @@
+{
+    "afcnorth": [
+        {
+            "city": "Baltimore",
+            "name": "Ravens",
+            "conf": "AFC",
+            "div": "North",
+            "id": 33,
+            "textColor": "#ffffff",
+            "bgColor": "#29126f",
+            "url": "",
+            "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/bal.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "width": 500,
+                  "height": 500
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/bal.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "width": 500,
+                  "height": 500
+                }
+            ]
+        },
+        {
+            "city": "Cincinati",
+            "name": "Bengals",
+            "conf": "AFC",
+            "div": "North",
+            "id": 4,
+            "textColor": "#fb4f14",
+            "bgColor": "#000000",
+            "url": "",
+            "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/cin.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "width": 500,
+                  "height": 500
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cin.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "width": 500,
+                  "height": 500
+                }
+            ]
+        },
+        {
+            "city": "Cleveland",
+            "name": "Browns",
+            "conf": "AFC",
+            "div": "North",
+            "id": 5,
+            "textColor": "#472a08",
+            "bgColor": "#ff3c00",
+            "url": "",
+            "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/cle.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "width": 500,
+                  "height": 500
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/cle.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "width": 500,
+                  "height": 500
+                }
+            ]
+        },
+
+        {
+            "city": "Pittsburgh",
+            "name": "Steelers",
+            "conf": "AFC",
+            "div": "North",
+            "id": 23,
+            "textColor": "#ffb612",
+            "bgColor": "#000000",
+            "url": "",
+            "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500/pit.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "default"
+                  ],
+                  "width": 500,
+                  "height": 500
+                },
+                {
+                  "href": "https://a.espncdn.com/i/teamlogos/nfl/500-dark/pit.png",
+                  "alt": "",
+                  "rel": [
+                    "full",
+                    "dark"
+                  ],
+                  "width": 500,
+                  "height": 500
+                }
+            ]
+        }
+    ],
+    "afcsouth": [
+        {   
+            "city": "Houston",
+            "name": "Texans",
+            "conf": "AFC",
+            "div": "South",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "Indianapolis",
+            "name": "Colts",
+            "conf": "AFC",
+            "div": "South",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "Jacksonville",
+            "name": "Jaquars",
+            "conf": "AFC",
+            "div": "South",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "Tennessee",
+            "name": "Titans",
+            "conf": "AFC",
+            "div": "South",
+            "id": "",
+            "url": ""
+        }
+    ],
+    "afceast": [
+        {   
+            "city": "Buffalo",
+            "name": "Bills",
+            "conf": "AFC",
+            "div": "East",
+            "id": "2",
+            "url": ""
+        },
+        {   
+            "city": "Dallas",
+            "name": "Cowboys",
+            "conf": "AFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "Miami",
+            "name": "Dolphins",
+            "conf": "AFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "New York",
+            "name": "Jets",
+            "conf": "AFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        }
+    ],
+    "afcwest": [
+        {   
+            "city": "Denver",
+            "name": "Broncos",
+            "conf": "AFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "Kansas City",
+            "name": "Chiefs",
+            "conf": "AFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "Oakland",
+            "name": "Raiders",
+            "conf": "AFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        },
+        {   
+            "city": "San Diego",
+            "name": "Chargers",
+            "conf": "AFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        }
+    ],
+    "nfcnorth": [
+        {
+            "city": "Chicago",
+            "name": "Bears",
+            "conf": "NFC",
+            "div": "North",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Detroit",
+            "name": "Lions",
+            "conf": "NFC",
+            "div": "North",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Green Bay",
+            "name": "Packers",
+            "conf": "NFC",
+            "div": "North",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Minnesota",
+            "name": "Vikings",
+            "conf": "NFC",
+            "div": "North",
+            "id": "",
+            "url": ""
+        }
+    ],
+    "nfcsouth": [
+        {
+            "city": "Tampa Bay",
+            "name": "Buccaneers",
+            "conf": "NFC",
+            "div": "South",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Atlanta",
+            "name": "Falcons",
+            "conf": "NFC",
+            "div": "South",
+            "id": "1",
+            "url": ""
+        },
+        {
+            "city": "Carolina",
+            "name": "Panthers",
+            "conf": "NFC",
+            "div": "South",
+            "id": "29",
+            "url": ""
+        },
+        {
+            "city": "New Orleans",
+            "name": "Saints",
+            "conf": "NFC",
+            "div": "South",
+            "id": "",
+            "url": ""
+        }
+    ],
+    "nfceast": [
+        {
+            "city": "Washington",
+            "name": "Commanders",
+            "conf": "NFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Dallas",
+            "name": "Cowboys",
+            "conf": "NFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Philidelphia",
+            "name": "Eagles",
+            "conf": "NFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "New York",
+            "name": "Giants",
+            "conf": "NFC",
+            "div": "East",
+            "id": "",
+            "url": ""
+        }
+    ],
+    "nfcwest": [
+        {
+            "city": "San Francisco",
+            "name": "49ers",
+            "conf": "NFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Arizona",
+            "name": "Cardinals",
+            "conf": "NFC",
+            "div": "West",
+            "id": "22",
+            "url": ""
+        },
+        {
+            "city": "St. Louis",
+            "name": "Rams",
+            "conf": "NFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        },
+        {
+            "city": "Seattle",
+            "name": "Seahawks",
+            "conf": "NFC",
+            "div": "West",
+            "id": "",
+            "url": ""
+        }
+    ]
+}
