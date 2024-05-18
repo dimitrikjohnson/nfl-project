@@ -43,6 +43,11 @@ function ListOfTeams({ childToParent }) {
         return content;
     }
 
+    const handleFilterClick = (buttonTag, oppButtonTag) => {
+        setDivisionFilter(buttonTag); 
+        divisionFilter == oppButtonTag ? null : setPopupActive(prevState => !prevState)
+    }
+
     const displayTeamCard = (thisTeam) => {
         return (
             <a href="#top-of-page" key={ thisTeam.team.id }
@@ -53,13 +58,11 @@ function ListOfTeams({ childToParent }) {
             style={{ backgroundColor: "#" + thisTeam.team.color }}
             > 
                 { sbWinner.winner == thisTeam.team.id &&
-                     <p className="font-rubik text-gold text-center">{ sbWinner.headline } Champions</p> 
+                    <p className="font-rubik text-gold text-center">{ sbWinner.headline } Champions</p> 
                 }
                 <div>
-                    <img src={ thisTeam.team.shortDisplayName == 'Giants' || 'Jets'
-                                ? thisTeam.team.logos[1].href 
-                                : thisTeam.team.logos[0].href } alt={ thisTeam.team.displayName + " logo"    
-                            } 
+                    <img src={ thisTeam.team.shortDisplayName == 'Giants' || 'Jets' ? thisTeam.team.logos[1].href : thisTeam.team.logos[0].href } 
+                         alt={ thisTeam.team.displayName + " logo" } 
                     />
                 </div>
                 <p className="font-rubik text-lg font-semibold text-center" style={{ color: "#" + thisTeam.team.alternateColor }}>{ thisTeam.team.displayName }</p>
@@ -78,14 +81,16 @@ function ListOfTeams({ childToParent }) {
             <div className="flex mb-6 justify-between">
                 <h1 className="font-protest text-5xl uppercase">Teams</h1>
                 <div className="font-rubik flex">
-                    <button className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" onClick = { () => {
-                        setDivisionFilter("afc"); 
-                        divisionFilter == "nfc" ? null : setPopupActive(prevState => !prevState) 
-                    }}>AFC</button>
-                    <button className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" onClick = { () => {
-                        setDivisionFilter("nfc"); 
-                        divisionFilter == "afc" ? null : setPopupActive(prevState => !prevState)
-                    }}>NFC</button>
+                    <button className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
+                    onClick = { () => handleFilterClick("afc", "nfc") }
+                    >
+                        AFC
+                    </button>
+                    <button className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
+                    onClick = { () => handleFilterClick("nfc", "afc") }
+                    >
+                        NFC
+                    </button>
                 </div>
             </div>
 
