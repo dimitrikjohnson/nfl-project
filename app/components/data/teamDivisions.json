@@ -1,5 +1,5 @@
 {
-    "afcnorth": [
+    "AFC North": [
         {
             "city": "Baltimore",
             "name": "Ravens",
@@ -130,13 +130,13 @@
             ]
         }
     ],
-    "afcsouth": [
+    "AFC South": [
         {   
             "city": "Houston",
             "name": "Texans",
             "conf": "AFC",
             "div": "South",
-            "id": "",
+            "id": 34,
             "url": ""
         },
         {   
@@ -144,7 +144,7 @@
             "name": "Colts",
             "conf": "AFC",
             "div": "South",
-            "id": "",
+            "id": 11,
             "url": ""
         },
         {   
@@ -152,7 +152,7 @@
             "name": "Jaquars",
             "conf": "AFC",
             "div": "South",
-            "id": "",
+            "id": 30,
             "url": ""
         },
         {   
@@ -160,7 +160,7 @@
             "name": "Titans",
             "conf": "AFC",
             "div": "South",
-            "id": "",
+            "id": 10,
             "url": ""
         }
     ],
