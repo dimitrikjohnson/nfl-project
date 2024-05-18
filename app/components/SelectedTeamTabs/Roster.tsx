@@ -1,5 +1,5 @@
 import 'client-only';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import ReactLoading from "react-loading";
 import Image from "next/image";
 import DefaultHeadshot from '../../images/default_headshot.png';
@@ -53,14 +53,14 @@ export default function Roster({ teamID }) {
                     <tbody>
                         { Object.keys(roster).map(position =>
                             roster[position].tags.includes(filter) &&
-                            <>
-                                <tr key={ position } className="bg-altTableRow border-b border-secondaryGrey/[.50]">
+                            <Fragment key={ position }>
+                                <tr className="bg-altTableRow border-b border-secondaryGrey/[.50]">
                                     <th colSpan={ tableHeadings.length } className="text-start py-2 px-2 md:px-3">
-                                        { position }{ Object.keys(roster[position].players).length > 1 ? "s" : null }
+                                        { position }{ Object.keys(roster[position].players).length > 1 && "s" }
                                     </th>
                                 </tr>
                                 { displayPlayerRows(roster[position].players) }
-                            </>
+                            </Fragment>
                         )}
                     </tbody>
                 </table>

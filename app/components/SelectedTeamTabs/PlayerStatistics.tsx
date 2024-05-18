@@ -17,6 +17,7 @@ export default function PlayerStatistics({ teamID }) {
     );
 
     const displayTables = () => {
+        let cellKey = 0;
         return (
             <>
                 { Object.keys(statGroups).map(group =>
@@ -47,7 +48,9 @@ export default function PlayerStatistics({ teamID }) {
                                             </p>
                                         </td>
                                         { player.stats.map(stat =>
-                                            <td key={ group + stat } className={ tableCellFormat }>{ stat }</td>
+                                            <td key={ cellKey += 1 } className={ tableCellFormat }>
+                                                { stat }
+                                            </td>
                                         )}
                                     </tr>
                                 )}

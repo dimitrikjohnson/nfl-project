@@ -1,5 +1,5 @@
 import 'client-only';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getTeamStats from '@/app/apiCalls/getTeamStats';
 import getRankColor from '../helpers/getRankColor';
@@ -14,8 +14,8 @@ export default function TeamStatistics({ teamID }) {
     const displayStats = () => {
         return (<>
             { Object.keys(statGroups).map(group =>
-                <>
-                    <tr key={ group } className="bg-altTableRow border-b border-secondaryGrey/[.50] group/row">
+                <Fragment key={ group }>
+                    <tr className="bg-altTableRow border-b border-secondaryGrey/[.50] group/row">
                         <th colSpan={ 4 } className="text-start py-2 px-2 md:px-3">
                             <span className="mr-1.5">{ group }</span>
                             <span className="inline-block md:hidden relative group/icon">
@@ -42,7 +42,7 @@ export default function TeamStatistics({ teamID }) {
                             </td>
                         </tr>
                     )}
-                </>
+                </Fragment>
             )}
         </>)
     }

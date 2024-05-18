@@ -3,14 +3,15 @@ import allTeamsColors from './data/allTeamsColors.json';
 
 export default function FilterList({ tags, teamID, isMobile, showTeamColors, filter, childToParent }) {
     const handleFilterPick = (tag) => {
-        console.log(tag)
         childToParent(tag);
     }
 
     return (
         <div className={ isMobile == true
             ? "flex w-full overflow-x-auto mb-4 md:hidden" 
-            : isMobile == "override" ? "flex w-full overflow-x-auto mb-4" : "hidden md:flex"
+            : isMobile == "override" 
+                ? "flex w-full overflow-x-auto mb-4" 
+                : "hidden md:flex"
         }>
             { tags.map(tag =>
                 <button key={ tag } 
