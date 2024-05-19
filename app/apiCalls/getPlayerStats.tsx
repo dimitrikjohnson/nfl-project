@@ -22,6 +22,22 @@ async function getPlayerStatsData(category, currentIndex, statNum) {
     return athleteStatsData.splits.categories[statNum].stats;
 }
 
+async function addPlayer(category, chosenStatNums, index, playerStatCategory) {
+    const profileInfo = await getPlayerProfile(category, index);
+    const statData = await getPlayerStatsData(category, index, playerStatCategory);
+
+    let statDisplayValues = [];
+
+    chosenStatNums.forEach((num) => 
+        statDisplayValues.push(statData[num].displayValue)
+    );
+
+    return {
+        ...profileInfo,
+        stats: statDisplayValues
+    }
+}
+
 export default async function getPlayerStats( teamID ) {
     const currentSeason = await fetchCurrentSeason();
 
@@ -30,7 +46,7 @@ export default async function getPlayerStats( teamID ) {
 
     // This will activate the closest `error.js` Error Boundary
     if (!res.ok) throw new Error('Failed to fetch team leaders');
-
+    
     const output = {
         "Passing": {
             tableHeadings: [
@@ -54,7 +70,7 @@ export default async function getPlayerStats( teamID ) {
                 { heading: "YDS/G", title: "Rushing Yards Per Game" },
                 { heading: "TD", title: "Rushing Touchdowns" },
                 { heading: "FUM", title: "Fumbles" },
-                { heading: "FUM L", title: "Fumbles Lost" }
+                { heading: "FUML", title: "Fumbles Lost" }
             ],
             players: []
         }, 
@@ -69,7 +85,7 @@ export default async function getPlayerStats( teamID ) {
                 { heading: "YDS/G", title: "Receiving Yards Per Game" },
                 { heading: "TD", title: "Receiving Touchdowns" },
                 { heading: "FUM", title: "Fumbles" },
-                { heading: "FUM L", title: "Fumbles Lost" }
+                { heading: "FUML", title: "Fumbles Lost" }
             ],
             players: []
         }, 
@@ -77,11 +93,11 @@ export default async function getPlayerStats( teamID ) {
             tableHeadings: [
                 { heading: "Defense", title: "Defense" },
                 { heading: "TACK", title: "Tackles" },
-                { heading: "HUR", title: "QB Hurries" },
+                { heading: "TFL", title: "Tackles for Loss" },
                 { heading: "HIT", title: "QB Hits" },
                 { heading: "SACK", title: "QB Sacks" },
-                { heading: "TFL", title: "Tackles for Loss" },
-                { heading: "BATD", title: "Passes Batted Down" },
+                { heading: "FF", title: "Forced Fumbles" }, 
+                { heading: "FR", title: "Fumbles Recovered" },
                 { heading: "PDEF", title: "Passes Defended" },
                 { heading: "INT", title: "Interceptions" },
                 { heading: "TD", title: "Touchdowns" }
@@ -89,73 +105,51 @@ export default async function getPlayerStats( teamID ) {
             players: []
         }
     };
+    
 
-    // get receiving stats
+    // get passing stats
     for (let index = 0; index < data.categories[3].leaders.length; index += 1) {
         // only show 5 or less players per section to limit amount of API calls
         if (index == 5) break;
 
-        const profileInfo = await getPlayerProfile(data.categories[3], index);
-        const passingStats = await getPlayerStatsData(data.categories[3], index, 1);
+        /*
+         * 2 = Completions | 11 = Pass Attempts | 1 = Completion Percentage
+         * 18 = Passing Yards | 21 = Passing Yards Per Game | 17 = Passing Touchdowns
+         * 5 = Interceptions
+        */
+        const chosenStats = [2, 11, 1, 18, 21, 17, 5];
 
-        output["Passing"].players.push({
-            ...profileInfo,
-            stats: [
-                passingStats[2].displayValue, // Completions
-                passingStats[11].displayValue, // Pass Attempts
-                passingStats[1].displayValue, // Completion Percentage
-                passingStats[18].displayValue, // Passing Yards
-                passingStats[21].displayValue, // Passing Yards Per Game
-                passingStats[17].displayValue, // Passing Touchdowns
-                passingStats[5].displayValue // Interceptions
-            ]
-        });
+        output["Passing"].players.push(await addPlayer(data.categories[3], chosenStats, index, 1));
     }
-
+    
     // get rushing stats
     for (let index = 0; index < data.categories[4].leaders.length; index += 1) {
         // only show 5 or less players per section to limit amount of API calls
         if (index == 5) break;
-        
-        const profileInfo = await getPlayerProfile(data.categories[4], index);
-        const rushingStats = await getPlayerStatsData(data.categories[4], index, 2);
 
-        output["Rushing"].players.push({
-            ...profileInfo,
-            stats: [
-                rushingStats[5].displayValue, // Rushing Attempts
-                rushingStats[11].displayValue, // Rushing Yards
-                rushingStats[27].displayValue, // Rushing Yards Per Attempt
-                rushingStats[12].displayValue, // Rushing Yards Per Game
-                rushingStats[10].displayValue, // Rushing Touchdowns
-                rushingStats[8].displayValue, // Fumbles
-                rushingStats[9].displayValue, // Fumbles Lost
-            ]
-        });
+        /*
+         * 5 = Rushing Attempts | 11 = Rushing Yards | 27 = Rushing Yards Per Attempt
+         * 12 = Rushing Yards Per Game | 10 = Rushing Touchdowns | 8 = Fumbles
+         * 9 = Fumbles Lost
+        */
+        const chosenStats = [5, 11, 27, 12, 10, 8, 9];
+
+        output["Rushing"].players.push(await addPlayer(data.categories[4], chosenStats, index, 2));
     }
 
     // get receiving stats
     for (let index = 0; index < data.categories[5].leaders.length; index += 1) {
         // only show 7 or less players per section to limit amount of API calls
         if (index == 7) break;
-        
-        const profileInfo = await getPlayerProfile(data.categories[5], index);
-        const recStats = await getPlayerStatsData(data.categories[5], index, 3);
 
-        output["Receiving"].players.push({
-            ...profileInfo,
-            stats: [
-                recStats[9].displayValue, // Receiving Targets
-                recStats[15].displayValue, // Receptions
-                recStats[11].displayValue, // Receiving Yards
-                recStats[28].displayValue, // Yards Per Reception
-                recStats[12].displayValue, // Yards After Catch
-                recStats[14].displayValue, // Receiving Yards Per Game
-                recStats[10].displayValue, // Receiving Touchdowns
-                recStats[7].displayValue, // Fumbles
-                recStats[8].displayValue // Fumbles Lost
-            ]
-        });
+        /*
+         * 9 = Receiving Targets | 15 = Receptions | 11 = Receiving Yards
+         * 28 = Yards Per Reception | 12 = Yards After Catch | 14 = Receiving Yards Per Game
+         * 10 = Receiving Touchdowns | 7 = Fumbles | 8 = Fumbles Lost
+        */
+        const chosenStats = [9, 15, 11, 28, 12, 14, 10, 7, 8];
+ 
+        output["Receiving"].players.push(await addPlayer(data.categories[5], chosenStats, index, 3));
     }
 
     // get defensive stats
@@ -171,6 +165,7 @@ export default async function getPlayerStats( teamID ) {
         const categories = athleteStatsData.splits.categories;
                 
         const defStats = categories[1].stats;
+        const generalCategory = categories[0].stats;
         const interceptions = categories[2].stats[0].displayValue;
         const touchdowns = categories[3].stats[10].displayValue;
         
@@ -178,11 +173,11 @@ export default async function getPlayerStats( teamID ) {
             ...profileInfo,
             stats: [
                 defStats[23].displayValue, // Tackles
-                defStats[6].displayValue, // QB Hurries
+                defStats[20].displayValue, // Tackles for Loss
                 defStats[12].displayValue, // QB Hits
                 defStats[14].displayValue, // QB Sacks
-                defStats[20].displayValue, // Tackles for Loss
-                defStats[10].displayValue, // Passes Batted Down
+                generalCategory[0].displayValue, // Forced Fumbles
+                generalCategory[1].displayValue, // Fumbles Recovered
                 defStats[11].displayValue, // Passes Defended
                 interceptions, // Interceptions
                 touchdowns // Touchdowns
