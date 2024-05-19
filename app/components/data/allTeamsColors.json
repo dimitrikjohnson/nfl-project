@@ -36,8 +36,8 @@
     },
     "5": {
         "name": "Browns",
-        "textColor": "#472a08",
-        "bgColor": "#ff3c00"
+        "textColor": "#ff3c00",
+        "bgColor": "#472a08"
     },
     "6": {
         "name": "Cowboys",
