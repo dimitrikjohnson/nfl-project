@@ -3,16 +3,13 @@ import { useState, useEffect } from 'react';
 import Overview from './OverviewComponents/Overview';
 import Schedule from './Schedule';
 import Roster from './Roster';
-import Statistics from './Statistics';
+import Statistics from './StatisticsComponents/Statistics';
 
 export default function Tabs({ teamID }) {
-    const [selectedTab, setSelectedTab] = useState("Overview")
-
-    const tabs = ["Overview", "Schedule", "Roster", "Statistics", "Team leaders"]
-
-    const handleClick = (e) => {
-        setSelectedTab(e)
-    }
+    const [selectedTab, setSelectedTab] = useState("Overview");
+    const tabs = ["Overview", "Schedule", "Roster", "Statistics", "Team leaders"];
+    
+    const handleClick = (e) => setSelectedTab(e);
 
     const tabWindows = (selectedTab) => {
         switch(selectedTab) {
@@ -29,19 +26,19 @@ export default function Tabs({ teamID }) {
         }
     }
 
-    // reset the tab list to "Overview" every time teamID updates (aka when a new card is clicked)
+    // reset the tab list to "Overview" every time teamID updates (aka when a new team is selected)
     useEffect(() => {
         setSelectedTab("Overview")
-    }, [teamID])
+    }, [teamID]);
     
     return (
         <>
             <div className="font-rubik w-full bg-sectionColor flex flex-nowrap justify-between overflow-x-auto px-4 md:px-6 lg:px-14 3xl:m-auto mb-11">
-                { tabs.map((tab) =>
+                { tabs.map(tab =>
                     <button 
                     key={ tab } 
                     aria-selected={ tab == selectedTab } 
-                    onClick={() => handleClick(tab) } 
+                    onClick={ () => handleClick(tab) } 
                     className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:bg-stone-900 aria-selected:border-b-2 aria-selected:border-cyan-400"
                     >
                         { tab }

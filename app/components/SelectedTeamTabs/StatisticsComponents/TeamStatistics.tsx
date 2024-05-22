@@ -2,7 +2,7 @@ import 'client-only';
 import { useState, useEffect, Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getTeamStats from '@/app/apiCalls/getTeamStats';
-import getRankColor from '../helpers/getRankColor';
+import getRankColor from '../../helpers/getRankColor';
 
 export default function TeamStatistics({ teamID }) {
     const [statGroups, setStatGroups] = useState({});

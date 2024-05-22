@@ -1,7 +1,7 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
 import ReactLoading from "react-loading";
-import TeamLeaders from './OverviewComponents/TeamLeaders';
+import TeamLeaders from '../OverviewComponents/TeamLeaders';
 import getPlayerStats from '@/app/apiCalls/getPlayerStats';
 
 export default function PlayerStatistics({ teamID }) {
