@@ -5,8 +5,17 @@ const longDate = {
 }
 
 function formatDate(date) {
-    const formattedDate = new Date(date).toLocaleDateString('en-us', longDate)
-    return formattedDate
+    const formattedDateLong = new Date(date).toLocaleDateString('en-us', longDate);
+
+    const formattedDateShort = new Date(date).toLocaleDateString('en-us', {
+        weekday:"short", 
+        month:"short", 
+        day:"numeric"
+    });
+    return {
+        long: formattedDateLong,
+        short: formattedDateShort
+    }
 }
 
 function formatDateTime(date) {
