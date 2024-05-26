@@ -7,7 +7,7 @@ export default async function getTeamStats( teamID ) {
     const dataJson = await res.json();
     
     // This will activate the closest `error.js` Error Boundary
-    if (!res.ok) { throw new Error('Failed to fetch the roster'); }
+    if (!res.ok) throw new Error('Failed to fetch the team stats');
 
     const data = dataJson.splits.categories;
 
@@ -55,6 +55,9 @@ export default async function getTeamStats( teamID ) {
         "Offense": [
             createStatObject("Offensive Plays", 1, 28, "OP"),
             createStatObject("Yards", 1, 10, "YDS", data[1].stats[11].value),
+            createStatObject("Fumbles", 0, 0, "FUM", data[0].stats[0].value / GAMES_PLAYED, true),
+            createStatObject("Fumbles Lost", 0, 1, "FUML", data[0].stats[1].value / GAMES_PLAYED, true),
+            createStatObject("Total Giveaways", 10, 17, "GIVE", data[10].stats[17].value / GAMES_PLAYED, true)
         ],
         "Passing": [
             createStatObject("Passing Attempts", 1, 12, "PA"),
