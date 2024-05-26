@@ -6,21 +6,24 @@ export default async function getOverviewRankings( teamID ) {
     const res = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/types/2/teams/${teamID}/statistics`, { method: "get" })
     const data = await res.json();
 
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
-        throw new Error('Failed to fetch team stats');
-    }
+    // This will activate the closest `error.js` Error Boundary
+    if (!res.ok) throw new Error('Failed to fetch team rankings');
 
     const categories = data.splits.categories;
 
     return {
-        ppg: getValues(categories[1].stats[30], "Points P/G"),
-        ypg: getValues(categories[1].stats[39], "Yards P/G"),
-        passingYPG: getValues(categories[1].stats[22], "Pass Yards P/G"),
-        rushingYPG: getValues(categories[2].stats[13], "Rush Yards P/G"),
-        sacks: getValues(categories[4].stats[14]),
-        ints: getValues(categories[5].stats[0]),
-        takeaways: getValues(categories[10].stats[20])
+        offense: [
+            getValues(categories[1].stats[30], "Points P/G"),
+            getValues(categories[1].stats[39], "Yards P/G"),
+            getValues(categories[1].stats[22], "Pass Yards P/G"),
+            getValues(categories[2].stats[13], "Rush Yards P/G")
+        ],
+        defense: [
+            getValues(categories[4].stats[20]), // Tackles for Loss
+            getValues(categories[4].stats[14]), // Sacks
+            getValues(categories[5].stats[0]), // Interceptions
+            getValues(categories[10].stats[20], "Takeaways")    
+        ]
     }
 }
 
