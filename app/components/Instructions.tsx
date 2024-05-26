@@ -3,7 +3,7 @@ import NFLLogo from "../images/nflLogo.svg";
 
 export default function Instructions() {
     return (
-        <section className="w-full grid md:flex gap-12 mb-20">
+        <section className="w-full m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl grid md:flex gap-12 mb-20">
             <div className="flex justify-center md:block">
                 <Image
                     src={NFLLogo}
