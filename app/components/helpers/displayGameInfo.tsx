@@ -5,6 +5,7 @@ import Image from "next/image";
 function teamsInGame(teams, chosenTeamID) {
     let chosenTeam = {};
     let otherTeam = {};
+    
     if (teams[0].id == chosenTeamID) {
         chosenTeam = teams[0]
         otherTeam = teams[1]
@@ -13,17 +14,18 @@ function teamsInGame(teams, chosenTeamID) {
         chosenTeam = teams[1]
         otherTeam = teams[0]
     }
-    
+
     return ({
         // the score has a ternary statement because the value could be formatted 2 seperate ways
         chosenTeam: {
-            score: chosenTeam.score.value != undefined ? chosenTeam.score.value : chosenTeam.score,
+            score: chosenTeam.score != undefined && (chosenTeam.score.value != undefined ? chosenTeam.score.value : chosenTeam.score),
             homeAway: chosenTeam.homeAway,
             winner: chosenTeam.winner,
-            record: chosenTeam.record && chosenTeam.record[0].displayValue
+            record: chosenTeam.record != undefined && chosenTeam.record.length > 0 ? chosenTeam.record[0].displayValue : null,
+            leaders: chosenTeam.leaders // this is only for the schedule
         },
         otherTeam: {
-            score: otherTeam.score.value != undefined ? otherTeam.score.value : otherTeam.score,
+            score: otherTeam.score != undefined && (otherTeam.score.value != undefined ? otherTeam.score.value : otherTeam.score),
             name: otherTeam.team.displayName,
             abbreviation: otherTeam.team.abbreviation,
             logo: otherTeam.team.logos && otherTeam.team.logos[0].href,
@@ -34,12 +36,13 @@ function teamsInGame(teams, chosenTeamID) {
 
 function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
     const teams = teamsInGame(teamsArgument, chosenTeamID);
+    const classes = "flex gap-x-1 md:gap-x-2.5 " + (onlyShortName == false ? "items-center" : null);
     return (
-        <span className="flex gap-x-1 md:gap-x-2.5">
+        <span className={ classes }>
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             { teams.otherTeam.logo
                 ? <img className="w-5 md:w-7" src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
-                : <Image className="w-5 md:w-7" src={ DefaultLogo }  alt="Default logo" priority />
+                : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
             }
             <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
             <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>
@@ -79,4 +82,4 @@ function displayRecordAfterGame(teamsArgument, chosenTeamID) {
     )
 }
 
-export { displayHomeAway, displayGameResult, displayRecordAfterGame }
+export { displayHomeAway, displayGameResult, displayRecordAfterGame, teamsInGame }
