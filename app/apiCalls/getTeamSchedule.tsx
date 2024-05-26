@@ -1,24 +1,35 @@
-async function getTeamSchedule( teamID, season ) {
+import { teamsInGame } from "../components/helpers/displayGameInfo";
+
+async function getTeamSchedule(teamID, season) {
     let output = [];
-    const tableHeadings = ["Week", "Date & Time", "Opponent"];
+    const tableHeadings = ["WK", "Date & Time", "Opponent"];
 
     // fetch the post, regular, and preseason schedules for the chosen team
-    for(let counter = 3; counter >= 1; counter -= 1) {
-        const res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?seasontype=${counter}&season=${season}`, { method: "GET" });
+    for (let counter = 3; counter >= 1; counter -= 1) {
+        let res1;
+
+        if (season == undefined) {
+            res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?seasontype=${counter}`, { method: "GET" });
+        }
+        else {
+            res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?seasontype=${counter}&season=${season}`, { method: "GET" }); 
+        }
         
         if (!res1.ok) throw new Error('Failed to fetch team schedule');
         
         const schedule = await res1.json();
 
-        // skip empty arrays (occurs for teams that didn't make the playoffs)
+        // skip empty arrays (for when the team's playoff schedule is empty)
         if (schedule.requestedSeason) {
             let weeks = [];
             let pastGames = [];
             let upcomingGames = [];
-                
+            
             for (const game of schedule.events) {
+                //if (onlyTwo && upcomingGames.length == 2) return upcomingGames;
+                
                 // for reg season games, keep track of their week numbers to find the bye week
-                if (schedule.requestedSeason.type == "2") weeks.push(game.week.number);
+                if (game.seasonType.type == 2) weeks.push(game.week.number);
 
                 let data = {
                     id: game.id, // used in JSX as a key
@@ -26,23 +37,35 @@ async function getTeamSchedule( teamID, season ) {
                     teams: game.competitions[0].competitors,
                     status: game.competitions[0].status,
                     week: game.week,
+                    season: game.season.year,
                     seasonType: game.seasonType
                 }
                 
                 // if the game hasn't happened yet, add the DraftKings spread and over/under
                 if (game.competitions[0].status.type.state == "pre") {
-                    const fetchGameOdds = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/odds/40`, { method: "GET" });
+                    data.network = game.competitions[0].broadcasts.length > 0 ? game.competitions[0].broadcasts[0].media.shortName : "TBD";
                     
-                    if (!fetchGameOdds.ok) throw new Error('Failed to fetch game details');
+                    // an error will be thrown if the spread/odds haven't been added yet
+                    try {
+                        const fetchGameOdds = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/odds/40`, { method: "GET" });
+                        const gameOdds = await fetchGameOdds.json(); 
+              
+                        if (gameOdds.error) throw new Error();
+          
+                        data.spread = gameOdds.details;
+                        data.overUnder = gameOdds.overUnder;
+                    }
+                    catch (err) {
+                        data.spread= "TBD"; 
+                        data.overUnder = "TBD";
+                    }
                     
-                    const gameOdds = await fetchGameOdds.json();
-
-                    data.spread = gameOdds.details;
-                    data.overUnder = gameOdds.overUnder;
-
                     upcomingGames.push(data);
                 }
-                else pastGames.push(data);
+                else {
+                    data.leaders = teamsInGame(game.competitions[0].competitors, teamID).chosenTeam.leaders
+                    pastGames.push(data);
+                }
             }
 
             if (schedule.requestedSeason.type == "2") {
@@ -60,11 +83,11 @@ async function getTeamSchedule( teamID, season ) {
 
             const allGames = [
                 {
-                    tableHeadings: [...tableHeadings, "Result", "Record"],
+                    tableHeadings: [...tableHeadings, "Result", "W-L", "Pass Lead", "Rush Lead", "REC Lead"],
                     games: pastGames
                 },
                 {
-                    tableHeadings: [...tableHeadings, "Spread", "Over/Under"],
+                    tableHeadings: [...tableHeadings, "Network", "Spread", "Over/Under"],
                     games: upcomingGames
                 }
             ];
@@ -76,7 +99,7 @@ async function getTeamSchedule( teamID, season ) {
             });
         }
     }
-    
+    //console.log(output)
     return output;
 }
 
