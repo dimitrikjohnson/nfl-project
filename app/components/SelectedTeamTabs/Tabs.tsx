@@ -39,7 +39,7 @@ export default function Tabs({ teamID }) {
                     key={ tab } 
                     aria-selected={ tab == selectedTab } 
                     onClick={ () => handleClick(tab) } 
-                    className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:bg-stone-900 aria-selected:border-b-2 aria-selected:border-cyan-400"
+                    className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:font-semibold aria-selected:border-b-2 aria-selected:border-cyan-400"
                     >
                         { tab }
                     </button> 
