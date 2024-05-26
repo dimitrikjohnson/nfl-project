@@ -7,36 +7,38 @@ import getLastTwoGames from '@/app/apiCalls/getLastTwoGames';
 import getTeam from '@/app/apiCalls/getTeam';
 
 export default function LastTwoGames({ teamID }) {
-    const [lastTwoGames, setLastTwoGames] = useState([])
-    const [team, setTeam] = useState([])
-    const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2.5"
+    const [lastTwoGames, setLastTwoGames] = useState([]);
+    const [team, setTeam] = useState([]);
+    const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2";
 
     const getGames = () => getLastTwoGames( teamID ).then(
         (res) => setLastTwoGames(res)
-    )
+    );
 
     const getSelectedTeam = () => getTeam({ teamID }).then(
         (res) => setTeam(res)
-    )
+    );
 
     const displayGames = () => {
         return (
             <>
                 { lastTwoGames.map(game =>
-                    <div key={ game.date + " game" } className="first-of-type:border-r-2 border-cyan-400">
+                    <div key={ game.date } className="first-of-type:border-b-2 pb-4 sm:pb-0 sm:first-of-type:border-b-0 sm:first-of-type:border-r-2 border-cyan-400">
                         <p className="pb-2">
                             <span className={ labelClasslist }>Date:</span>
-                            <span className="hidden md:inline-block">{ formatDateTime(game.date).short }</span>
-                            <span className="md:hidden">{ formatDate(game.date).short }</span>
+                            <span>{ formatDateTime(game.date).short }</span>
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Season Type:</span>
-                            <span className="hidden md:inline-block lg:hidden xl:inline-block">{ game.seasonType.long }</span>
-                            <span className="md:hidden lg:inline-block xl:hidden">{ game.seasonType.short }</span>
+                            <span className="inline-block lg:hidden xl:inline-block">{ game.seasonType.long }</span>
+                            <span className="hidden lg:inline-block xl:hidden">{ game.seasonType.short }</span>
+                        </p>
+                        <p className="pb-2">
+                            <span className={ labelClasslist }>Week:</span>
+                            <span>{ game.week }</span>
                         </p>
                         <p className="flex pb-2">
-                            <span className={ "hidden md:inline-block " + labelClasslist }>Opponent:</span>
-                            <span className={ "md:hidden " + labelClasslist }>OPP:</span>
+                            <span className={ labelClasslist }>Opponent:</span>
                             { displayHomeAway(game.teams, teamID, true) }
                         </p>
                         <p>
@@ -58,13 +60,13 @@ export default function LastTwoGames({ teamID }) {
         rushingYardsAllowed = 0
 
         for (const game of lastTwoGames) {
-            totalYards += game.chosenTeamStats.totalYards
-            passingYards += game.chosenTeamStats.passingYards
-            rushingYards += game.chosenTeamStats.rushingYards
+            totalYards += game.chosenTeamStats.totalYards;
+            passingYards += game.chosenTeamStats.passingYards;
+            rushingYards += game.chosenTeamStats.rushingYards;
 
-            totalYardsAllowed += game.chosenTeamStats.totalYardsAllowed
-            passingYardsAllowed += game.chosenTeamStats.passingYardsAllowed
-            rushingYardsAllowed += game.chosenTeamStats.rushingYardsAllowed
+            totalYardsAllowed += game.chosenTeamStats.totalYardsAllowed;
+            passingYardsAllowed += game.chosenTeamStats.passingYardsAllowed;
+            rushingYardsAllowed += game.chosenTeamStats.rushingYardsAllowed;
         }
 
         const avgYPG = totalYards / 2,
@@ -108,7 +110,7 @@ export default function LastTwoGames({ teamID }) {
                     rypgLabelShort: "RYDS A/G",
                 }
             }
-        ]
+        ];
 
         return (
             <>
@@ -142,7 +144,7 @@ export default function LastTwoGames({ teamID }) {
         <div>
             <h3 className="font-protest pb-2 text-2xl 2xl:text-3xl">Last Two Games</h3>    
             <div className="font-rubik bg-sectionColor rounded-md p-3">
-                <div className="grid grid-cols-2 gap-4 pb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 md:pb-10">
                     { displayGames() }
                 </div>
                 <div className="flex pb-2 mb-3 border-b-2">
