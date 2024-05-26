@@ -1,27 +1,23 @@
 import 'client-only';
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Image from "next/image";
 import AFCLogo from "../images/afc.svg";
 import NFCLogo from "../images/nfc.svg";
 import Tabs from './SelectedTeamTabs/Tabs';
 import getTeam from '../apiCalls/getTeam';
-import getSuperBowlWinner from '../apiCalls/getSuperBowlWinner';
 import allTeamsColors from "./data/allTeamsColors.json";
-import fetchCurrentSeason from '../apiCalls/fetchCurrentSeason';
-
-export const ThisSeason = createContext(null);
+import { ThisSeason, SuperBowlWinner } from '../page';
 
 export default function SelectedTeam({ teamID }) {
     const [team, setTeam] = useState([]);
     const [teamRecord, setTeamRecord] = useState("");
     const [teamLogo, setTeamLogo] = useState([]);
     const [teamColors, setTeamColors] = useState({});
-    //const [teamVenueImage, setTeamVenueImage] = useState("")
     const [teamConference, setTeamConference] = useState();
-    const [currentSeason, setCurrentSeason] = useState("");
-    const [sbWinner, setSBWinner] = useState({});
 
     const afcNum = 8;
+    const currentSeason = useContext(ThisSeason);
+    const sbWinner = useContext(SuperBowlWinner);
 
     const getSelectedTeam = () => getTeam({teamID}).then(
         (res) => {
@@ -33,25 +29,7 @@ export default function SelectedTeam({ teamID }) {
             res.shortDisplayName == "Giants" || "Jets" ? setTeamLogo(res.logos[1]) : setTeamLogo(res.logos[0]);
         }
     );
-    
-    const getSBWinner = () => getSuperBowlWinner().then(
-        (res) => {
-            if (res) {
-                setSBWinner({
-                    headline: res.headline, 
-                    winner: res.winnerID
-                });
-            }
-        }
-    );
-    
-    useEffect(() => {
-        getSBWinner(),
-        fetchCurrentSeason().then(
-            res => setCurrentSeason(res)
-        );
-    }, []);
-   
+
     // run these functions every time teamID updates (aka when a new card is clicked)
     useEffect(() => {
         setTeamColors(allTeamsColors[teamID]),
@@ -69,10 +47,15 @@ export default function SelectedTeam({ teamID }) {
                         <p className="font-protest uppercase text-6xl md:text-8xl mb-2">{ team.name }</p>
                         <p className="font-rubik text-sm md:text-base font-semibold flex gap-1.5 justify-center">
                             { teamRecord 
-                                ? <span>{ teamRecord } &#183;</span>
-                                : <span>{ currentSeason } &#183;</span>
+                                ? <span>{ teamRecord }</span>
+                                : <span>{ currentSeason }</span>
                             }
-                            { team.standingSummary} 
+                            { team.standingSummary && 
+                                <>
+                                    <span>&#183;</span>
+                                    <span>{ team.standingSummary }</span>
+                                </>
+                            } 
                             { sbWinner.winner == teamID &&
                                 <span className="font-rubik flex items-end">
                                     <span className="px-1.5">&#183;</span>
@@ -86,19 +69,15 @@ export default function SelectedTeam({ teamID }) {
                         : <Image src={ NFCLogo } className="hidden md:block w-12 sm:w-24 md:w-28 lg:w-40" alt="NFC Logo" priority />
                     }
                 </div>
-                { 
-                <div className="flex relative justify-center md:hidden">
-                    <img className="w-16 mr-7" src={ teamLogo.href } alt={ team.displayName + " logo" } />
+                <div className="flex gap-7 relative justify-center md:hidden">
+                    <img className="w-16" src={ teamLogo.href } alt={ team.displayName + " logo" } />
                     { teamConference == afcNum 
                         ? <Image src={ AFCLogo } className="w-16" alt="AFC Logo" priority />
                         : <Image src={ NFCLogo } className="w-16" alt="NFC Logo" priority />
                     }
                 </div>
-                }
             </div>
-            <ThisSeason.Provider value={ currentSeason }>
-                <Tabs teamID={ teamID } />    
-            </ThisSeason.Provider>
+            <Tabs teamID={ teamID } />    
         </section>
     )
 }
