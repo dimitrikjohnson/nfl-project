@@ -3,6 +3,7 @@ export default function displayWeek(requestedSeason, gamesArr, game) {
     if (requestedSeason == "Postseason") {
         return game.week.text
     }
+    // account for the preseason games being misnumbered
     else if (requestedSeason == "Preseason" && gamesArr[0].week.number != 1) {
         return game.week.number - 1
     }
