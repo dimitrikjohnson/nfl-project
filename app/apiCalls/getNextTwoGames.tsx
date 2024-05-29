@@ -1,4 +1,4 @@
-import displayWeek from "../components/helpers/displayWeekInfo";
+import displayWeek from "../helpers/displayWeekInfo";
 
 export default async function getNextTwoGames({ teamID }) {
     let nextTwoGames = [];

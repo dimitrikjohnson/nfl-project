@@ -1,4 +1,4 @@
-import fetchCurrentSeason from "./fetchCurrentSeason";
+import fetchCurrentSeason from "./getCurrentSeason";
 
 /*
  * getPlayerProfile and getPlayerStatsData run for each player

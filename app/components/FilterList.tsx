@@ -1,5 +1,4 @@
-import 'client-only';
-import allTeamsColors from './data/allTeamsColors.json';
+import allTeamsColors from '@/app/data/allTeamsColors.json'
 
 export default function FilterList({ tags, teamID, isMobile, showTeamColors, filter, childToParent }) {
     const handleFilterPick = (tag) => {

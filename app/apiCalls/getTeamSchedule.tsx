@@ -1,4 +1,4 @@
-import { teamsInGame } from "../components/helpers/displayGameInfo";
+import { teamsInGame } from "../helpers/displayGameInfo";
 
 async function getTeamSchedule(teamID, season) {
     let output = [];

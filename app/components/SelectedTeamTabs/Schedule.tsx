@@ -1,11 +1,11 @@
 import 'client-only';
 import { useState, useEffect, Fragment } from 'react';
-import { formatDateTime } from '../helpers/dateFormatter';
-import { displayHomeAway, displayGameResult, displayRecordAfterGame } from '../helpers/displayGameInfo';
+import { formatDateTime } from '../../helpers/dateFormatter';
+import { displayHomeAway, displayGameResult, displayRecordAfterGame } from '../../helpers/displayGameInfo';
 import ReactLoading from "react-loading";
 import getTeamSchedule from '@/app/apiCalls/getTeamSchedule';
 import allTeamsColors from '@/app/components/data/allTeamsColors.json';
-import displayWeek from '../helpers/displayWeekInfo';
+import displayWeek from '../../helpers/displayWeekInfo';
 
 export default function Schedule({ teamID }) {
     const [initialSeason, setInitialSeason] = useState();

@@ -1,4 +1,4 @@
-import fetchCurrentSeason from "./fetchCurrentSeason";
+import fetchCurrentSeason from "./getCurrentSeason";
 
 export default async function getOverviewRankings( teamID ) {
     const currentSeason = await fetchCurrentSeason();

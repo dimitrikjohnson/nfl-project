@@ -1,7 +1,7 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
 import getOverviewRankings from '@/app/apiCalls/getOverviewRankings';
-import getRankColor from '../../helpers/getRankColor';
+import getRankColor from '../../../helpers/getRankColor';
 
 export default function TeamRankings({ teamID }) {
     const [offensiveRanks, setOffensiveRanks] = useState({});

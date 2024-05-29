@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import getNextTwoGames from "@/app/apiCalls/getNextTwoGames";
-import { formatDateTime } from '../../helpers/dateFormatter';
-import { displayHomeAway } from '../../helpers/displayGameInfo';
+import { formatDateTime } from '../../../helpers/dateFormatter';
+import { displayHomeAway } from '../../../helpers/displayGameInfo';
 //import getTeamSchedule from "@/app/apiCalls/getTeamSchedule";
 
 export default function NextTwoGames({ teamID }) {

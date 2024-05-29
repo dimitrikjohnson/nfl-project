@@ -1,4 +1,4 @@
-import fetchCurrentSeason from "./fetchCurrentSeason";
+import fetchCurrentSeason from "./getCurrentSeason";
 
 export default async function getTeamLeaders( teamID, responseType ) {
     const currentSeason = await fetchCurrentSeason();

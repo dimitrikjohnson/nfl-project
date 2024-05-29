@@ -1,6 +1,6 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
-import fetchCurrentSeason from "@/app/apiCalls/fetchCurrentSeason";
+import fetchCurrentSeason from "@/app/apiCalls/getCurrentSeason";
 import TeamStatistics from './TeamStatistics';
 import PlayerStatistics from './PlayerStatistics';
 import FilterList from '../../FilterList';

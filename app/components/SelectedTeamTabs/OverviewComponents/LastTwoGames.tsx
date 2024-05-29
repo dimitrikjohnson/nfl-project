@@ -1,8 +1,8 @@
 import 'client-only';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { formatDate, formatDateTime } from '../../helpers/dateFormatter';
-import { displayHomeAway, displayGameResult } from '../../helpers/displayGameInfo';
+import { formatDate, formatDateTime } from '../../../helpers/dateFormatter';
+import { displayHomeAway, displayGameResult } from '../../../helpers/displayGameInfo';
 import getLastTwoGames from '@/app/apiCalls/getLastTwoGames';
 import getTeam from '@/app/apiCalls/getTeam';
 
