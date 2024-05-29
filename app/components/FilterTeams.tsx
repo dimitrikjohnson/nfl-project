@@ -36,6 +36,12 @@ export default function FilterTeams({ teams }) {
             <div className="flex mb-6 justify-between">
                 <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Teams</h2>
                 <div className="font-rubik flex">
+                    <button className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
+                        onClick = {() => {setFilter("All"); 
+                        setPopupActive(false)}}
+                    >
+                            All
+                    </button>
                     <button 
                         className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
                         onClick = { () => handleFilterClick("afc", "nfc") }
