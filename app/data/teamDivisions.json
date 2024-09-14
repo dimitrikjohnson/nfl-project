@@ -1,5 +1,5 @@
 {
-    "AFC North": [
+    "afc north": [
         {
             "city": "Baltimore",
             "name": "Ravens",
@@ -22,7 +22,7 @@
             "id": 23
         }
     ],
-    "AFC South": [
+    "afc south": [
         {   
             "city": "Houston",
             "name": "Texans",
@@ -44,7 +44,7 @@
             "id": 10
         }
     ],
-    "AFC East": [
+    "afc east": [
         {   
             "city": "Buffalo",
             "name": "Bills",
@@ -66,7 +66,7 @@
             "id": "17"
         }
     ],
-    "AFC West": [
+    "afc west": [
         {   
             "city": "Denver",
             "name": "Broncos",
@@ -78,17 +78,17 @@
             "id": "12"
         },
         {   
-            "city": "Oakland",
+            "city": "Las Vegas",
             "name": "Raiders",
             "id": "13"
         },
         {   
-            "city": "San Diego",
+            "city": "Los Angeles",
             "name": "Chargers",
             "id": "24"
         }
     ],
-    "NFC North": [
+    "nfc north": [
         {
             "city": "Chicago",
             "name": "Bears",
@@ -110,7 +110,7 @@
             "id": "16"
         }
     ],
-    "NFC South": [
+    "nfc south": [
         {
             "city": "Tampa Bay",
             "name": "Buccaneers",
@@ -132,7 +132,7 @@
             "id": "18"
         }
     ],
-    "NFC East": [
+    "nfc east": [
         {
             "city": "Washington",
             "name": "Commanders",
@@ -154,7 +154,7 @@
             "id": "19"
         }
     ],
-    "NFC West": [
+    "nfc west": [
         {
             "city": "San Francisco",
             "name": "49ers",
@@ -166,7 +166,7 @@
             "id": "22"
         },
         {
-            "city": "St. Louis",
+            "city": "Los Angeles",
             "name": "Rams",
             "id": "14"
         },
