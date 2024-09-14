@@ -1,26 +1,27 @@
-'use client'
+'use client';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import teamDivisions from '@/app/data/teamDivisions.json';
+import unslugifyQuery from '../helpers/unslugifyQuery';
 import FilterList from './FilterList';
 import TeamCard from './TeamCard';
-//import TeamProvider from '../contextProviders/teamProvider';
 
 export default function FilterTeams({ teams }) {
-    //const [teams, setTeams] = useState([]);
-    const [filter, setFilter] = useState("All");
     const [divisionFilter, setDivisionFilter] = useState("");
     const [popupActive, setPopupActive] = useState(false);
+
+    // gets the 'division' query from the URL
+    const searchParams = useSearchParams();
+    const division = searchParams.has('division') && searchParams.get('division');
 
     const afcTags = ["AFC North", "AFC South", "AFC East", "AFC West"];
     const nfcTags = ["NFC North", "NFC South", "NFC East", "NFC West"];
 
-    // gets the selected division filter from FilterList
-    const filterChildToParent = (dataFromChild) => setFilter(dataFromChild);
-
     // when the user selects a division filter, adds all teams in the division to an array
     const filterArray = () => {
         let content = [];  
-        teamDivisions[filter].map(divisionTeam =>
+        teamDivisions[unslugifyQuery(division)].map(divisionTeam =>
             content.push(teams.find(teamsTeam => teamsTeam.id == divisionTeam.id))
         );
         return content;
@@ -36,20 +37,21 @@ export default function FilterTeams({ teams }) {
             <div className="flex mb-6 justify-between">
                 <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Teams</h2>
                 <div className="font-rubik flex">
-                    <button className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
-                        onClick = {() => {setFilter("All"); 
-                        setPopupActive(false)}}
+                    <Link 
+                        href={ `?division=all` }
+                        className="btn h-10 min-h-10 mr-2.5 border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] rounded-md"
+                        onClick = { () => setPopupActive(false) }
                     >
-                            All
-                    </button>
+                        All
+                    </Link>
                     <button 
-                        className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
+                        className="btn h-10 min-h-10 mr-2.5 border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] rounded-md" 
                         onClick = { () => handleFilterClick("afc", "nfc") }
                     >
                         AFC
                     </button>
                     <button 
-                        className="border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] px-3.5 rounded-md" 
+                        className="btn h-10 min-h-10 border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] rounded-md"
                         onClick = { () => handleFilterClick("nfc", "afc") }
                     >
                         NFC
@@ -57,11 +59,11 @@ export default function FilterTeams({ teams }) {
                 </div>
             </div>
 
-            { popupActive && <FilterList tags={ divisionFilter == "afc" ? afcTags : nfcTags } teamID={ "" } isMobile={ "override" } showTeamColors={ false } filter={ filter } childToParent={ filterChildToParent }/> } 
+            { popupActive && <FilterList tags={ divisionFilter == "afc" ? afcTags : nfcTags } teamID={""} isMobile={ "override" } showTeamColors={ false } query={ "division" }/> } 
             
-            { filter == "All" ? null : <h3 className="font-protest text-2xl 2xl:text-3xl pb-2">{ filter }</h3> }
-            <div className="grid gap-2 md:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                { filter !== "All" 
+            { (division == "all" || !division) ? null : <h3 className="flex font-protest text-2xl 2xl:text-3xl pb-2 gap-1.5">{ unslugifyQuery(division, true) }</h3> }
+            <div className="grid gap-2.5 md:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                { division != "all" && division 
                     ? filterArray().map(team =>
                         <TeamCard key={ team.id } team={ team } />    
                     )
