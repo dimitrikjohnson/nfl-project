@@ -26,7 +26,7 @@ const ListOfTeamsPage = async () => {
     const teams: Team[] = await allTeams(data);
     
     return (
-        <section className="xl:m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
+        <section className="px-4 md:px-6 lg:px-14 xl:m-auto max-w-screen-xl">
             <FilterTeams teams={ teams } />    
         </section>
     )

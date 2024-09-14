@@ -1,11 +1,8 @@
+import Schedule from "./Schedule";
 
-const Schedule = () => {
-    return (
-      <>
-          <h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">Schedule</h2>
-      </>
-    )
-  }
+const ScheduleHome = ({ teamID }) => {
+  return <Schedule teamID={ teamID } />
+}
   
-  export default Schedule
+export default ScheduleHome
   
