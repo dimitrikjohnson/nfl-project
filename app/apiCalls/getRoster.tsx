@@ -68,7 +68,6 @@ export default async function getRoster( teamID ) {
                 data: side[position],
                 tags: side == defense ? ["defense", "all"] : ["special teams", "all"]
             }); 
-            //positionsArr.push(side[position]);
         }
     }
     

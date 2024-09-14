@@ -12,13 +12,15 @@ export default async function getOverviewRankings( teamID ) {
     const categories = data.splits.categories;
 
     return {
-        offense: [
+        //offense: [
+        "Offensive": [
             getValues(categories[1].stats[30], "Points P/G"),
             getValues(categories[1].stats[39], "Yards P/G"),
             getValues(categories[1].stats[22], "Pass Yards P/G"),
             getValues(categories[2].stats[13], "Rush Yards P/G")
         ],
-        defense: [
+        //defense: [
+        "Defensive": [
             getValues(categories[4].stats[20]), // Tackles for Loss
             getValues(categories[4].stats[14]), // Sacks
             getValues(categories[5].stats[0]), // Interceptions
