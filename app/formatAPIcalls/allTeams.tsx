@@ -1,6 +1,4 @@
 async function allTeams(data) {
-    //console.log(data);
-    
     const teams = data.sports[0].leagues[0].teams;
     const output = [];
 
@@ -21,7 +19,6 @@ async function allTeams(data) {
         })
     }
 
-    //return teams
     return output;
 }
 
