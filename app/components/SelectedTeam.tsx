@@ -1,4 +1,4 @@
-import 'client-only';
+'use client';
 import { useState, useEffect, useContext } from 'react';
 import Image from "next/image";
 import AFCLogo from "../images/afc.svg";
@@ -7,23 +7,24 @@ import Tabs from './SelectedTeamTabs/Tabs';
 import getTeam from '../apiCalls/getTeam';
 import allTeamsColors from "./data/allTeamsColors.json";
 import { ThisSeason, SuperBowlWinner } from '../page';
+import TeamSummary from './TeamSummary';
 
 export default function SelectedTeam({ teamID }) {
     const [team, setTeam] = useState([]);
-    const [teamRecord, setTeamRecord] = useState("");
+   // const [teamRecord, setTeamRecord] = useState("");
     const [teamLogo, setTeamLogo] = useState([]);
     const [teamColors, setTeamColors] = useState({});
     const [teamConference, setTeamConference] = useState();
 
     const afcNum = 8;
-    const currentSeason = useContext(ThisSeason);
-    const sbWinner = useContext(SuperBowlWinner);
+    //const currentSeason = useContext(ThisSeason);
+    //const sbWinner = useContext(SuperBowlWinner);
 
     const getSelectedTeam = () => getTeam({teamID}).then(
         (res) => {
             setTeam(res);
             setTeamConference(res.groups.parent.id);
-            Object.keys(res.record).length != 0 && setTeamRecord(res.record.items[0].summary);
+            //Object.keys(res.record).length != 0 && setTeamRecord(res.record.items[0].summary);
 
             // the color of the Giants' and Jets' default logo isn't viewable against their primary color
             res.shortDisplayName == "Giants" || "Jets" ? setTeamLogo(res.logos[1]) : setTeamLogo(res.logos[0]);
@@ -46,22 +47,7 @@ export default function SelectedTeam({ teamID }) {
                         <p className="font-protest uppercase text-3xl md:text-5xl mb-1">{ team.location }</p>
                         <p className="font-protest uppercase text-6xl md:text-8xl mb-2">{ team.name }</p>
                         <p className="font-rubik text-sm md:text-base font-semibold flex gap-1.5 justify-center">
-                            { teamRecord 
-                                ? <span>{ teamRecord }</span>
-                                : <span>{ currentSeason }</span>
-                            }
-                            { team.standingSummary && 
-                                <>
-                                    <span>&#183;</span>
-                                    <span>{ team.standingSummary }</span>
-                                </>
-                            } 
-                            { sbWinner.winner == teamID &&
-                                <span className="font-rubik flex items-end">
-                                    <span className="px-1.5">&#183;</span>
-                                    <span>&#127942;</span>
-                                </span>   
-                            }
+                            <TeamSummary team={ team } hasTrophy={ true } />
                         </p>
                     </div>
                     { teamConference == afcNum 

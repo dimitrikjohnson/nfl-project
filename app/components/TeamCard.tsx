@@ -29,7 +29,7 @@ export default function TeamCard({ team }) {
             onMouseEnter={ () => handleMouseEnter(team.id) }
             onMouseLeave={ () => handleMouseLeave() }
             aria-selected={ sbWinner?.winner == team.id }
-            className="group flex items-center gap-2.5 p-2.5 rounded-md bg-sectionColor transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-90 md:hover:scale-105 aria-selected:border-2 aria-selected:border-gold duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none" 
+            className="group flex items-center gap-2.5 p-2.5 rounded-md bg-sectionColor transition ease-in-out delay-50 hover:-translate-y-1 md:hover:scale-105 aria-selected:border-2 aria-selected:border-gold duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none" 
         >
             <div className="w-20">
                 <img src={ team.logo } alt={ `${team.displayName} logo` } />
