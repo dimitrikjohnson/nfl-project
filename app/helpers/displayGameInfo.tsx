@@ -1,5 +1,6 @@
 import DefaultLogo from '@/app/images/default_logo.png';
 import Image from "next/image";
+import Link from 'next/link';
 
 // distinguish the chosen team from the non-chosen team in the game
 function teamsInGame(teams, chosenTeamID) {
@@ -25,6 +26,7 @@ function teamsInGame(teams, chosenTeamID) {
             leaders: chosenTeam.leaders // this is only for the schedule
         },
         otherTeam: {
+            id: otherTeam.id,
             score: otherTeam.score != undefined && (otherTeam.score.value != undefined ? otherTeam.score.value : otherTeam.score),
             name: otherTeam.team.displayName,
             abbreviation: otherTeam.team.abbreviation,
@@ -36,16 +38,18 @@ function teamsInGame(teams, chosenTeamID) {
 
 function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
     const teams = teamsInGame(teamsArgument, chosenTeamID);
-    const classes = "flex gap-x-1 md:gap-x-2.5 " + (onlyShortName == false ? "items-center" : null);
+    
     return (
-        <span className={ classes }>
+        <span className={ `flex gap-x-1 md:gap-x-2.5 items-center ${ onlyShortName && " justify-center" }` }>
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             { teams.otherTeam.logo
-                ? <img className="w-5 md:w-7" src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
+                ? <img className={ onlyShortName ? "w-20" : "w-5 md:w-7" } src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
                 : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
             }
-            <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
-            <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>
+            <Link href={ `/teams/${ teams.otherTeam.id }` } className="hover:text-cyan-400 hover:underline" title={ teams.otherTeam.name }>
+                <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
+                <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>
+            </Link>     
         </span>
     ) 
 }
@@ -53,9 +57,18 @@ function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
 function displayGameResult(teamsArgument, gameStatus, chosenTeamID) {    
     const teams = teamsInGame(teamsArgument, chosenTeamID);
     const endedInTie = teams.chosenTeam.score == teams.otherTeam.score;
-
-    // if there was no winner, the game was cancelled
-    if (teams.chosenTeam.winner == null) return { cancelled: true }
+    
+    // if there is no winner, the game is in progress or was cancelled
+    if (teams.chosenTeam.winner == null) {
+        if (gameStatus.state =="in") {
+            return (<> 
+                <span className="animate-pulse text-red-400 mr-1">&#183;</span>
+                <span className="text-red-400 mr-1">LIVE</span>
+                <span>| { gameStatus.shortDetail }</span>
+            </>)
+        }
+        return false;
+    }
 
     return (
         <>
