@@ -1,8 +1,8 @@
-*The Process* is a minimalistic NFL statistics database that showcases the most important stats for casual football fans. All data is courtesy of ESPN's NFL API, and a curated list of many of the available endpoints was created by [@nntrn](https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#scoreboard-api).
+*The Process* is a minimalistic NFL statistics database that showcases the most important stats for casual football fans. All data is courtesy of ESPN's NFL API, and a curated list of many of the available endpoints can be found on [@nntrn's GitHub page](https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#scoreboard-api).
 
 Created and designed by Dimitrik Johnson and Elleni Adhanom.
 
-**The Process is a work in process.**
+**The Process is a work in progress.**
 
 --------------------------------------
 
