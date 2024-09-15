@@ -36,7 +36,7 @@
     },
     "5": {
         "name": "Cleveland Browns",
-        "textColor": "#ff3c00",
+        "textColor": "#ffffff",
         "bgColor": "#472a08"
     },
     "6": {
@@ -76,8 +76,8 @@
     },
     "12": {
         "name": "Kansas City Chiefs",
-        "textColor": "#e31837",
-        "bgColor": "#ffb612"
+        "textColor": "#ffffff",
+        "bgColor": "#e31837"
     },
     "13": {
         "name": "Las Vegas Raiders",
@@ -136,8 +136,8 @@
     },
     "25": {
         "name": "San Francisco 49ers",
-        "textColor": "#aa0000",
-        "bgColor": "#b3995d"
+        "textColor": "#ffffff",
+        "bgColor": "#aa0000"
     },
     "26": {
         "name": "Seattle Seahawks",
