@@ -1,12 +1,6 @@
-//import React from 'react'
-//import ListOfTeams from '../components/ListOfTeams'
-//import getAllTeams from '../apiCalls/getAllTeams';
 import allTeams from '../formatAPIcalls/allTeams';
-//import TeamCard from '../components/TeamCard';
-import SuperBowlWinnerProvider from '../contextProviders/sbWinnerProvider'
-import CurrentSeasonProvider from '../contextProviders/currentSeasonProvider';
-import TeamProvider from '../contextProviders/teamProvider';
 import FilterTeams from '../components/FilterTeams';
+import NavBar from '../components/NavBar';
 
 interface Team {
     id: string;
@@ -26,9 +20,12 @@ const ListOfTeamsPage = async () => {
     const teams: Team[] = await allTeams(data);
     
     return (
-        <section className="px-4 md:px-6 lg:px-14 xl:m-auto max-w-screen-xl">
-            <FilterTeams teams={ teams } />    
-        </section>
+        <>
+            <NavBar team={ {} } />
+            <section className="mt-20 px-4 md:px-6 lg:px-14 xl:mx-auto max-w-screen-xl">
+                <FilterTeams teams={ teams } />    
+            </section>
+        </>  
     )
 }
 

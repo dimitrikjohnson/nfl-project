@@ -34,46 +34,44 @@ export default function NavBar({ team }) {
     return (
         <nav 
             className={`font-rubik fixed w-full flex justify-between py-2.5 px-6 md:px-11 top-0 z-10 ${ showNav || "hidden" } ${ scrolledNav && "drop-shadow-md" }`}
-            style={ scrolledNav ? { backgroundColor: allTeamsColors[team.id].bgColor } : null }
+            style={ scrolledNav && team ? { backgroundColor: allTeamsColors[team.id].bgColor } : null }
         >
             <Link 
                 href={ '/' } 
-                className="flex gap-2 items-center text-xl"
-                style={{ color: allTeamsColors[team.id].textColor }}
+                className="flex gap-2 items-center text-lg md:text-xl"
+                style={{ color: team ? allTeamsColors[team.id]?.textColor : "#FFFFFF" }}
             >
                 <FontAwesomeIcon icon={faFootballBall} rotation={90} />
                 <p className="font-protest tracking-wide">THE PROCESS</p>
             </Link>
             <div 
-                className={`${ scrolledNav ? "flex gap-2" : "hidden" } items-center`}
-                style={{ color: allTeamsColors[team.id].textColor }}
+                className={`${ scrolledNav && team ? "flex gap-2" : "hidden" } items-center`}
+                style={ team ? { color: allTeamsColors[team.id]?.textColor } : null }
             >
                 <p className="font-semibold">
-                    <span className="hidden md:block">{ team.displayName }</span>
-                    <span className="block md:hidden">{ team.shortDisplayName }</span>
+                    <span className="hidden md:block">{ team?.displayName }</span>
+                    <span className="block md:hidden">{ team?.shortDisplayName }</span>
                 </p>
-                <p className="text-sm flex gap-1.5">
-                    <TeamSummary team={ team } hasTrophy={ false }/>
+                <p className="hidden md:flex text-sm gap-1.5">
+                    { team && <TeamSummary team={ team } hasTrophy={ false }/> }
                 </p>
             </div>
-            <div className="hidden md:flex items-center gap-3">
+            <div className="items-center gap-3">
+                { /*
                 <Link 
                     href={ '/' } 
-                    className="bg-transparent hover:bg-transparent"
-                    style={{ 
-                        //backgroundColor: allTeamsColors[team.id].textColor, 
-                        color: allTeamsColors[team.id].textColor,
-                        //border: `1px solid ${allTeamsColors[team.id].textColor}`
-                    }}
+                    className="bg-transparent hover:text-cyan-400 hover:bg-transparent"
+                    style={{ color: team ? allTeamsColors[team.id]?.textColor : "#FFFFFF" }}
                 >
                     League Overview
                 </Link>
+                */ }
                 <Link 
                     href={ '/teams' } 
-                    className="btn h-8 min-h-8 border-0"
+                    className={`btn h-8 min-h-8 border-0 ${ Object.keys(team).length || "bg-cyan-400 text-[#1c232b]" }`}
                     style={{ 
-                        backgroundColor: allTeamsColors[team.id].textColor, 
-                        color: allTeamsColors[team.id].bgColor 
+                        backgroundColor: team ? allTeamsColors[team.id]?.textColor : null, 
+                        color: team ? allTeamsColors[team.id]?.bgColor : null 
                     }}
                 >
                     Teams
