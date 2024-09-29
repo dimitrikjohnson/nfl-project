@@ -16,7 +16,8 @@ export default async function NextTwoGames({ teamID }) {
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Date:</span>
-                            <span>{ formatDateTime(game.date).short }</span>
+                            <span className="md:hidden">{ formatDateTime(game.date).short }</span>
+                            <span className="hidden md:inline-block">{ formatDateTime(game.date).long }</span>
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Type:</span>

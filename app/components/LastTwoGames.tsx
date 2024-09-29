@@ -26,7 +26,13 @@ export default async function LastTwoGames({ teamID }) {
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Date:</span>
-                            <span>{ formatDateTime(game.date).short }</span>
+                            { game.status.state == "in"
+                              ? displayGameResult(game.teams, game.status, teamID, true)
+                              : <>
+                                    <span className="md:hidden">{ formatDateTime(game.date).short }</span>
+                                    <span className="hidden md:inline-block">{ formatDateTime(game.date).long }</span>
+                              </>
+                            }
                         </p>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Type:</span>
@@ -37,7 +43,7 @@ export default async function LastTwoGames({ teamID }) {
                             <span className={ labelClasslist }>Week:</span>
                             <span>{ game.week }</span>
                         </p>
-                        <p>
+                        <p className="flex">
                             <span className={ labelClasslist }>Result:</span>
                             <span>{ displayGameResult(game.teams, game.status, teamID) == false ? "CANCELLED" : displayGameResult(game.teams, game.status, teamID) }</span>
                         </p>

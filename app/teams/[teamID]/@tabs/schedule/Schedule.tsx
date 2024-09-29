@@ -67,7 +67,13 @@ export default function Schedule({ teamID }) {
     const displayNonByeRows = (game) => { 
         return (<>
             <td className={ tablePadding }>    
-                { formatDateTime(game.date).short }
+                { game.status.state == "in"
+                    ? displayGameResult(game.teams, game.status, teamID, true)
+                    : <>
+                        <span className="md:hidden">{ formatDateTime(game.date).short }</span>
+                        <span className="hidden md:inline-block">{ formatDateTime(game.date).long }</span>
+                    </>
+                }
             </td>       
             <td className={ `flex gap-x-1 md:gap-x-2.5 ${tablePadding}` }>
                 { displayHomeAway(game.teams, teamID) }
@@ -128,7 +134,7 @@ export default function Schedule({ teamID }) {
                         <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
                             { seasonType.allGames.filter(pastOrUpcoming => pastOrUpcoming.games.length > 0)
                                 .map(filteredPastOrUpcoming => 
-                                    <Fragment key={ filteredPastOrUpcoming }>
+                                    <Fragment key={ filteredPastOrUpcoming.games }>
                                         <thead className={ 
                                             `border-b border-secondaryGrey ${ hasCompletedGames && filteredPastOrUpcoming.tableHeadings.includes("Spread") ? "border-t" : null }`
                                         }>
@@ -140,7 +146,7 @@ export default function Schedule({ teamID }) {
                                         </thead>
                                         <tbody>
                                             { filteredPastOrUpcoming.games.map(game =>
-                                                <tr key={ game.id } className="odd:bg-altTableRow">
+                                                <tr key={ game.id + game.date } className="odd:bg-altTableRow">
                                                     <td className={ `text-start ${tablePadding}` }>   
                                                         { displayWeek(seasonType.requestedSeason, game) }
                                                     </td>
