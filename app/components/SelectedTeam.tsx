@@ -6,7 +6,7 @@ import NFCLogo from "../images/nfc.svg";
 import Tabs from './SelectedTeamTabs/Tabs';
 import getTeam from '../apiCalls/getTeam';
 import allTeamsColors from "./data/allTeamsColors.json";
-import { ThisSeason, SuperBowlWinner } from '../page';
+//import { ThisSeason, SuperBowlWinner } from '../page';
 import TeamSummary from './TeamSummary';
 
 export default function SelectedTeam({ teamID }) {

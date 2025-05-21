@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
+//import dynamic from 'next/dynamic';
 import FilterList from '../../../../components/FilterList';
 import TeamStatistics from './TeamStatistics';
 import PlayerStatistics from './PlayerStatistics';
