@@ -96,12 +96,11 @@ export default function Roster({ teamID }) {
                         <div className="flex gap-1.5 m-auto mx-0">
                             <p>{ position[player].playerValues.name }</p>
                             <p className="flex gap-1.5 text-lighterSecondaryGrey text-sm items-end">
-                                { position[player].playerValues.jersey 
-                                  ? <>
+                                { position[player].playerValues.jersey &&
+                                    <>
                                         <span>#{ position[player].playerValues.jersey }</span>
                                         <span>&#183;</span>
                                     </>
-                                  : null 
                                 }                                 
                                 <span>
                                     { player == "1" 
@@ -109,6 +108,12 @@ export default function Roster({ teamID }) {
                                       : player + getOrdinal(Number(player)) + " string"
                                     }
                                 </span>
+                                { position[player].playerValues.injuries &&
+                                    <>
+                                        <span>&#183;</span>
+                                        <span className="text-red-400">{ position[player].playerValues.injuries }</span>
+                                    </> 
+                                }
                             </p>
                         </div>
                     </td>
@@ -145,7 +150,7 @@ export default function Roster({ teamID }) {
                         onClick={ () => setPopupActive(prevState => !prevState) }
                     >
                         <span>Filters</span>
-                        <FontAwesomeIcon icon={faCaretDown} />
+                        <FontAwesomeIcon icon={faCaretDown} className="" />
                     </button>
                     <FilterList tags={ tags } teamID={ teamID } isMobile={ false } showTeamColors={ true } query={ "players" }/>
                 </div>

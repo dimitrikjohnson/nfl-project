@@ -1,6 +1,7 @@
 import fetchCurrentSeason from "./getCurrentSeason";
+import { PlayerValues, AllPlayers, PartialPlayerInfo } from "@/app/types/roster";
 
-export default async function getRoster( teamID ) {
+export default async function getRoster( teamID: any ) {
     const currentSeason = await fetchCurrentSeason();
 
     const rosterLink = `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/roster`;
@@ -27,7 +28,6 @@ export default async function getRoster( teamID ) {
      *   for some teams if the 'if' statement isn't present). Include tags for the filter on the Roster page.
      *   Finally, add the offensive line positions to the array.
     */
-    
     let positionsArr = [
         { data: offense.qb, tags: ["fantasy"] },
         { data: offense.rb, tags: ["fantasy"] }
@@ -75,8 +75,9 @@ export default async function getRoster( teamID ) {
      * partialPlayerInfo will hold the player ID, position, and rank of every player on the depth chart
      * allPlayers is for all player info that will be displayed on the page
     */
-    let partialPlayerInfo = {};
-    let allPlayers = {};
+    let partialPlayerInfo: PartialPlayerInfo = {};
+
+    let allPlayers: AllPlayers = {};
     
     for (const position of positionsArr) {
         // all positions will be added to the object when we come across each one in the loop
@@ -114,16 +115,24 @@ export default async function getRoster( teamID ) {
         for (const athlete of side.items) {
             // determine if the current athlete's ID is in the depth chart
             if (partialPlayerInfo.hasOwnProperty(athlete.id)) {               
+                // set abbreviations for injury statuses
+                let injuries = athlete.injuries[0]?.status;
+
+                if (injuries == "Questionable") { injuries = "Q"; }
+                else if (injuries == "Out") { injuries = "O"; }
+                else if (injuries == "Doubtful") { injuries = "D"; }
+                else if (injuries == "Suspension") { injuries = "SSPD"; }
                 
-                let playerValues = {
+                let playerValues: PlayerValues = {
                     name: athlete.displayName,
                     jersey: athlete.jersey,
                     age: athlete.age,
                     weight: athlete.displayWeight,
                     height: athlete.displayHeight,
-                    experience: athlete.experience.years
+                    experience: athlete.experience.years,
+                    injuries: injuries,
                 };
-
+                
                 // an error will be thrown if the player doesn't have a headshot or a college
                 try {
                     playerValues.headshot = athlete.headshot.href;
