@@ -6,6 +6,7 @@ import getPlayerStats from '@/app/apiCalls/getPlayerStats';
 
 export default function PlayerStatistics({ teamID }) {
     const [season, setSeason] = useState();
+    const [seasonType, setSeasonType] = useState();
     const [statGroups, setStatGroups] = useState({});
     const [isLoading, setIsLoading] = useState(false); 
 
@@ -13,6 +14,7 @@ export default function PlayerStatistics({ teamID }) {
         (res) => {
             setIsLoading(false);
             setSeason(res.season);
+            setSeasonType(res.seasonType);
             setStatGroups(res.stats);  
         }
     );
@@ -26,10 +28,10 @@ export default function PlayerStatistics({ teamID }) {
         <>
             <Leaders teamID={ teamID } getLeadersOverview={ false } />
             <h3 className="font-protest text-2xl 2xl:text-3xl pb-3"> 
-                <span>Player Statistics</span>
-                { season != null && 
-                    <span className="ml-1.5">{ season }</span> 
+                { seasonType == 4 && 
+                    <span className="mr-1.5">{ season }</span> 
                 }
+                <span>Player Statistics</span>     
             </h3>
             { isLoading
                 ? <div className="skeleton w-full h-56"></div>

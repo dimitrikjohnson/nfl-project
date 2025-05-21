@@ -1,9 +1,11 @@
 import getCurrentSeason from "../helpers/getCurrentSeason";
 import formatPlayerStats from "../formatAPIcalls/formatPlayerStats";
 
-export default async function getPlayerStats( teamID ) {
-    const currentSeason = await getCurrentSeason();
-    let displayedSeason = null;
+export default async function getPlayerStats( teamID: any ) {
+    const seasonPromise = await getCurrentSeason();
+    const currentSeason = seasonPromise.year;
+    const currentSeasonType = seasonPromise.type;
+    let displayedSeason = currentSeason;
 
     // if there's an error, decrease the current season number by 1
     // the only time there should be an error is during a small window in the offseason when the season number changes in the API response
@@ -23,5 +25,5 @@ export default async function getPlayerStats( teamID ) {
     
     const data = await res.json();
 
-    return await formatPlayerStats(displayedSeason, data);
+    return await formatPlayerStats(displayedSeason, currentSeasonType, data);
 }

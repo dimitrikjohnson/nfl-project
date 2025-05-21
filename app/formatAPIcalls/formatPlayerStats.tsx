@@ -45,9 +45,10 @@ async function addPlayer(category, chosenStatNums, index, playerStatCategory) {
     }
 }
 
-export default async function formatPlayerStats(displayedSeason, data) {
+export default async function formatPlayerStats(displayedSeason, currentSeasonType, data) {
     const output = {
         season: displayedSeason,
+        seasonType: currentSeasonType,
         stats: {
             "Passing": {
                 tableHeadings: [
