@@ -1,20 +1,15 @@
 import displayWeek from "@/app/helpers/displayWeekInfo";
 import formatSchedule from "../formatAPIcalls/formatSchedule";
 
-export default async function formatLastTwoGames( teamID ) {
-    //const penultimate = data.items[data.items.length-2]
-    //const mostRecent = data.items[data.items.length-1]
-
+export default async function formatLastTwoGames( teamID: number | string ) {
     const schedule = await formatSchedule(teamID, undefined);
-
-    //console.log(schedule[1]);
-    //console.log(schedule[1].allGames[0].games[0].status.type);
 
     let games = [];
     
     //for (let x = 0; x < schedule.length; x += 1) {
     for (const season of schedule) {
         let numPastGames = season.allGames[0].games.length;
+        
         if (numPastGames == 0) { continue; }
         else if (numPastGames == 1 || games.length == 1) {
             games.push(season.allGames[0].games[numPastGames-1]);
@@ -29,7 +24,6 @@ export default async function formatLastTwoGames( teamID ) {
         //}
         //season.allGames[0].games.findLast((game, index) => {})
     }
-    //console.log(games)
     
     /*
     for (let x = schedule.length-1; x > -1; x -= 1) {
@@ -60,40 +54,48 @@ export default async function formatLastTwoGames( teamID ) {
     for (const game of games) {
         // slice game ID out of the link
         //const gameID = game.$ref.slice(game.$ref.indexOf("events/")+7, game.$ref.indexOf('?'));
+        //console.log(game)
+        const getLiveRes = await fetch(`https://cdn.espn.com/core/nfl/game?xhr=1&gameId=${game.id}`, { method: "get" });
+        const liveRes = await getLiveRes.json();
 
+        //https://cdn.espn.com/core/nfl/matchup?xhr=1&gameId=401220225
+        /*
         const newRes = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${game.id}`, { method: "get" });
         const gameSummary = await newRes.json();
 
         // establish variables for commonly used stuff
+        
         const event = gameSummary.header.competitions[0];
         const teams = gameSummary.boxscore.teams;
+
         const TOTAL_YARDS_POSITION = 7;
         const PASSING_YARDS_POSITION = 10;
         const RUSHING_YARDS_POSITION = 15;
 
-        // determine which team is the chosen team; add stats to output
+        // determine which team is the chosen team; add stats to output and assign their % chance to win the game
         let chosenTeamStats = [];
         let otherTeamStats = [];
 
         if (teams[0].team.id == teamID) {
-            chosenTeamStats = teams[0].statistics
-            otherTeamStats = teams[1].statistics
+            chosenTeamStats = teams[0].statistics;
+            otherTeamStats = teams[1].statistics;
         }
         else {
-            otherTeamStats = teams[0].statistics
-            chosenTeamStats = teams[1].statistics
+            otherTeamStats = teams[0].statistics;
+            chosenTeamStats = teams[1].statistics;
         }
-
+        */
         // set the week number. if the game is a playoff game, it sets 'week' to the name of the playoff round
         //let week = (gameSummary.header.season.type == 3 ? playoffWeeks[gameSummary.header.week] : gameSummary.header.week);
         //console.log(game);
         
         output.push({
             seasonType: game.seasonType,
-            date: event.date,
+            date: game.date, //event.date,
             week: displayWeek(game.seasonType.name, game),
-            teams: game.teams, //event.competitors,
-            status: game.status.type,
+            teams: game.teams, //event.competitors, //game.teams, 
+            status: liveRes.gamepackageJSON.header.competitions[0].status.type//game.status.type,
+            /*
             chosenTeamStats: {
                 totalYards: Number(chosenTeamStats[TOTAL_YARDS_POSITION]?.displayValue),
                 passingYards: Number(chosenTeamStats[PASSING_YARDS_POSITION]?.displayValue),
@@ -103,8 +105,10 @@ export default async function formatLastTwoGames( teamID ) {
                 passingYardsAllowed: Number(otherTeamStats[PASSING_YARDS_POSITION]?.displayValue),
                 rushingYardsAllowed: Number(otherTeamStats[RUSHING_YARDS_POSITION]?.displayValue),
             }
-        })
+                */
+        });
+        
     }
 
-    return output
+    return output;
 }
