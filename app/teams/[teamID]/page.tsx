@@ -5,11 +5,13 @@ import allTeamsColors from '@/app/data/allTeamsColors.json';
 import TeamSummary from '@/app/components/TeamSummary';
 import NavBar from "@/app/components/NavBar";
 
-const SelectedTeam = async ({ params }: { params: { teamID: string } }) => {
-	const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${params.teamID}`, {
+const SelectedTeam = async ({ params }: { params: Promise<{ teamID: string }> }) => {
+	const { teamID } = await params;
+
+	const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}`, {
     	method: "GET"
   	});
-
+	
 	const data = await res.json();
 	const team = data.team;
 
@@ -23,10 +25,10 @@ const SelectedTeam = async ({ params }: { params: { teamID: string } }) => {
 		<section className="w-full">
 			<NavBar team={ team } />
 			<div className="grid md:flex relative h-64 md:h-80 overflow-hidden items-center z-0">
-				<div className="absolute w-full h-full" style={{ backgroundColor: allTeamsColors[params.teamID].bgColor }}></div>
+				<div className="absolute w-full h-full" style={{ backgroundColor: allTeamsColors[teamID].bgColor }}></div>
 				<div className="md:flex relative w-full justify-between items-center mt-16 md:mx-6 lg:mx-11">
 					<img className="hidden md:block w-12 sm:w-24 md:w-28 lg:w-40" src={ teamLogo.href } alt={ `${team.displayName} logo` } />
-					<div className="text-center" style={{ color: allTeamsColors[params.teamID].textColor }}>
+					<div className="text-center" style={{ color: allTeamsColors[teamID].textColor }}>
                         <p className="font-protest uppercase text-3xl md:text-5xl mb-1">{ team.location }</p>
                         <p className="font-protest uppercase text-6xl md:text-8xl mb-2">{ team.name }</p>
                         <p className="font-rubik text-sm md:text-base font-semibold flex gap-1.5 justify-center">
@@ -39,7 +41,7 @@ const SelectedTeam = async ({ params }: { params: { teamID: string } }) => {
                     <img className="w-16" src={ teamLogo.href } alt={ `${team.displayName} logo` } />
                     <Image className="w-16" src={ conference.logo }  alt={ conference.alt } priority />
                 </div>
-			</div>
+			</div>	
 		</section>
 	)
 }
