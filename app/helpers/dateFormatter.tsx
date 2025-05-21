@@ -14,10 +14,18 @@ function formatDateTime(date) {
         minute:"numeric",
     });
 
+    const formattedDateTimeScoreboard = new Date(date).toLocaleString('en-us', { 
+        weekday:"short", 
+        hour:"numeric", 
+        minute:"numeric",
+        //timeZoneName: "short"
+    });
+
     // send multiple options for different screen sizes
     return {
         short: formattedDateTimeShort,
-        long: formattedDateTimeLong
+        long: formattedDateTimeLong,
+        scoreboard: formattedDateTimeScoreboard
     }
 }
 
