@@ -1,10 +1,33 @@
 import getNextTwoGames from "@/app/apiCalls/getNextTwoGames";
+//import WinProbability from "./ProbabiltyChart";
 import { formatDateTime } from '@/app/helpers/dateFormatter';
 import { displayHomeAway } from '@/app/helpers/displayGameInfo';
 
 export default async function NextTwoGames({ teamID }) {
     const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2";
     let nextTwoGames = await getNextTwoGames(teamID);
+
+    function whichIsGreater(awayChance, homeChance) {
+        return awayChance > homeChance;
+    }
+
+    function displayWinProbabilities(teams, awayChance, homeChance) {
+        const homeTeam = teams.find(team => team.homeAway == "home");
+        const awayTeam = teams.find(team => team.homeAway == "away");
+
+        return (
+            <div className="w-full flex justify-between">
+                <div className={`text-left ${whichIsGreater(awayChance, homeChance) || "text-lighterSecondaryGrey"} `}>
+                    <p className="pb-1">{ awayTeam.team.shortDisplayName }</p>
+                    <p className="font-bold text-3xl">{ awayChance }%</p>
+                </div>
+                <div className={`text-right ${whichIsGreater(awayChance, homeChance) && "text-lighterSecondaryGrey"} `}>
+                    <p className="pb-1">{ homeTeam.team.shortDisplayName }</p>
+                    <p className="font-bold text-3xl">{ homeChance }%</p>
+                </div>
+            </div>
+        )
+    }
 
     const displayGames = () => {
         return (
@@ -28,14 +51,21 @@ export default async function NextTwoGames({ teamID }) {
                             <span className={ labelClasslist }>Week:</span>
                             <span>{ game.week }</span>
                         </p>
-                        <p className="pb-2">
-                            <span className={ labelClasslist }>Spread:</span>
-                            <span>{ game.spread }</span>
-                        </p>
                         <p>
-                            <span className={ labelClasslist }>Over/Under:</span>
-                            <span>{ game.overUnder }</span>
+                            <span className={ labelClasslist }>Network:</span>
+                            <span>{ game.network }</span>
                         </p>
+                        { (game.awayChance && game.homeChance) &&
+                            <>
+                                <p className="font-bold pt-6 pb-2 mb-2 mr-3 border-b-2">Win Probability</p>
+                                <div className="flex justify-between mr-3">
+                                    { displayWinProbabilities(game.teams, game.awayChance, game.homeChance) }
+                                </div>
+                                {/*<div className="flex justify-center">
+                                    <WinProbability gameID={ game.id } teams={ game.teams } chanceData={ [game.awayChance, game.homeChance] } />    
+                                </div>*/}
+                            </>
+                        }
                     </div>
                 )}
             </>
@@ -43,9 +73,9 @@ export default async function NextTwoGames({ teamID }) {
     }
 
     return (
-        <div className="font-rubik bg-sectionColor rounded-md p-3 grow">
+        <div className="font-rubik bg-sectionColor rounded-md p-3">
             { nextTwoGames.length > 0
-                ? <div className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4 pb-4 md:pb-10">
+                ? <div className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4">
                     { displayGames() }
                 </div>
                 : <p className="text-center">This team does not have any upcoming games.</p>
