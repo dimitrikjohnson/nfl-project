@@ -1,16 +1,19 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import Leaders from "@/app/components/Leaders";
 import TeamRankings from "@/app/components/TeamRankings";
 import LastTwoGames from "@/app/components/LastTwoGames";
 import NextTwoGames from "@/app/components/NextTwoGames";
+import Standings from "@/app/components/Standings";
 
 const Overview = ({ teamID }) => {
 	return (
 		<>
 			<h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">Overview</h2>
 			
-			<Leaders teamID={ teamID } getLeadersOverview={ true } />  
-
+			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
+				<Leaders teamID={ teamID } getLeadersOverview={ true } /> 
+			</Suspense>
+			 
 			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
 				<TeamRankings teamID={ teamID } />  
 			</Suspense>
@@ -29,6 +32,10 @@ const Overview = ({ teamID }) => {
 					</Suspense>
 				</div>
 			</div>
+
+			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
+				<Standings teamID={ teamID } />  
+			</Suspense>
 		</>
   	) 
 }
