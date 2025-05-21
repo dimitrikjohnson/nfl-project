@@ -61,7 +61,13 @@ async function formatSchedule(teamID, season) {
                     upcomingGames.push(data);
                 }
                 else {
-                    data.leaders = teamsInGame(game.competitions[0].competitors, teamID).chosenTeam.leaders
+                    data.leaders = teamsInGame(game.competitions[0].competitors, teamID).chosenTeam.leaders;
+
+                    //if (game.competitions[0].status.type.state == "in") {
+                        //const fetchLiveScore = await fetch(`https://cdn.espn.com/core/nfl/game?xhr=1&gameId=${game.id}`, { method: "GET" });
+                        //const liveScore = await fetchLiveScore.json();
+                    //}
+
                     pastGames.push(data);
                 }
             }
@@ -69,13 +75,23 @@ async function formatSchedule(teamID, season) {
             if (schedule.requestedSeason.type == "2") {
                 const byeWeek = findByeWeek(weeks, weeks.length);
                 const postByeWeekGame = upcomingGames.find(({ week }) => week.number == byeWeek + 1);
+                
+                const scheduleData = {
+                    week: { number: byeWeek },
+                    id: undefined,
+                    date: undefined,
+                    teams: undefined,
+                    status: undefined,
+                    season: undefined,
+                    seasonType: undefined        
+                };
 
                 // determine which array the bye week should be in and add it
                 if (postByeWeekGame) {
-                    upcomingGames.splice(byeWeek-1, 0, { week: { number: byeWeek }});
+                    upcomingGames.splice(upcomingGames.indexOf(postByeWeekGame), 0, scheduleData);
                 }
                 else {
-                    pastGames.splice(byeWeek-1, 0, { week: { number: byeWeek }});
+                    pastGames.splice(byeWeek-1, 0, scheduleData);
                 }
             }
 

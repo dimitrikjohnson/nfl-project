@@ -66,9 +66,9 @@ export default function Schedule({ teamID }) {
  
     const displayNonByeRows = (game) => { 
         return (<>
-            <td className={ tablePadding }>    
-                { game.status.state == "in"
-                    ? displayGameResult(game.teams, game.status, teamID, true)
+            <td className={ tablePadding }>   
+                { game.status.type.state == "in"
+                    ? displayGameResult(game.teams, game.status.type, teamID, true)
                     : <>
                         <span className="md:hidden">{ formatDateTime(game.date).short }</span>
                         <span className="hidden md:inline-block">{ formatDateTime(game.date).long }</span>
@@ -151,7 +151,7 @@ export default function Schedule({ teamID }) {
                                                         { displayWeek(seasonType.requestedSeason, game) }
                                                     </td>
                                                     { game.week.number == teamBye && seasonType.requestedSeason == "Regular Season"
-                                                        ? <td colSpan={ hasCompletedGames ? 7 : 4 } className={ `uppercase ${tablePadding}` }>Bye Week</td> 
+                                                        ? <td colSpan={ hasCompletedGames ? 7 : 5 } className={ `uppercase ${tablePadding}` }>Bye Week</td> 
                                                         : displayNonByeRows(game)
                                                     }
                                                 </tr>
@@ -193,7 +193,7 @@ export default function Schedule({ teamID }) {
                             }}
                         >
                             { season ? season : initialSeason }
-                            <FontAwesomeIcon icon={faCaretDown} />
+                            <FontAwesomeIcon icon={faCaretDown} className="" />
                         </div>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-sectionColor rounded-md w-28">
                             { years.map(year =>
