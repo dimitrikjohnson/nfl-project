@@ -2,8 +2,10 @@ import formatLeaders from '@/app/formatAPIcalls/formatLeaders';
 import getCurrentSeason from '../helpers/getCurrentSeason';
 
 export default async function getTeamLeaders(teamID, getLeadersOverview) {
-    const currentSeason = await getCurrentSeason();
-    let displayedSeason = null;
+    const seasonPromise = await getCurrentSeason();
+    const currentSeason = seasonPromise.year;
+    const currentSeasonType = seasonPromise.type;
+    let displayedSeason = currentSeason;
     
     // if there's an error, decrease the current season number by 1
     // the only time there should be an error is during a small window in the offseason when the season number changes in the API response
@@ -23,5 +25,5 @@ export default async function getTeamLeaders(teamID, getLeadersOverview) {
     
     const data = await res.json();
 
-    return await formatLeaders(displayedSeason, data, getLeadersOverview);
+    return await formatLeaders(displayedSeason, currentSeasonType, data, getLeadersOverview);
 }
