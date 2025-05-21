@@ -8,8 +8,8 @@ import SuperBowlWinnerProvider from "./contextProviders/sbWinnerProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "The Process - NFL Stats",
-  description: "The Process is...",
+  title: "Home | Big Football",
+  description: "Big Football is...",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {

@@ -1,7 +1,7 @@
 //'use server'
 import type { Metadata } from "next";
-import { cache } from 'react';
-import cacheTeam from "@/app/helpers/cacheTeam";
+//import { cache } from 'react';
+//import cacheTeam from "@/app/helpers/cacheTeam";
 
 import TeamProvider from "@/app/contextProviders/teamProvider";
 
@@ -22,10 +22,12 @@ export const metadata: Metadata = {
 //export const getTeam = cache(cacheTeam);
 
 export default async function RootLayout({ children, ...props }) {
-  const teamID = props.params.teamID;
+  //const teamID = props.params.teamID;
+  const { teamID } = await props.params;
+  //console.log(teamID)
   const teamName = allTeamsColors[teamID].name;
 
-  metadata.title = teamName + " - theProcess";
+  metadata.title = teamName + " | Big Football";
   
   const items = {
     "overview": { content: <Overview teamID={ teamID } /> }, 
