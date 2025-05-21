@@ -1,6 +1,6 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFootballBall } from '@fortawesome/free-solid-svg-icons';
+import { faFootball } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
 import { useEffect, useState } from 'react';
@@ -34,15 +34,15 @@ export default function NavBar({ team }) {
     return (
         <nav 
             className={`font-rubik fixed w-full flex justify-between py-2.5 px-6 md:px-11 top-0 z-10 ${ showNav || "hidden" } ${ scrolledNav && "drop-shadow-md" }`}
-            style={ scrolledNav && team ? { backgroundColor: allTeamsColors[team.id].bgColor } : null }
+            style={ scrolledNav && team ? { backgroundColor: allTeamsColors[team.id]?.bgColor } : null }
         >
             <Link 
                 href={ '/' } 
                 className="flex gap-2 items-center text-lg md:text-xl"
                 style={{ color: team ? allTeamsColors[team.id]?.textColor : "#FFFFFF" }}
             >
-                <FontAwesomeIcon icon={faFootballBall} rotation={90} />
-                <p className="font-protest tracking-wide">THE PROCESS</p>
+                <FontAwesomeIcon icon={faFootball} rotation={90} className="" />
+                <p className="font-protest tracking-wide uppercase">Big Football</p>
             </Link>
             <div 
                 className={`${ scrolledNav && team ? "flex gap-2" : "hidden" } items-center`}

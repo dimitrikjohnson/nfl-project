@@ -8,11 +8,9 @@ export default function FilterDropdownButton() {
     const pathname = usePathname();
     // gets the query from the URL
     const searchParams = useSearchParams();
-    //const popupActive = searchParams.has('popupActive');
     
     const handleClick = () => {
         const params = new URLSearchParams(Array.from(searchParams.entries()));
-        //console.log(params)
         params.get('popupActive') ? params.delete('popupActive') : params.set('popupActive', 'true');
 
         // cast to string
@@ -30,7 +28,7 @@ export default function FilterDropdownButton() {
             onClick={ () => handleClick() }
         >
             <span>Filters</span>
-            <FontAwesomeIcon icon={faCaretDown} />
+            <FontAwesomeIcon icon={faCaretDown} className="" />
         </button>
     )
 }
