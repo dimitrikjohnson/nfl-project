@@ -1,39 +1,29 @@
-import fetchCurrentSeason from "./getCurrentSeason";
+import getCurrentSeason from '@/app/helpers/getCurrentSeason';
+import formatOverviewRankings from '@/app/formatAPIcalls/formatOverviewRankings';
 
-export default async function getOverviewRankings( teamID ) {
-    const currentSeason = await fetchCurrentSeason();
+export default async function getOverviewRankings( teamID: any ) {
+    const seasonPromise = await getCurrentSeason();
+    const currentSeason = seasonPromise.year;
+    const currentSeasonType = seasonPromise.type;
+    let displayedSeason = currentSeason;
 
-    const res = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/types/2/teams/${teamID}/statistics`, { method: "get" })
+    // if there's an error, decrease the current season number by 1
+    // the only time there should be an error is during a small window in the offseason when the season number changes in the API response
+    let res;
+    try {
+        res = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason}/types/2/teams/${teamID}/statistics`, { 
+            method: "get" 
+        });
+        if (!res.ok) throw new Error("Something went wrong");
+    }
+    catch (error) {
+        res = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/${currentSeason-1}/types/2/teams/${teamID}/statistics`, { 
+            method: "get" 
+        });
+        displayedSeason = currentSeason-1;
+    }
+   
     const data = await res.json();
 
-    // This will activate the closest `error.js` Error Boundary
-    if (!res.ok) throw new Error('Failed to fetch team rankings');
-
-    const categories = data.splits.categories;
-
-    return {
-        //offense: [
-        "Offensive": [
-            getValues(categories[1].stats[30], "Points P/G"),
-            getValues(categories[1].stats[39], "Yards P/G"),
-            getValues(categories[1].stats[22], "Pass Yards P/G"),
-            getValues(categories[2].stats[13], "Rush Yards P/G")
-        ],
-        //defense: [
-        "Defensive": [
-            getValues(categories[4].stats[20]), // Tackles for Loss
-            getValues(categories[4].stats[14]), // Sacks
-            getValues(categories[5].stats[0]), // Interceptions
-            getValues(categories[10].stats[20], "Takeaways")    
-        ]
-    }
-}
-
-function getValues(category, shortName = category.displayName) {
-    return {
-        shortName: shortName,
-        longName: category.displayName,
-        rank: category.rank,
-        rankDisplayValue: category.rankDisplayValue
-    }
+    return formatOverviewRankings(currentSeason, currentSeasonType, data);
 }
