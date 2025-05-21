@@ -34,7 +34,7 @@ export default function FilterTeams({ teams }) {
 
     return (
         <>
-            <div className="flex mb-6 justify-between">
+            <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2">
                 <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Teams</h2>
                 <div className="font-rubik flex">
                     <Link 

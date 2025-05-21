@@ -19,12 +19,12 @@ export default function FilterList({ tags, teamID, isMobile, showTeamColors, que
                 <Link 
                     key={ tag } 
                     href={ `?${query}=${slugify(tag)}` }
-                    className="btn h-10 min-h-10 mr-2.5 capitalize border text-center text-nowrap border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] py-2 md:py-0 px-3.5 rounded-md last-of-type:m-0"
+                    className="btn h-10 min-h-10 mr-2.5 capitalize border-0 text-center text-nowrap bg-sectionColor hover:bg-secondaryGrey/[0.25] text-white py-2 md:py-0 px-3.5 rounded-md last-of-type:m-0"
                     style={ showTeamColors && ((slugify(tag) == queryValue) || (!queryValue && tag == tags[0])) 
                             ? { 
                                 backgroundColor: allTeamsColors[teamID].bgColor, 
                                 color: allTeamsColors[teamID].textColor, 
-                                border: `1px solid ${allTeamsColors[teamID].textColor}` 
+                                border: `1px solid ${allTeamsColors[teamID].textColor}`
                             } 
                             : null 
                     }
