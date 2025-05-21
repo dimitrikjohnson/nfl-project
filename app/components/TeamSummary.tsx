@@ -6,12 +6,19 @@ import { SuperBowlWinner } from "@/app/contextProviders/sbWinnerProvider";
 export default function TeamSummary({ team, hasTrophy }) {
     const currentSeason = useContext(CurrentSeason);
     const sbWinner = useContext(SuperBowlWinner);
-    
+
+    function recordExists(record: any) {
+        if (record) {
+            return true;
+        }
+        return false;
+    }
+ 
     return (
         <>
-            { team.record
-                ? <span>{ team.record.items?.[0].summary || team.record }</span>
-                : <span>{ currentSeason }</span>
+            { !recordExists(team.record) || Object.keys(team.record).length === 0
+                ? <span>{ currentSeason }</span>
+                : <span>{ team.record?.items?.[0].summary || team.record }</span>
             }
             { team.standingSummary && 
                 <>
