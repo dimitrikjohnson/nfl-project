@@ -19,18 +19,22 @@ function teamsInGame(teams, chosenTeamID) {
     return ({
         // the score has a ternary statement because the value could be formatted 2 seperate ways
         chosenTeam: {
-            score: chosenTeam.score != undefined && (chosenTeam.score.value != undefined ? chosenTeam.score.value : chosenTeam.score),
+            score: chosenTeam.score && (chosenTeam.score.value ? chosenTeam.score.value : chosenTeam.score),
+            name: chosenTeam.team.displayName,
             homeAway: chosenTeam.homeAway,
             winner: chosenTeam.winner,
             record: chosenTeam.record != undefined && chosenTeam.record.length > 0 ? chosenTeam.record[0].displayValue : null,
+            logo: chosenTeam.team.logos && chosenTeam.team.logos[0].href,
+            //score: chosenTeam.score ? chosenTeam.score : null,
             leaders: chosenTeam.leaders // this is only for the schedule
         },
         otherTeam: {
             id: otherTeam.id,
-            score: otherTeam.score != undefined && (otherTeam.score.value != undefined ? otherTeam.score.value : otherTeam.score),
+            score: otherTeam.score && (otherTeam.score.value ? otherTeam.score.value : otherTeam.score),
             name: otherTeam.team.displayName,
             abbreviation: otherTeam.team.abbreviation,
             logo: otherTeam.team.logos && otherTeam.team.logos[0].href,
+            //score: otherTeam.score ? otherTeam.score : null,
             winner: otherTeam.winner,
         }
     })
@@ -54,7 +58,7 @@ function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
     ) 
 }
 
-function displayGameResult(teamsArgument, gameStatus, chosenTeamID) {    
+function displayGameResult(teamsArgument, gameStatus, chosenTeamID, dateField = false) {    
     const teams = teamsInGame(teamsArgument, chosenTeamID);
     const endedInTie = teams.chosenTeam.score == teams.otherTeam.score;
     
@@ -62,9 +66,23 @@ function displayGameResult(teamsArgument, gameStatus, chosenTeamID) {
     if (teams.chosenTeam.winner == null) {
         if (gameStatus.state =="in") {
             return (<> 
-                <span className="animate-pulse text-red-400 mr-1">&#183;</span>
-                <span className="text-red-400 mr-1">LIVE</span>
-                <span>| { gameStatus.shortDetail }</span>
+                { dateField 
+                    ? <>
+                        <span className="animate-pulse text-red-400 font-semibold mr-1.5">LIVE</span>
+                        <span>{ gameStatus.shortDetail }</span>
+                    </>
+                    : <span className="flex items-center">
+                        <span className="flex items-center gap-x-2">
+                            <img className="w-5 md:w-7" src={ teams.chosenTeam.logo } alt={ teams.chosenTeam.name } />
+                            <span>{ teams.chosenTeam.score }</span>
+                        </span>
+                        <span> - </span>
+                        <span className="flex items-center gap-x-2">
+                            <span>{ teams.otherTeam.score }</span>
+                            <img className="w-5 md:w-7" src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
+                        </span>
+                    </span> 
+                }    
             </>)
         }
         return false;
