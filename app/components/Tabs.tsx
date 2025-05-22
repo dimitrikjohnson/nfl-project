@@ -2,10 +2,10 @@
 import { useState, useContext } from 'react';
 import Link from "next/link";
 import { Team } from '../contextProviders/teamProvider';
-import getCurrentPath from '../helpers/getCurrentPath';
+import useCurrentPath from '@/app/helpers/getCurrentPath';
 
 export default function Tabs({ items }) {
-    const currentPath = getCurrentPath();
+    const currentPath = useCurrentPath();
     const [selectedTab, setSelectedTab] = useState(isNaN(currentPath) ? currentPath : "overview");
 
     const teamID = useContext(Team).id;
