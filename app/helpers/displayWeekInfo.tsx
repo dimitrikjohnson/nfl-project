@@ -1,5 +1,5 @@
 // function for displaying the week number/text
-export default function displayWeek(requestedSeason, game) {
+export default function displayWeek(requestedSeason: string, game: { week: { text: string; number: number; }; }) {
     if (requestedSeason == "Postseason") {
         return game.week.text
     }

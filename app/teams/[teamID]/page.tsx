@@ -1,12 +1,14 @@
 import Image from "next/image";
 import AFCLogo from '@/public/afc.svg';
 import NFCLogo from '@/public/nfc.svg';
-import allTeamsColors from '@/app/data/allTeamsColors.json';
+import type { AllTeamsColors } from "@/app/types/colors";
+import teamColors from "@/app/data/allTeamsColors.json";
 import TeamSummary from '@/app/components/TeamSummary';
 import NavBar from "@/app/components/NavBar";
 
 const SelectedTeam = async ({ params }: { params: Promise<{ teamID: string }> }) => {
 	const { teamID } = await params;
+	const allTeamsColors = teamColors as AllTeamsColors;
 
 	const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}`, {
     	method: "GET"

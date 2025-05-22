@@ -1,12 +1,11 @@
-export default function formatTeamStats(data) {
-    //;;console.log(unformattedData)
-    //const data = unformattedData.splits.categories;
-    //console.log(data)
+import { TeamStatCategory } from "@/app/types/teamStats";
+
+export default function formatTeamStats(data: TeamStatCategory[]) {
     const GAMES_PLAYED = data[0].stats[5].value;
 
     // function to create the stat objects that will be sent to Statistics component
     const createStatObject = (
-        label, categoryNum, statNum, shortLabel = data[categoryNum].stats[statNum].shortDisplayName, perGame = data[categoryNum].stats[statNum].value / GAMES_PLAYED, reversedColors = false
+        label: string, categoryNum: number, statNum: number, shortLabel = data[categoryNum].stats[statNum].shortDisplayName, perGame = data[categoryNum].stats[statNum].value / GAMES_PLAYED, reversedColors = false
     ) => {
         return {
             label: label,

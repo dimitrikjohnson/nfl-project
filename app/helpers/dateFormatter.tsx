@@ -1,4 +1,4 @@
-function formatDateTime(date) {  
+function formatDateTime(date: string | Date) {  
     const formattedDateTimeShort = new Date(date).toLocaleString('en-us', {
         month:"numeric", 
         day:"numeric",
@@ -18,7 +18,6 @@ function formatDateTime(date) {
         weekday:"short", 
         hour:"numeric", 
         minute:"numeric",
-        //timeZoneName: "short"
     });
 
     // send multiple options for different screen sizes

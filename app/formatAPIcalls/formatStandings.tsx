@@ -1,10 +1,10 @@
-export default async function formatStandings(season, seasonType, data) {
-    // season is for keeping track of the season that is being displayed
-    const output = [season, seasonType, []];
+import { StandingsData, TeamInStandings } from "@/app/types/standings";
 
+export default async function formatStandings(season: string, seasonType: number | string, data: { standings: StandingsData[] }) {
+    // season is for keeping track of the season that is being displayed
+    const output: [string, number | string, TeamInStandings[]] = [season, seasonType, []];
     const standings = data.standings;
-    //let position = 1;
-    //console.log(standings)
+    
     for (const team of standings) {
         const teamRes = await fetch(team.team.$ref, { method: "get" });
         const teamData = await teamRes.json();
@@ -17,28 +17,26 @@ export default async function formatStandings(season, seasonType, data) {
             abbreviation: teamData.abbreviation,
             logo: teamData.logos[0].href,
             record: teamRecords[0].displayValue,
-            seed: teamRecords[0].stats.find(stat => stat.name == "playoffSeed").value,//position, //teamRecords[0].stats[10].displayValue,
+            seed: teamRecords[0].stats.find((stat: { name: string; }) => stat.name == "playoffSeed").value,
             stats: getTeamStats(teamRecords[0].stats, teamRecords[1], teamRecords[2]),
-            clinch: teamRecords[0].stats.find(stat => stat.name == "clincher")
+            clinch: teamRecords[0].stats.find((stat: { name: string; }) => stat.name == "clincher")
         });
-
-        //position += 1;
     }
     
     // sort the teams by playoff seed
-    output[2].sort((a, b) => a.seed - b.seed);
+    output[2].sort((a: { seed: number; }, b: { seed: number; }) => a.seed - b.seed);
 
     return output;
 }
 
-function getTeamStats(overallArr, homeArr, awayArr) {
+function getTeamStats(overallArr: any[], homeArr: any, awayArr: any) {
     const stats = [];
 
-    let winPercent = overallArr.find(stat => stat.name == "winPercent");
-    let gamesBehind = overallArr.find(stat => stat.name == "gamesBehind");
-    let pointDifferential = overallArr.find(stat => stat.name == "differential");
-    let divisionRecord = overallArr.find(stat => stat.name == "divisionRecord");
-    let streak = overallArr.find(stat => stat.name == "streak");
+    let winPercent = overallArr.find((stat: { name: string; }) => stat.name == "winPercent");
+    let gamesBehind = overallArr.find((stat: { name: string; }) => stat.name == "gamesBehind");
+    let pointDifferential = overallArr.find((stat: { name: string; }) => stat.name == "differential");
+    let divisionRecord = overallArr.find((stat: { name: string; }) => stat.name == "divisionRecord");
+    let streak = overallArr.find((stat: { name: string; }) => stat.name == "streak");
     /*
      * overallArr[3] = Points Per Game | overallArr[2] = Opponent Points Per Game
      * homeArr = Home Record | awayArr = Away Record | overallArr[20] = Division Record

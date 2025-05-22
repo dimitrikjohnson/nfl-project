@@ -34,7 +34,7 @@ export default function LandingPage() {
                 <div className="hero">
                     <div className="hero-content text-center">
                         <div className="max-w-xl">
-                            <h1 className="mb-8 md:mb-12 text-4xl md:text-5xl font-bold">Because stats don't have to be complicated</h1>
+                            <h1 className="mb-8 md:mb-12 text-4xl md:text-5xl font-bold">Because stats don&apos;t have to be complicated</h1>
                             <div className="w-6/12 mx-auto mb-8 md:mb-12 border-b-2 border-cyan-400"></div>
                             <p className="mb-12">
                                 Big Football is an NFL statistics website for casual football fans with a focus on minimalistic design. Find only the most important 

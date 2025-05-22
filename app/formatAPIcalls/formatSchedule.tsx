@@ -1,6 +1,7 @@
-import { teamsInGame } from "../helpers/displayGameInfo";
+import { teamsInGame } from "@/app/helpers/displayGameInfo";
+import { GameData } from "@/app/types/schedule";
 
-async function formatSchedule(teamID, season) {
+async function formatSchedule(teamID: string, season: string | false | null) {
     let output = [];
     const tableHeadings = ["WK", "Date & Time", "Opponent"];
 
@@ -29,7 +30,7 @@ async function formatSchedule(teamID, season) {
                 // for reg season games, keep track of their week numbers to find the bye week
                 if (game.seasonType.type == 2) weeks.push(game.week.number);
 
-                let data = {
+                let data: GameData = {
                     id: game.id, // used in JSX as a key
                     date: game.date,
                     teams: game.competitions[0].competitors,
@@ -62,12 +63,6 @@ async function formatSchedule(teamID, season) {
                 }
                 else {
                     data.leaders = teamsInGame(game.competitions[0].competitors, teamID).chosenTeam.leaders;
-
-                    //if (game.competitions[0].status.type.state == "in") {
-                        //const fetchLiveScore = await fetch(`https://cdn.espn.com/core/nfl/game?xhr=1&gameId=${game.id}`, { method: "GET" });
-                        //const liveScore = await fetchLiveScore.json();
-                    //}
-
                     pastGames.push(data);
                 }
             }
@@ -76,14 +71,8 @@ async function formatSchedule(teamID, season) {
                 const byeWeek = findByeWeek(weeks, weeks.length);
                 const postByeWeekGame = upcomingGames.find(({ week }) => week.number == byeWeek + 1);
                 
-                const scheduleData = {
-                    week: { number: byeWeek },
-                    id: undefined,
-                    date: undefined,
-                    teams: undefined,
-                    status: undefined,
-                    season: undefined,
-                    seasonType: undefined        
+                const scheduleData: GameData = {
+                    week: { number: byeWeek }       
                 };
 
                 // determine which array the bye week should be in and add it
@@ -118,7 +107,7 @@ async function formatSchedule(teamID, season) {
 }
 
 // determine the bye week by finding the missing week in the schedule
-function findByeWeek(weeksArray, length) {
+function findByeWeek(weeksArray: any[], length: number) {
     let result = Math.floor((length + 1) * (length + 2) / 2);
     for (let i = 0; i < length; i++) result -= weeksArray[i];
     return result;

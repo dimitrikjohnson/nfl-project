@@ -1,6 +1,6 @@
 import React, { cache } from "react";
 import getStandings from "@/app/apiCalls/getStandings";
-import groupNumbers from "@/app/data/groupNumbers.json";
+import groupNumbersJson from "@/app/data/groupNumbers.json";
 import Link from "next/link";
 import cacheTeam from "@/app/helpers/cacheTeam";
 
@@ -12,7 +12,9 @@ export default async function Standings({ groupNum = "", teamID = "" }) {
         const team = await getTeam(teamID);
         groupNum = team.groups.id;
     }
-
+    // tell TypeScript that groupNumbers can be indexed by any string (prevents error)
+    const groupNumbers: Record<string, string> = groupNumbersJson;
+ 
     const standings = await getStandings(groupNum);
     const season = standings[0];
     const seasonType = standings[1];
@@ -21,7 +23,7 @@ export default async function Standings({ groupNum = "", teamID = "" }) {
     const headingClasses = "py-2.5 px-2 md:px-3 text-start";
     const bodyClasses = "py-2.5 px-2 md:py-2 md:px-3";
 
-    function differentialColor(diff) {
+    function differentialColor(diff: string) {
         if (diff.startsWith("+")) { return "text-green-500" } 
         else if (diff.startsWith("-")) { return "text-red-500" }
     }

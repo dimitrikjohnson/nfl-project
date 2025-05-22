@@ -1,7 +1,7 @@
 import formatLeaders from '@/app/formatAPIcalls/formatLeaders';
-import getCurrentSeason from '../helpers/getCurrentSeason';
+import getCurrentSeason from '@/app/helpers/getCurrentSeason';
 
-export default async function getTeamLeaders(teamID, getLeadersOverview) {
+export default async function getTeamLeaders(teamID: string, getLeadersOverview: boolean) {
     const seasonPromise = await getCurrentSeason();
     const currentSeason = seasonPromise.year;
     const currentSeasonType = seasonPromise.type;

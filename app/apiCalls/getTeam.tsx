@@ -1,4 +1,4 @@
-async function getTeam({ teamID }) {
+async function getTeam({ teamID }: { teamID: string }) {
     const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}`, {
         method: "GET"
     })
