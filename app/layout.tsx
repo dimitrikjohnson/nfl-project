@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./css/globals.css";
 
-import CurrentSeasonProvider from "./contextProviders/currentSeasonProvider";
 import SuperBowlWinnerProvider from "./contextProviders/sbWinnerProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,11 +15,9 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return (
     <html lang="en" className="scroll-smooth">
       <body className={inter.className}>
-        <CurrentSeasonProvider>
-          <SuperBowlWinnerProvider>
-            {children}
-          </SuperBowlWinnerProvider>
-        </CurrentSeasonProvider>
+        <SuperBowlWinnerProvider>
+          {children}
+        </SuperBowlWinnerProvider>
       </body>
     </html>
   );

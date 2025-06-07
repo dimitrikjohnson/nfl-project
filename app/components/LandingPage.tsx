@@ -1,12 +1,9 @@
 import React from "react";
 import { Suspense } from "react";
 import Link from 'next/link';
-//import Image from 'next/image';
-//import Leaders from './Leaders';
 import LeagueLeaders from "@/app/components/LeagueLeaders";
 import Standings from './Standings';
 import Scoreboard from "./Scoreboard";
-//import landing_design from '@/public/landing_design.svg';
 
 export default function LandingPage() {
     return (
@@ -37,8 +34,8 @@ export default function LandingPage() {
                             <h1 className="mb-8 md:mb-12 text-4xl md:text-5xl font-bold">Because stats don&apos;t have to be complicated</h1>
                             <div className="w-6/12 mx-auto mb-8 md:mb-12 border-b-2 border-cyan-400"></div>
                             <p className="mb-12">
-                                Big Football is an NFL statistics website for casual football fans with a focus on minimalistic design. Find only the most important 
-                                stats for every team to gain the insight that you need. This website is a work in progress.
+                                Big Football is an NFL statistics website for casual football fans with a focus on minimalistic design. View dashboards 
+                                with schedules, stats, rosters, and standings — all styled to match each team&apos;s identity. This website is a work in progress.
                             </p>
                             <div className="flex justify-center relative">
                                 <Link href="/teams" prefetch={ true } className="btn h-10 min-h-10 mr-2.5 bg-cyan-400 hover:bg-cyan-300 text-[#1c232b]">Select a team</Link>
@@ -49,7 +46,6 @@ export default function LandingPage() {
                 </div>       
             </section> 
             <section className="w-full m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
-                {/*<Leaders teamID={ "" } getLeadersOverview={ false } isLeagueLeader={ true }/>*/}
                 <LeagueLeaders />
                 <Suspense fallback={<div className="skeleton w-full h-24"></div>}>
                     <Standings groupNum={"8"} />

@@ -2,8 +2,9 @@ import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import getRankColor from '@/app/helpers/getRankColor';
+import { TeamStatTable } from '@/app/types/teamStats';
 
-export default function TeamTable({ statGroups }) {
+export default function TeamTable({ statGroups }: { statGroups: TeamStatTable }) {
     return (<>
         { Object.keys(statGroups).map(group =>
             <Fragment key={ group }>

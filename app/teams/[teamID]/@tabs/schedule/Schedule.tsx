@@ -5,15 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { formatDateTime } from '@/app/helpers/dateFormatter';
 import { displayHomeAway, displayGameResult, displayRecordAfterGame } from '@/app/helpers/displayGameInfo';
-import Link from 'next/link';
-import allTeamsColors from '@/app/data/allTeamsColors.json';
+import { GameData, FormattedSchedule } from "@/app/types/schedule";
+import type { AllTeamsColors } from "@/app/types/colors";
+import teamColors from "@/app/data/allTeamsColors.json";
 import displayWeek from '@/app/helpers/displayWeekInfo';
 import formatSchedule from '@/app/formatAPIcalls/formatSchedule';
+import Link from 'next/link';
 
-export default function Schedule({ teamID }) {
-    const [initialSeason, setInitialSeason] = useState();
-    const [schedule, setSchedule] = useState([]);
-    const [teamBye, setTeamBye] = useState();
+export default function Schedule({ teamID }: { teamID: string }) {
+    const [initialSeason, setInitialSeason] = useState<number>();
+    const [schedule, setSchedule] = useState<FormattedSchedule[]>([]);
+    const [teamBye, setTeamBye] = useState<number | false>();
     const [isLoading, setIsLoading] = useState(false);
 
     // gets the 'season' query from the URL
@@ -21,6 +23,7 @@ export default function Schedule({ teamID }) {
     const season = searchParams.has('season') && searchParams.get('season');
 
     const tablePadding = "py-2.5 px-2 md:py-2 md:px-3 text-sm";
+    const allTeamsColors = teamColors as AllTeamsColors;
 
     const getSchedule = () => formatSchedule(teamID, season).then(
         (res) => {
@@ -53,22 +56,25 @@ export default function Schedule({ teamID }) {
     );
     
     // establish the years that appear in the dropdown
-    let years = [];
+    let years: number[] = [];
     const minYear = 2003;
     let maxYear = initialSeason;
     
-    while (maxYear >= minYear) {
-        years.push(maxYear--);
+    // adds all years since minYear to the dropdown
+    if (typeof maxYear === "number") {
+        while (maxYear >= minYear) {
+            years.push(maxYear--);
+        }
     }
 
     // used for determining the colSpan of overUnder rows (should span over more columns when they share a table with completed games)
     let hasCompletedGames = false;
  
-    const displayNonByeRows = (game) => { 
+    const displayNonByeRows = (game: GameData) => { 
         return (<>
             <td className={ tablePadding }>   
-                { game.status.type.state == "in"
-                    ? displayGameResult(game.teams, game.status.type, teamID, true)
+                { game.status?.type.state == "in"
+                    ? displayGameResult(game.teams, game.status, teamID, true)
                     : <>
                         <span className="md:hidden">{ formatDateTime(game.date).short }</span>
                         <span className="hidden md:inline-block">{ formatDateTime(game.date).long }</span>
@@ -78,7 +84,7 @@ export default function Schedule({ teamID }) {
             <td className={ `flex gap-x-1 md:gap-x-2.5 ${tablePadding}` }>
                 { displayHomeAway(game.teams, teamID) }
             </td>
-            { game.status.type.state == "pre"
+            { game.status?.type.state == "pre"
                 ? <>
                     <td className={ tablePadding }>
                         { game.network }
@@ -92,11 +98,11 @@ export default function Schedule({ teamID }) {
                 </>
                 : <>
                     { hasCompletedGames = true }
-                    { displayGameResult(game.teams, game.status.type, teamID) == false 
+                    { displayGameResult(game.teams, game.status, teamID) == false 
                         ? <td colSpan={ 5 } className={ tablePadding }>CANCELLED</td>
                         : <>
                             <td className={ tablePadding }>
-                                { displayGameResult(game.teams, game.status.type, teamID) }
+                                { displayGameResult(game.teams, game.status, teamID) }
                             </td>
                             <td className={ tablePadding }>
                                 { displayRecordAfterGame(game.teams, teamID) }
@@ -114,7 +120,7 @@ export default function Schedule({ teamID }) {
                                             </td>
                                         )}
                                     </> 
-                                : Array.from(Array(3), i => 
+                                : Array.from([1, 2, 3], i => 
                                     <td key={ i } className={ tablePadding }>N/A</td>
                                 )  
                             }
@@ -133,8 +139,8 @@ export default function Schedule({ teamID }) {
                     <div className="overflow-x-auto">
                         <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
                             { seasonType.allGames.filter(pastOrUpcoming => pastOrUpcoming.games.length > 0)
-                                .map(filteredPastOrUpcoming => 
-                                    <Fragment key={ filteredPastOrUpcoming.games }>
+                                .map((filteredPastOrUpcoming, index) => 
+                                    <Fragment key={ index }>
                                         <thead className={ 
                                             `border-b border-secondaryGrey ${ hasCompletedGames && filteredPastOrUpcoming.tableHeadings.includes("Spread") ? "border-t" : null }`
                                         }>
@@ -146,9 +152,9 @@ export default function Schedule({ teamID }) {
                                         </thead>
                                         <tbody>
                                             { filteredPastOrUpcoming.games.map(game =>
-                                                <tr key={ game.id + game.date } className="odd:bg-altTableRow">
+                                                <tr key={ game.id + formatDateTime(game.date).short } className="odd:bg-altTableRow">
                                                     <td className={ `text-start ${tablePadding}` }>   
-                                                        { displayWeek(seasonType.requestedSeason, game) }
+                                                        { displayWeek(seasonType.requestedSeason, game.week) }
                                                     </td>
                                                     { game.week.number == teamBye && seasonType.requestedSeason == "Regular Season"
                                                         ? <td colSpan={ hasCompletedGames ? 7 : 5 } className={ `uppercase ${tablePadding}` }>Bye Week</td> 

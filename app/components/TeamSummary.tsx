@@ -1,25 +1,14 @@
 'use client';
 import { useContext } from "react";
-import { CurrentSeason } from "@/app/contextProviders/currentSeasonProvider";
 import { SuperBowlWinner } from "@/app/contextProviders/sbWinnerProvider";
+import { Team } from "@/app/types/team";
 
-export default function TeamSummary({ team, hasTrophy }) {
-    const currentSeason = useContext(CurrentSeason);
+export default function TeamSummary({ team, hasTrophy }: { team: Team, hasTrophy: boolean }) {
     const sbWinner = useContext(SuperBowlWinner);
-
-    function recordExists(record: any) {
-        if (record) {
-            return true;
-        }
-        return false;
-    }
- 
+   
     return (
         <>
-            { !recordExists(team.record) || Object.keys(team.record).length === 0
-                ? <span>{ currentSeason }</span>
-                : <span>{ team.record?.items?.[0].summary || team.record }</span>
-            }
+            { team.record }
             { team.standingSummary && 
                 <>
                     <span>&#183;</span>
@@ -35,3 +24,4 @@ export default function TeamSummary({ team, hasTrophy }) {
         </>
     )
 }
+

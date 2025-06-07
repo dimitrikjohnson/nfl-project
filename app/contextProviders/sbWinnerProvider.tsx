@@ -1,11 +1,16 @@
 'use client';
 import { useState, useEffect, createContext } from 'react';
 import getSuperBowlWinner from '../apiCalls/getSuperBowlWinner';
- 
-export const SuperBowlWinner = createContext(null);
 
-export default function SuperBowlWinnerProvider({ children, }: { children: React.ReactNode }) {
-    const [sbWinner, setSBWinner] = useState({});
+export interface SuperBowlWinnerContext {
+  headline: string | null;
+  winner: string | null;
+}
+
+export const SuperBowlWinner = createContext<SuperBowlWinnerContext | null>(null);
+
+export default function SuperBowlWinnerProvider({ children }: { children: React.ReactNode }) {
+    const [sbWinner, setSBWinner] = useState<SuperBowlWinnerContext | null>(null);
 
     const getSBWinner = () => getSuperBowlWinner().then(
 		(res) => {
@@ -22,5 +27,9 @@ export default function SuperBowlWinnerProvider({ children, }: { children: React
 		getSBWinner()
 	}, []);
 
-    return <SuperBowlWinner.Provider value={ sbWinner }>{children}</SuperBowlWinner.Provider>
+    return (
+		<SuperBowlWinner.Provider value={ sbWinner }>
+			{children}
+		</SuperBowlWinner.Provider>
+	)
 }

@@ -72,7 +72,10 @@ async function formatSchedule(teamID: string, season: string | false | null) {
                 const postByeWeekGame = upcomingGames.find(({ week }) => week.number == byeWeek + 1);
                 
                 const scheduleData: GameData = {
-                    week: { number: byeWeek }       
+                    week: {
+                        number: byeWeek,
+                        text: ""
+                    }       
                 };
 
                 // determine which array the bye week should be in and add it

@@ -1,7 +1,7 @@
 import fetchCurrentSeason from "./getCurrentSeason";
 import { PlayerValues, AllPlayers, PartialPlayerInfo } from "@/app/types/roster";
 
-export default async function getRoster( teamID: any ) {
+export default async function getRoster(teamID: string) {
     const currentSeason = await fetchCurrentSeason();
 
     const rosterLink = `https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/roster`;
@@ -81,7 +81,10 @@ export default async function getRoster( teamID: any ) {
     
     for (const position of positionsArr) {
         // all positions will be added to the object when we come across each one in the loop
-        allPlayers[position.data.position.displayName] = { players: {}, tags: position.tags };
+        allPlayers[position.data.position.displayName] = { 
+            players: {}, 
+            tags: position.tags 
+        };
 
         for (const player of position.data.athletes) {
             // slice the player ID out of the link

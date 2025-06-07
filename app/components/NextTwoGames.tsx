@@ -1,17 +1,16 @@
 import getNextTwoGames from "@/app/apiCalls/getNextTwoGames";
-//import WinProbability from "./ProbabiltyChart";
 import { formatDateTime } from '@/app/helpers/dateFormatter';
 import { displayHomeAway } from '@/app/helpers/displayGameInfo';
 
-export default async function NextTwoGames({ teamID }) {
+export default async function NextTwoGames({ teamID }: { teamID: string }) {
     const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2";
     let nextTwoGames = await getNextTwoGames(teamID);
 
-    function whichIsGreater(awayChance, homeChance) {
+    function whichIsGreater(awayChance: number, homeChance: number) {
         return awayChance > homeChance;
     }
 
-    function displayWinProbabilities(teams, awayChance, homeChance) {
+    function displayWinProbabilities(teams: any[], awayChance: number , homeChance: number) {
         const homeTeam = teams.find(team => team.homeAway == "home");
         const awayTeam = teams.find(team => team.homeAway == "away");
 
@@ -61,9 +60,6 @@ export default async function NextTwoGames({ teamID }) {
                                 <div className="flex justify-between mr-3">
                                     { displayWinProbabilities(game.teams, game.awayChance, game.homeChance) }
                                 </div>
-                                {/*<div className="flex justify-center">
-                                    <WinProbability gameID={ game.id } teams={ game.teams } chanceData={ [game.awayChance, game.homeChance] } />    
-                                </div>*/}
                             </>
                         }
                     </div>

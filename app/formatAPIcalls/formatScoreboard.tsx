@@ -12,10 +12,6 @@ export default async function formatScoreboard() {
     const weekDetail = fullRes.content.calendar[dateParams.seasontype-1].entries[dateParams.week-1].detail;
 
     const output = [weekNum, weekDetail, []];
-    //const output = {
-    //    week: week,
-    //    games: []
-    //};
 
     for (const game of data.events) {
         const status = game.status;
@@ -28,7 +24,7 @@ export default async function formatScoreboard() {
             date: game.date,
             network: comp.broadcast,
             state: status.type.state,
-            status: gameStatus,
+            statusText: gameStatus,
             downDistance: status.type.description == "In Progress" && comp.situation.downDistanceText,
             //downDistance: status.type.description == "In Progress" && comp.situation.shortDownDistanceText,
             //yardLine: status.type.description == "In Progress" && comp.situation.possessionText,

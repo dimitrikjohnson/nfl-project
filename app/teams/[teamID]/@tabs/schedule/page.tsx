@@ -1,6 +1,6 @@
 import Schedule from "./Schedule";
 
-const ScheduleHome = ({ teamID }) => {
+const ScheduleHome = ({ teamID }: { teamID: string }) => {
   return <Schedule teamID={ teamID } />
 }
   

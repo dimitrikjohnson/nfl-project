@@ -1,15 +1,10 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-//import dynamic from 'next/dynamic';
 import FilterList from '../../../../components/FilterList';
 import TeamStatistics from './TeamStatistics';
 import PlayerStatistics from './PlayerStatistics';
 
-// dynamically import the components so they are only downloaded when they're needed
-//const DynamicTeamStatistics = dynamic(() => import('./TeamStatistics'))
-//const DynamicPlayerStatistics = dynamic(() => import('./PlayerStatistics'))
-
-export default function Statistics({ teamID, tags }) {
+export default function Statistics({ teamID, tags }: { teamID: string, tags: string[] }) {
     // gets the 'stats' query from the URL
     const searchParams = useSearchParams();
     const stats = searchParams.has('stats') && searchParams.get('stats');

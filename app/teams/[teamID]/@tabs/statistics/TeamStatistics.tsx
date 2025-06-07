@@ -1,9 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
 import getTeamStats from '@/app/apiCalls/getTeamStats';
-import TeamTable from './TeamTable';
+import TeamTable from '@/app/teams/[teamID]/@tabs/statistics/TeamTable';
 
-export default function TeamStatistics({ teamID }) {
+export default function TeamStatistics({ teamID }: { teamID: string }) {
     const [statGroups, setStatGroups] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,7 +24,7 @@ export default function TeamStatistics({ teamID }) {
             ? <div className="skeleton w-full h-56"></div>
             : <div className="overflow-x-auto sm:overflow-visible">
                 <table className="table-auto relative w-full text-nowrap font-rubik bg-sectionColor rounded-md">
-                    <thead className="border-b border-secondaryGrey text-right sticky top-0">
+                    <thead className="border-b border-secondaryGrey text-right">
                         <tr>
                             <th className="bg-sectionColor rounded-tl-md"></th>
                             <th className="py-2.5 px-3 text-start bg-sectionColor">Per Game</th>

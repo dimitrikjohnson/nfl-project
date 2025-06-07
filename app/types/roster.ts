@@ -1,4 +1,4 @@
-// defines the types for getRoster.tsx
+// defines the types for getRoster and Roster
 export interface PlayerValues {
     name: string;
     jersey: number;
@@ -13,12 +13,12 @@ export interface PlayerValues {
 
 export interface AllPlayers {
     [positionName: string]: {
+        tags: string[];
         players: {
             [rank: string]: {
                 playerValues: PlayerValues;
             };
-        };
-        tags: string[];
+        };  
     };
 }
 

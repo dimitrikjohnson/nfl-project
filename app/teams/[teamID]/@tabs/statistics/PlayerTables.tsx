@@ -1,6 +1,8 @@
-export default function PlayerTables({ statGroups }) {
+import { PlayerStats, PlayerStatCategories } from "@/app/types/teamStats";
+
+export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCategories }) {
     const tableCellFormat = "text-end py-2 px-2 md:px-3";
-    let cellKey = 0;
+   
     return (
         <>
             { Object.keys(statGroups).map(group =>
@@ -9,14 +11,18 @@ export default function PlayerTables({ statGroups }) {
                         <thead className="border-b border-secondaryGrey text-right">
                             <tr>
                                 { Object.keys(statGroups[group].tableHeadings).map(heading =>
-                                    <th key={ group + heading } title={ statGroups[group].tableHeadings[heading].title } className="py-2.5 px-3 text-end first-of-type:text-start">
+                                    <th 
+                                        key={ group + heading } 
+                                        title={ statGroups[group].tableHeadings[heading].title } 
+                                        className="py-2.5 px-3 text-end first-of-type:text-start"
+                                    >
                                         { statGroups[group].tableHeadings[heading].heading }
                                     </th>
                                 )}
                             </tr>
                         </thead>
                         <tbody>
-                            { statGroups[group].players.map(player =>
+                            { statGroups[group].players.map((player: PlayerStats) =>
                                 <tr key={ player.name } className="odd:bg-altTableRow">
                                     <td className={ `flex gap-1.5 ${tableCellFormat}` }>
                                         <p>{ player.name }</p>
@@ -27,8 +33,8 @@ export default function PlayerTables({ statGroups }) {
                                             }    
                                         </p>
                                     </td>
-                                    { player.stats.map(stat =>
-                                        <td key={ cellKey += 1 } className={ tableCellFormat }>
+                                    { player.stats.map((stat, index) =>
+                                        <td key={ index } className={ tableCellFormat }>
                                             { stat }
                                         </td>
                                     )}

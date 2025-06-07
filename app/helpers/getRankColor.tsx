@@ -1,4 +1,4 @@
-export default function getRankColor(rankValue, colorsReversed) {
+export default function getRankColor(rankValue: number, colorsReversed: boolean) {
     if (colorsReversed) {
         if (rankValue <= 8) { return "text-red-500" } else
         if (rankValue <= 16) { return "text-orange-500" } else

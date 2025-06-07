@@ -1,8 +1,10 @@
+import { PlayerStats } from "@/app/types/teamStats";
+
 /*
  * 'getPlayerProfile' and 'getPlayerStatsData' run for each player
  * they fetch profile info (name, jersey, position) and stats
 */
-async function getPlayerProfile(category, currentIndex) {
+async function getPlayerProfile(category: any, currentIndex: number) {
     const athleteProfileRes = await fetch(category.leaders[currentIndex].athlete.$ref, { method: "get" });
     const athleteProfileData = await athleteProfileRes.json();
 
@@ -13,7 +15,7 @@ async function getPlayerProfile(category, currentIndex) {
     }
 }
 
-async function getPlayerStatsData(category, currentIndex, statNum) {
+async function getPlayerStatsData(category: any, currentIndex: number, statNum: number) {
     const athleteStatsRes = await fetch(category.leaders[currentIndex].statistics.$ref, { method: "get" });
     const athleteStatsData = await athleteStatsRes.json();
 
@@ -21,7 +23,7 @@ async function getPlayerStatsData(category, currentIndex, statNum) {
      * some players have the "games played" stat in differnt spots in their API response
      * this locates it no matter where it is
     */
-    const gamesPlayed = athleteStatsData.splits.categories[0].stats.find(stat => stat.name == "gamesPlayed");
+    const gamesPlayed = athleteStatsData.splits.categories[0].stats.find((stat: { name: string; }) => stat.name == "gamesPlayed");
 
     return {
         gamesPlayed: gamesPlayed.displayValue,
@@ -29,13 +31,13 @@ async function getPlayerStatsData(category, currentIndex, statNum) {
     };
 }
 
-async function addPlayer(category, chosenStatNums, index, playerStatCategory) {
+async function addPlayer(category: any, chosenStatNums: number[], index: number, playerStatCategory: number) {
     const profileInfo = await getPlayerProfile(category, index);
     const statData = await getPlayerStatsData(category, index, playerStatCategory);
 
     let statDisplayValues = [statData.gamesPlayed];
 
-    chosenStatNums.forEach((num) => 
+    chosenStatNums.forEach((num: number) => 
         statDisplayValues.push(statData.otherStats[num].displayValue)
     );
 
@@ -45,8 +47,17 @@ async function addPlayer(category, chosenStatNums, index, playerStatCategory) {
     }
 }
 
-export default async function formatPlayerStats(displayedSeason, currentSeasonType, data) {
-    const output = {
+export default async function formatPlayerStats(displayedSeason: string, currentSeasonType: number | string, data: any) {
+    const output: {
+        season: string;
+        seasonType: number | string;
+        stats: {
+            [key: string]: {
+                tableHeadings: { heading: string; title: string }[];
+                players: PlayerStats[];
+            };
+        };
+    } = {
         season: displayedSeason,
         seasonType: currentSeasonType,
         stats: {
@@ -174,8 +185,6 @@ export default async function formatPlayerStats(displayedSeason, currentSeasonTy
         const generalCategory = categories[0].stats;
         const interceptions = categories[2].stats[0].displayValue;
         const touchdowns = categories[3].stats[10].displayValue;
-
-        //console.log(generalCategory)
         
         output.stats["Defense"].players.push({
             ...profileInfo,

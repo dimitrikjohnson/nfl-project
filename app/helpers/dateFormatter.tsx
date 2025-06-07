@@ -1,4 +1,13 @@
-function formatDateTime(date: string | Date) {  
+function formatDateTime(date?: string | Date) {  
+    // if date is undefined for some reason
+    if (!date) {
+        return {
+            short: "TBD",
+            long: "TBD",
+            scoreboard: "TBD"
+        };
+    }
+
     const formattedDateTimeShort = new Date(date).toLocaleString('en-us', {
         month:"numeric", 
         day:"numeric",
@@ -20,7 +29,7 @@ function formatDateTime(date: string | Date) {
         minute:"numeric",
     });
 
-    // send multiple options for different screen sizes
+    // send multiple options for different screen sizes (and the scoreboard)
     return {
         short: formattedDateTimeShort,
         long: formattedDateTimeLong,

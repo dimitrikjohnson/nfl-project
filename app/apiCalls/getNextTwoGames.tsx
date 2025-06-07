@@ -18,7 +18,7 @@ export default async function getNextTwoGames( teamID: any ) {
                         date: game.date,
                         teams: game.competitions[0].competitors,
                         status: game.competitions[0].status,
-                        week: displayWeek(schedule.requestedSeason.name, game),
+                        week: displayWeek(schedule.requestedSeason.name, game.week),
                         network: game.competitions[0].broadcasts.length > 0 ? game.competitions[0].broadcasts[0].media.shortName : "TBD",
                         //venue: game.competitions[0].venue,
                         //season: game.season.year,
@@ -29,11 +29,6 @@ export default async function getNextTwoGames( teamID: any ) {
                         seasonType: game.seasonType
                     }
 
-                    //data.network = game.competitions[0].broadcasts.length > 0 ? game.competitions[0].broadcasts[0].media.shortName : "TBD";
-                    
-                    // an error will be thrown if the spread/odds haven't been added yet
-                    //try {
-                        //const fetchGameOdds = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/odds`, { method: "GET" });
                     const fetchGameOdds = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/predictor`, { method: "GET" });
                     const gameOdds = await fetchGameOdds.json();
                     
@@ -41,27 +36,6 @@ export default async function getNextTwoGames( teamID: any ) {
                         data.homeChance = gameOdds["homeTeam"]["statistics"][0].displayValue;
                         data.awayChance = gameOdds["awayTeam"]["statistics"][0].displayValue;
                     }
-              
-                        //if (gameOdds.error) throw new Error();
-                    /*
-                        if (!gameOdds.error) {
-                            data.spread = gameOdds.items[0]?.details;
-                            data.overUnder = gameOdds.items[0]?.overUnder;
-                        }
-                        else if (gameOdds.error) {
-                            data.spread= "TBD"; 
-                            data.overUnder = "TBD";
-                        }
-                    */
-                        //data.spread = gameOdds.items[0] ? gameOdds.items[0].details : "TBD";
-                        //data.overUnder = gameOdds.items[0] ? gameOdds.items[0].overUnder : "TBD";
-                    //}
-                    /*
-                    catch (err) {
-                        //data.spread= "TBD"; 
-                        //data.overUnder = "TBD";
-                    }
-                    */
                     nextTwoGames.push(data);
                 }
             }

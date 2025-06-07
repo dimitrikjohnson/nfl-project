@@ -9,16 +9,17 @@ import getRoster from '@/app/apiCalls/getRoster';
 import getTeam from '@/app/apiCalls/getTeam';
 import FilterList from '@/app/components/FilterList';
 import unslugifyQuery from '@/app/helpers/unslugifyQuery';
+import { AllPlayers } from '@/app/types/roster';
 
-export default function Roster({ teamID }) {
+export default function Roster({ teamID }: { teamID: string }) {
     const [teamAltColor, setTeamAltColor] = useState("");
-    const [roster, setRoster] = useState([]);
+    const [roster, setRoster] = useState<AllPlayers>({});
     const [popupActive, setPopupActive] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     // gets the 'players' query from the URL
     const searchParams = useSearchParams();
-    const players = searchParams.has('players') && searchParams.get('players');
+    const players = searchParams.get('players');
 
     /*
      * the tags match the ones assigned to the positions
@@ -49,13 +50,18 @@ export default function Roster({ teamID }) {
                     <thead className="border-b border-secondaryGrey text-right">
                         <tr>
                             { tableHeadings.map(heading =>
-                                <th key={ heading } className="py-2.5 px-1.5 md:px-3 text-start bg-sectionColor first-of-type:rounded-tl-md last-of-type:rounded-tr-md">{ heading }</th>
+                                <th 
+                                    key={ heading } 
+                                    className="py-2.5 px-1.5 md:px-3 text-start bg-sectionColor first-of-type:rounded-tl-md last-of-type:rounded-tr-md"
+                                >
+                                    { heading }
+                                </th>
                             )}    
                         </tr>
                     </thead>
                     <tbody>
                         { Object.keys(roster).map(position =>
-                            roster[position].tags.includes(unslugifyQuery(players)) &&
+                            roster[position].tags.includes(unslugifyQuery(players || "")) &&
                             <Fragment key={ position }>
                                 <tr className="bg-altTableRow border-b border-secondaryGrey/[.50]">
                                     <th colSpan={ tableHeadings.length } className="text-start py-2 px-2 md:px-3">
@@ -72,7 +78,7 @@ export default function Roster({ teamID }) {
     }
     
     // determine the suffix for the player's position on the depth chart & seasons in league
-    const getOrdinal = (num) => {
+    const getOrdinal = (num: number) => {
         let ord = 'th';
 
         if (num % 10 == 1 && num % 100 != 11) { ord = 'st'; }
@@ -82,53 +88,63 @@ export default function Roster({ teamID }) {
         return ord;
     }
     
-    const displayPlayerRows = (position) => {
+    const displayPlayerRows = (position: AllPlayers["positionName"]["players"]) => {
         return ( <>
-            { Object.keys(position).map(player =>
-                <tr key={ player } className="border-b border-secondaryGrey/[.50] last-of-type:border-0">
-                    <td className={ "flex gap-1.5 md:gap-2.5 " + tableCellClasses }>
-                        <div className="w-14 relative rounded-sm shrink-0" style={{ background: '#' + teamAltColor }}>
-                            { position[player].playerValues.headshot
-                              ? <img className="relative bottom-0" src={ position[player].playerValues.headshot } alt={ position[player].playerValues.name } />
-                              : <Image className="w-14 object-cover rounded-sm" src={ DefaultHeadshot }  alt="Default profile picture" priority />
-                            } 
-                        </div>
-                        <div className="flex gap-1.5 m-auto mx-0">
-                            <p>{ position[player].playerValues.name }</p>
-                            <p className="flex gap-1.5 text-lighterSecondaryGrey text-sm items-end">
-                                { position[player].playerValues.jersey &&
-                                    <>
-                                        <span>#{ position[player].playerValues.jersey }</span>
-                                        <span>&#183;</span>
-                                    </>
-                                }                                 
-                                <span>
-                                    { player == "1" 
-                                      ? "Starter"
-                                      : player + getOrdinal(Number(player)) + " string"
+            { Object.keys(position).map(player => {
+                const { playerValues } = position[player];
+
+                return (
+                    <tr key={ player } className="border-b border-secondaryGrey/[.50] last-of-type:border-0">
+                        <td className={ "flex gap-1.5 md:gap-2.5 " + tableCellClasses }>
+                            <div className="w-14 relative rounded-sm shrink-0" style={{ background: '#' + teamAltColor }}>
+                                { playerValues.headshot
+                                    ? <img className="relative bottom-0" src={ playerValues.headshot } alt={ playerValues.name } />
+                                    : <Image className="w-14 object-cover rounded-sm" src={ DefaultHeadshot }  alt="Default profile picture" priority />
+                                } 
+                            </div>
+                            <div className="flex gap-1.5 m-auto mx-0">
+                                <p>{ playerValues.name }</p>
+                                <p className="flex gap-1.5 text-lighterSecondaryGrey text-sm items-end">
+                                    { playerValues.jersey &&
+                                        <>
+                                            <span>#{ playerValues.jersey }</span>
+                                            <span>&#183;</span>
+                                        </>
+                                    }                                 
+                                    <span>
+                                        { player == "1" 
+                                            ? "Starter"
+                                            : player + getOrdinal(Number(player)) + " string"
+                                        }
+                                    </span>
+                                    { playerValues.injuries &&
+                                        <>
+                                            <span>&#183;</span>
+                                            <span className="text-red-400">{ playerValues.injuries }</span>
+                                        </> 
                                     }
+                                </p>
+                            </div>
+                        </td>
+                        <td className={ tableCellClasses }>
+                            { playerValues.age ?? "N/A" }
+                        </td>
+                        <td className={ tableCellClasses }>{ playerValues.height }</td>
+                        <td className={ tableCellClasses }>{ playerValues.weight }</td>
+                        <td className={ tableCellClasses }>
+                            { playerValues.college ?? "Unknown" }
+                        </td>
+                        <td className={ tableCellClasses }>
+                            { position[player].playerValues.experience == 0
+                                ? "Rookie"
+                                : <span>
+                                    { playerValues.experience + getOrdinal(playerValues.experience) } season
                                 </span>
-                                { position[player].playerValues.injuries &&
-                                    <>
-                                        <span>&#183;</span>
-                                        <span className="text-red-400">{ position[player].playerValues.injuries }</span>
-                                    </> 
-                                }
-                            </p>
-                        </div>
-                    </td>
-                    <td className={ tableCellClasses }>{ position[player].playerValues.age ? position[player].playerValues.age : "N/A" }</td>
-                    <td className={ tableCellClasses }>{ position[player].playerValues.height }</td>
-                    <td className={ tableCellClasses }>{ position[player].playerValues.weight }</td>
-                    <td className={ tableCellClasses }>{ position[player].playerValues.college ? position[player].playerValues.college : "Unknown" }</td>
-                    <td className={ tableCellClasses }>
-                        { position[player].playerValues.experience == 0
-                          ? "Rookie"
-                          : <span>{ position[player].playerValues.experience + getOrdinal(position[player].playerValues.experience) } season</span>
-                        }
-                    </td>
-                </tr>
-            )}
+                            }
+                        </td>
+                    </tr>
+                )
+            })}
         </>)
     }
  

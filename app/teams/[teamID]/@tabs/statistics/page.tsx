@@ -1,10 +1,8 @@
-import Statistics from "./Statistics";
-//import getCurrentSeason from '@/app/helpers/getCurrentSeason';
-import FilterList from '../../../../components/FilterList';
+import Statistics from "@/app/teams/[teamID]/@tabs/statistics/Statistics";
+import FilterList from '@/app/components/FilterList';
 import FilterDropdownButton from '@/app/components/FilterDropdownButton';
 
-export default function StatisticsHome({ teamID }) {
-  	//const currentSeason = await getCurrentSeason();
+export default function StatisticsHome({ teamID }: { teamID: string }) {
     const tags = ["team stats", "player stats"];
     
 	return (<>

@@ -1,23 +1,23 @@
 'use client';
-import { useState, useContext } from 'react';
+import { useState, SetStateAction } from 'react';
 import Link from "next/link";
-import { Team } from '../contextProviders/teamProvider';
 import useCurrentPath from '@/app/helpers/getCurrentPath';
 
-export default function Tabs({ items }) {
-    const currentPath = useCurrentPath();
-    const [selectedTab, setSelectedTab] = useState(isNaN(currentPath) ? currentPath : "overview");
+interface TabItems {
+    [key: string]: {
+        content: React.ReactNode;
+    };
+}
 
-    const teamID = useContext(Team).id;
+export default function Tabs({ items, teamID }: { items: TabItems, teamID: string }) {
+    const currentPath = useCurrentPath();
+ 
+    // currentPath gets the part of the URL that comes after /teams; determine if that is a valid tab or not
+    const [selectedTab, setSelectedTab] = useState(items[currentPath] ? currentPath : "overview");
+
     const linkPrefix = `/teams/${teamID}`;
     
-    const handleClick = (e) => setSelectedTab(e);
-
-    //console.log(selectedTab)
-    //useEffect(() => {
-    //    setSelectedTab("overview")
-    //}, []);
-    //overflow-x-auto px-4 md:px-6 lg:px-14 3xl:m-auto
+    const handleClick = (e: SetStateAction<string>) => setSelectedTab(e);
     
     return (
         <>

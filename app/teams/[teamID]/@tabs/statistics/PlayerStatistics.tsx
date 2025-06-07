@@ -1,12 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Leaders from '@/app/components/Leaders';
-import PlayerTables from './PlayerTables';
+import PlayerTables from '@/app/teams/[teamID]/@tabs/statistics/PlayerTables';
 import getPlayerStats from '@/app/apiCalls/getPlayerStats';
 
-export default function PlayerStatistics({ teamID }) {
-    const [season, setSeason] = useState();
-    const [seasonType, setSeasonType] = useState();
+export default function PlayerStatistics({ teamID }: { teamID: string }) {
+    const [season, setSeason] = useState<string>();
+    const [seasonType, setSeasonType] = useState<number|string>();
     const [statGroups, setStatGroups] = useState({});
     const [isLoading, setIsLoading] = useState(false); 
 

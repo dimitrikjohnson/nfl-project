@@ -2,36 +2,43 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import teamDivisions from '@/app/data/teamDivisions.json';
-import unslugifyQuery from '../helpers/unslugifyQuery';
-import FilterList from './FilterList';
-import TeamCard from './TeamCard';
+import teamDivisionsJson from '@/app/data/teamDivisions.json';
+import unslugifyQuery from '@/app/helpers/unslugifyQuery';
+import FilterList from '@/app/components/FilterList';
+import formatDivisionQuery from '@/app/helpers/formatDivisionQuery';
+import TeamCard from '@/app/components/TeamCard';
+import { Team } from '@/app/types/team';
+import { TeamDivisions, DivisionTeam } from '@/app/types/teamDivisions';
 
-export default function FilterTeams({ teams }) {
+export default function FilterTeams({ teams }: { teams: Team[] }) {
     const [divisionFilter, setDivisionFilter] = useState("");
     const [popupActive, setPopupActive] = useState(false);
-
+  
     // gets the 'division' query from the URL
     const searchParams = useSearchParams();
     const division = searchParams.has('division') && searchParams.get('division');
+    
+    const teamDivisions: TeamDivisions = teamDivisionsJson;
 
     const afcTags = ["AFC North", "AFC South", "AFC East", "AFC West"];
     const nfcTags = ["NFC North", "NFC South", "NFC East", "NFC West"];
 
-    // when the user selects a division filter, adds all teams in the division to an array
+    // runs when the user selects a division filter, adds all teams in the division to an array
     const filterArray = () => {
-        let content = [];  
-        teamDivisions[unslugifyQuery(division)].map(divisionTeam =>
-            content.push(teams.find(teamsTeam => teamsTeam.id == divisionTeam.id))
+        const key = unslugifyQuery(division) as keyof TeamDivisions;
+        const divisionTeams = teamDivisions[key] || [];
+
+        // go through the divisions; when a team ID matches the ID of a team in the selected division, return the team
+        return divisionTeams.map((divisionTeam: DivisionTeam) =>
+            teams.find((teamsTeam: Team) => teamsTeam.id == divisionTeam.id)
         );
-        return content;
     }
 
-    const handleFilterClick = (buttonTag, oppButtonTag) => {
+    const handleFilterClick = (buttonTag: string, oppButtonTag: string) => {
         setDivisionFilter(buttonTag); 
         divisionFilter == oppButtonTag ? null : setPopupActive(prevState => !prevState);
     }
-
+    
     return (
         <>
             <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2">
@@ -59,15 +66,28 @@ export default function FilterTeams({ teams }) {
                 </div>
             </div>
 
-            { popupActive && <FilterList tags={ divisionFilter == "afc" ? afcTags : nfcTags } teamID={""} isMobile={ "override" } showTeamColors={ false } query={ "division" }/> } 
+            { popupActive && (
+                <FilterList 
+                    tags={ divisionFilter == "afc" ? afcTags : nfcTags } 
+                    teamID={""} 
+                    isMobile={ "override" } 
+                    showTeamColors={ false } 
+                    query={ "division" }
+                />
+            )} 
             
-            { (division == "all" || !division) ? null : <h3 className="flex font-protest text-2xl 2xl:text-3xl pb-2 gap-1.5">{ unslugifyQuery(division, true) }</h3> }
+            { (division == "all" || !division) ? null : (
+                <h3 className="flex font-protest text-2xl 2xl:text-3xl pb-2 gap-1.5">
+                    { formatDivisionQuery(division) }
+                </h3>
+            )}
+
             <div className="grid gap-2.5 md:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 { division != "all" && division 
                     ? filterArray().map(team =>
-                        <TeamCard key={ team.id } team={ team } />    
+                        team && <TeamCard key={ team.id } team={ team } />    
                     )
-                    : teams.map(team =>
+                    : teams.map((team: Team) =>
                         <TeamCard key={ team.id } team={ team } />
                     )
                 }

@@ -1,8 +1,7 @@
 import Roster from "./Roster"
 
-const RosterHome = ({ teamID }) => {
+const RosterHome = ({ teamID }: { teamID: string }) => {
     return <Roster teamID={ teamID } />
-  }
+}
   
-  export default RosterHome
-  
+export default RosterHome

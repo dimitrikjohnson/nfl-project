@@ -1,5 +1,5 @@
 
-export default function formatOverviewRankings( season, seasonType, data ) {
+export default function formatOverviewRankings( season: string | number, seasonType: number, data: { splits: { categories: any; }; } ) {
     const categories = data.splits.categories;
    
     return {
@@ -24,7 +24,7 @@ export default function formatOverviewRankings( season, seasonType, data ) {
     }
 }
 
-function getValues(category, shortName = category.displayName) {
+function getValues(category: { displayName: string; displayValue: string; rank: number; rankDisplayValue: string; }, shortName = category.displayName) {
     return {
         shortName: shortName,
         longName: category.displayName,

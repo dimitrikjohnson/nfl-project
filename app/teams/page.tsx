@@ -1,15 +1,8 @@
+import { Suspense } from 'react';
 import allTeams from '../formatAPIcalls/allTeams';
 import FilterTeams from '../components/FilterTeams';
 import NavBar from '../components/NavBar';
-
-interface Team {
-    id: string;
-    location: string;
-    displayName: string;
-    logo: string;
-    record: string;
-    standingSummary: string;
-}
+import { Team } from '@/app/types/team';
 
 const ListOfTeamsPage = async () => {
     const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams", {
@@ -21,9 +14,11 @@ const ListOfTeamsPage = async () => {
     
     return (
         <>
-            <NavBar team={ {} } />
+            <NavBar />
             <section className="mt-20 px-4 md:px-6 lg:px-14 xl:mx-auto max-w-screen-xl">
-                <FilterTeams teams={ teams } />    
+                <Suspense fallback={<div className="skeleton w-full h-24"></div>}>
+                    <FilterTeams teams={ teams } />
+                </Suspense>    
             </section>
         </>  
     )

@@ -1,20 +1,8 @@
 // removes the dashes from query URLs
-const unslugifyQuery = (str, division = false) => {
+
+const unslugifyQuery = (str: string | undefined | false | null) => {
     if (str) {
-        const newStr = str.replace('-', ' ');
-        
-        // division is true for the filter on the /teams page
-        if (division) {
-            const seperatedStr = newStr.split(" ");
-            return (
-                <>
-                    { seperatedStr.map(strPart =>
-                        <span key={ strPart } className="first-of-type:uppercase last-of-type:capitalize">{ strPart }</span>
-                    )}
-                </>
-            )
-        }
-        return newStr; 
+        return str.replace('-', ' ');  
     }    
     return "all";
 }

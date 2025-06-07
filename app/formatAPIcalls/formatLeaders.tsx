@@ -1,4 +1,15 @@
-export default async function formatLeaders(season, seasonType, data, getLeadersOverview, getLeagueLeaders = false) {
+interface LeaderCategory {
+    displayName: string;
+    shortDisplayName: string;
+    leaders: {
+        value: number;
+        displayValue: string;
+        athlete: { $ref: string };
+        team: { $ref: string };
+    }[];
+}
+
+export default async function formatLeaders(season: string, seasonType: string, data: any, getLeadersOverview: boolean, getLeagueLeaders = false) {
     let categories;
 
     // the categories that will be displayed for team leaders vs. league leaders are different
@@ -21,7 +32,7 @@ export default async function formatLeaders(season, seasonType, data, getLeaders
     }
 
     // season is for keeping track of the season that is being displayed
-    const output = [season, seasonType, getLeagueLeaders ? {} : []];
+    const output: [string, string, Record<string, any> | any[]] = [season, seasonType, getLeagueLeaders ? {} : []];
 
     for (const category of categories) {
         /*
@@ -31,47 +42,19 @@ export default async function formatLeaders(season, seasonType, data, getLeaders
         */
         try {
             if (getLeagueLeaders) {
-                output[2][category.displayName] = await leagueLeaders(category);
-            }
+                (output[2] as Record<string, any>)[category.displayName] = await leagueLeaders(category);
+            } 
             else {
-                output[2].push(await teamLeaders(category));
+                (output[2] as any[]).push(await teamLeaders(category));
             }
-            /*
-            const athleteRes = await fetch(category.leaders[0].athlete.$ref, { method: "get" });
-            if (!athleteRes.ok) throw new Error('Something went wrong');
-            
-            const athleteData = await athleteRes.json();
-
-            let athleteTeam;
-
-            if (getLeagueLeaders) {
-                const athleteTeamRes = await fetch(category.leaders[0].team.$ref, { method: "get" });
-                athleteTeam = await athleteTeamRes.json();
-            }
-            
-            // QB Rating needs displayValue, everything else can use value
-            // toLocaleString adds a comma to numbers in the thousands
-            output[2].push({
-                statName: category.displayName,
-                statValue: category.shortDisplayName == "RAT" ? category.leaders[0].displayValue : (category.leaders[0].value).toLocaleString('en-US'), 
-                playerName: athleteData.displayName,
-                playerHeadshot: athleteData.headshot.href,
-                playerJersey: athleteData.jersey,
-                playerPosition: athleteData.position.abbreviation,
-                playerTeamID: athleteTeam?.id,
-                playerTeamAbbreviation: athleteTeam?.abbreviation,
-                playerTeamName: athleteTeam?.displayName,
-                playerTeamLogo: athleteTeam?.logos[0].href
-            });
-            */ 
         }
         catch (error) { continue; }
     }
-    //console.log(output)
+    
     return output;
 }
 
-async function teamLeaders(category) {
+async function teamLeaders(category: LeaderCategory) {
     const athleteRes = await fetch(category.leaders[0].athlete.$ref, { method: "get" });
     if (!athleteRes.ok) throw new Error('Something went wrong');
             
@@ -89,7 +72,7 @@ async function teamLeaders(category) {
     }     
 }
 
-async function leagueLeaders(category) {
+async function leagueLeaders(category: LeaderCategory) {
     let leaders = [];
     
     for (let count = 0; count < 3; count += 1) {
@@ -115,5 +98,5 @@ async function leagueLeaders(category) {
             playerTeamLogo: athleteTeam.logos[0].href
         });
     }   
-    return leaders
+    return leaders;
 }

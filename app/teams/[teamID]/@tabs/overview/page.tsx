@@ -5,7 +5,7 @@ import LastTwoGames from "@/app/components/LastTwoGames";
 import NextTwoGames from "@/app/components/NextTwoGames";
 import Standings from "@/app/components/Standings";
 
-const Overview = ({ teamID }) => {
+const Overview = ({ teamID }: { teamID: string }) => {
 	return (
 		<>
 			<h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">Overview</h2>

@@ -1,30 +1,33 @@
 'use client';
 import { useState, useContext } from "react";
 import Link from 'next/link';
-import { SuperBowlWinner } from "../contextProviders/sbWinnerProvider";
-import allTeamsColors from '@/app/data/allTeamsColors.json';
-import TeamSummary from "./TeamSummary";
+import { SuperBowlWinner } from "@/app/contextProviders/sbWinnerProvider";
+import type { AllTeamsColors } from "@/app/types/colors";
+import teamColors from "@/app/data/allTeamsColors.json";
+import TeamSummary from '@/app/components/TeamSummary';
+import { Team } from '@/app/types/team';
 
-export default function TeamCard({ team }) {
+export default function TeamCard({ team }: { team: Team }) {
     const [hover, setHover] = useState(false);
     const [hoveredTeam, setHoveredTeam] = useState("");
 
     const sbWinner = useContext(SuperBowlWinner);
+    const allTeamsColors = teamColors as AllTeamsColors;
 
-    const handleMouseEnter = (id) => {
+    const handleMouseEnter = (id: string) => {
         setHover(true);
         setHoveredTeam(id);
     }
  
-    const handleMouseLeave = () => setHover(false)
+    const handleMouseLeave = () => setHover(false);
 
     return (
         <Link
             href={ `/teams/${team.id}` } 
             key={ team.id }
             style={{ 
-                backgroundColor: (hover && hoveredTeam == team.id) && allTeamsColors[team.id].bgColor,
-                color: (hover && hoveredTeam == team.id) && allTeamsColors[team.id].textColor 
+                backgroundColor: (hover && hoveredTeam == team.id) ? allTeamsColors[team.id].bgColor : undefined,
+                color: (hover && hoveredTeam == team.id) ? allTeamsColors[team.id].textColor : undefined
             }}
             onMouseEnter={ () => handleMouseEnter(team.id) }
             onMouseLeave={ () => handleMouseLeave() }

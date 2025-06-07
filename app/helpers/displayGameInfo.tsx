@@ -1,46 +1,45 @@
 import DefaultLogo from '@/app/images/default_logo.png';
 import Image from "next/image";
 import Link from 'next/link';
+import type { CompetitorTeam, TeamsInGameResult, GameStatus } from "@/app/types/schedule";
 
 // distinguish the chosen team from the non-chosen team in the game
-function teamsInGame(teams, chosenTeamID) {
-    let chosenTeam = {};
-    let otherTeam = {};
-    
-    if (teams[0].id == chosenTeamID) {
-        chosenTeam = teams[0]
-        otherTeam = teams[1]
-    }
-    else {
-        chosenTeam = teams[1]
-        otherTeam = teams[0]
-    }
+function teamsInGame(teams: CompetitorTeam[], chosenTeamID: string): TeamsInGameResult {
+    const [first, second] = teams;
+    const chosenTeam = first.id === chosenTeamID ? first : second;
+    const otherTeam = first.id === chosenTeamID ? second : first;
 
-    return ({
-        // the score has a ternary statement because the value could be formatted 2 seperate ways
+    // the score response may be formatted in 2 different ways 
+    const normalizeScore = (score: CompetitorTeam["score"]) => {
+        if (!score) return undefined;
+        if (typeof score === "object" && "value" in score) return score.value ?? undefined;
+        return score;
+    };
+
+    return {
         chosenTeam: {
-            score: chosenTeam.score && (chosenTeam.score.value ? chosenTeam.score.value : chosenTeam.score),
+            score: normalizeScore(chosenTeam.score) as string | number | undefined,
             name: chosenTeam.team.displayName,
             homeAway: chosenTeam.homeAway,
             winner: chosenTeam.winner,
-            record: chosenTeam.record != undefined && chosenTeam.record.length > 0 ? chosenTeam.record[0].displayValue : null,
-            logo: chosenTeam.team.logos && chosenTeam.team.logos[0].href,
-            //score: chosenTeam.score ? chosenTeam.score : null,
+            record: chosenTeam.record?.[0]?.displayValue ?? null,
+            logo: chosenTeam.team.logos?.[0]?.href,
             leaders: chosenTeam.leaders // this is only for the schedule
         },
         otherTeam: {
             id: otherTeam.id,
-            score: otherTeam.score && (otherTeam.score.value ? otherTeam.score.value : otherTeam.score),
+            score: normalizeScore(otherTeam.score) as string | number | undefined,
             name: otherTeam.team.displayName,
             abbreviation: otherTeam.team.abbreviation,
-            logo: otherTeam.team.logos && otherTeam.team.logos[0].href,
-            //score: otherTeam.score ? otherTeam.score : null,
-            winner: otherTeam.winner,
+            logo: otherTeam.team.logos?.[0]?.href,
+            winner: otherTeam.winner
         }
-    })
+    };
 }
 
-function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
+function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeamID: string, onlyShortName = false) {
+    if (!teamsArgument) return false;
+    
     const teams = teamsInGame(teamsArgument, chosenTeamID);
     
     return (
@@ -58,18 +57,20 @@ function displayHomeAway(teamsArgument, chosenTeamID, onlyShortName = false) {
     ) 
 }
 
-function displayGameResult(teamsArgument, gameStatus, chosenTeamID, dateField = false) {    
+function displayGameResult(teamsArgument: CompetitorTeam[] | undefined, gameStatus: GameStatus | undefined, chosenTeamID: string, dateField = false) {    
+    if (!teamsArgument) return false;
+    
     const teams = teamsInGame(teamsArgument, chosenTeamID);
     const endedInTie = teams.chosenTeam.score == teams.otherTeam.score;
     
     // if there is no winner, the game is in progress or was cancelled
     if (teams.chosenTeam.winner == null) {
-        if (gameStatus.state =="in") {
+        if (gameStatus?.type?.state =="in") {
             return (<> 
                 { dateField 
                     ? <>
                         <span className="animate-pulse text-red-400 font-semibold mr-1.5">LIVE</span>
-                        <span>{ gameStatus.shortDetail }</span>
+                        <span>{ gameStatus?.type?.shortDetail }</span>
                     </>
                     : <span className="flex items-center">
                         <span className="flex items-center gap-x-2">
@@ -99,15 +100,17 @@ function displayGameResult(teamsArgument, gameStatus, chosenTeamID, dateField = 
 
             <span>{ teams.chosenTeam.score + "-" + teams.otherTeam.score }</span>  
 
-            { gameStatus.altDetail &&
-                <span className="ml-2">{ gameStatus.altDetail }</span>
+            { gameStatus?.type?.altDetail &&
+                <span className="ml-2">{ gameStatus.type.altDetail }</span>
             }
         </>
     )
 }
 
-function displayRecordAfterGame(teamsArgument, chosenTeamID) {
+function displayRecordAfterGame(teamsArgument: CompetitorTeam[] | undefined, chosenTeamID: string) {
+    if (!teamsArgument) return false;
     const teams = teamsInGame(teamsArgument, chosenTeamID);
+
     return (
         <span>{ teams.chosenTeam.record }</span>
     )
