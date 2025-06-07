@@ -1,8 +1,33 @@
-*The Process* is a minimalistic NFL statistics database that showcases the most important stats for casual football fans. All data is courtesy of ESPN's NFL API, and a curated list of many of the available endpoints can be found on [@nntrn's GitHub page](https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#scoreboard-api).
+# Big Football 🏈
 
-Created and designed by Dimitrik Johnson and Elleni Adhanom.
+Big Football is a modern web application built with Next.js, designed to deliver dynamic, team-focused NFL content. Each team has its own dashboard featuring:
 
-**The Process is a work in progress.**
+- 📅 Game schedules and results
+- 📊 Team and player statistics
+- 🧑‍🤝‍🧑 Full rosters
+- 🏆 Conference and division standings
+
+The app uses dynamic routing, strong type safety, and modular React components to ensure performance and maintainability. 
+
+All data is courtesy of ESPN's NFL API, and a curated list of many of the available endpoints can be found on [@nntrn's GitHub page](https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#scoreboard-api).
+
+Created and designed by Dimitrik Johnson with help from Elleni Adhanom.
+
+**Big Football is a work in progress.**
+
+## Upcoming features
+- Player-specific dashboards
+- Boxscores for each game
+- List of each team's recently drafted players
+- Detailed list of each team's currently injured players
+
+## Tech Stack
+
+- [Next.js (App Router)](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- Modular component architecture
+- Typed API consumption and data normalization
 
 --------------------------------------
 
@@ -10,7 +35,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```
+npm install
+```
+
+Then run the development server:
 
 ```bash
 npm run dev
@@ -25,20 +56,3 @@ bun dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
