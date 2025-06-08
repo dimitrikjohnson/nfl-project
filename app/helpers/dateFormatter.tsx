@@ -24,6 +24,7 @@ function formatDateTime(date?: string | Date) {
     });
 
     const formattedDateTimeScoreboard = new Date(date).toLocaleString('en-us', { 
+        timeZone:"America/New_York",
         weekday:"short", 
         hour:"numeric", 
         minute:"numeric",
