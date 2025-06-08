@@ -86,8 +86,10 @@ async function leagueLeaders(category: LeaderCategory) {
         if (!athleteRes.ok) throw new Error('Something went wrong');
             
         const athleteData = await athleteRes.json();
+
+        const teamUrl = (category.leaders[count].team.$ref).replace("http", "https");
       
-        const athleteTeamRes = await fetch(category.leaders[count].team.$ref, { method: "get" });
+        const athleteTeamRes = await fetch(teamUrl, { method: "get" });
         let athleteTeam = await athleteTeamRes.json();
             
         // QB Rating needs displayValue, everything else can use value
