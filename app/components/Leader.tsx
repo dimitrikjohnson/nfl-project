@@ -3,7 +3,7 @@ import { PlayerStatLeader } from "@/app/types/statLeaders";
 export default function Leader({ stat }: { stat: PlayerStatLeader }) {
     // if a player is no longer on a team, their jersey number disappears
     // this function accounts for the possibility of a missing number
-    const isJerseyNumPresent = (num: string | undefined) => {
+    function isJerseyNumPresent(num: string | undefined) {
         if (num) return `#${ num }` 
     }
     

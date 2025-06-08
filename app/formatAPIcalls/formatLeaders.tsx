@@ -55,7 +55,10 @@ export default async function formatLeaders(season: string, seasonType: string, 
 }
 
 async function teamLeaders(category: LeaderCategory) {
-    const athleteRes = await fetch(category.leaders[0].athlete.$ref, { method: "get" });
+    // replace http with https to fix 'Blocked loading mixed active content' on production
+    const url = (category.leaders[0].athlete.$ref).replace("http", "https");
+
+    const athleteRes = await fetch(url, { method: "get" });
     if (!athleteRes.ok) throw new Error('Something went wrong');
             
     const athleteData = await athleteRes.json();
@@ -76,7 +79,10 @@ async function leagueLeaders(category: LeaderCategory) {
     let leaders = [];
     
     for (let count = 0; count < 3; count += 1) {
-        const athleteRes = await fetch(category.leaders[count].athlete.$ref, { method: "get" });
+        // replace http with https to fix 'Blocked loading mixed active content' on production
+        const url = (category.leaders[count].athlete.$ref).replace("http", "https");
+
+        const athleteRes = await fetch(url, { method: "get" });
         if (!athleteRes.ok) throw new Error('Something went wrong');
             
         const athleteData = await athleteRes.json();
