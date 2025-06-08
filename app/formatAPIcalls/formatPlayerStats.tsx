@@ -1,11 +1,16 @@
 import { PlayerStats } from "@/app/types/teamStats";
+import replaceHttp from "@/app/helpers/replaceHttp";
 
 /*
  * 'getPlayerProfile' and 'getPlayerStatsData' run for each player
  * they fetch profile info (name, jersey, position) and stats
 */
 async function getPlayerProfile(category: any, currentIndex: number) {
-    const athleteProfileRes = await fetch(category.leaders[currentIndex].athlete.$ref, { method: "get" });
+    const athleteProfileRes = await fetch (
+        replaceHttp(category.leaders[currentIndex].athlete.$ref), 
+        { method: "get" }
+    );
+
     const athleteProfileData = await athleteProfileRes.json();
 
     return {
@@ -16,7 +21,11 @@ async function getPlayerProfile(category: any, currentIndex: number) {
 }
 
 async function getPlayerStatsData(category: any, currentIndex: number, statNum: number) {
-    const athleteStatsRes = await fetch(category.leaders[currentIndex].statistics.$ref, { method: "get" });
+    const athleteStatsRes = await fetch (
+        replaceHttp(category.leaders[currentIndex].statistics.$ref), 
+        { method: "get" }
+    );
+
     const athleteStatsData = await athleteStatsRes.json();
 
     /*
@@ -176,7 +185,11 @@ export default async function formatPlayerStats(displayedSeason: string, current
         
         const profileInfo = await getPlayerProfile(data.categories[6], index);
         
-        const athleteStatsRes = await fetch(data.categories[6].leaders[index].statistics.$ref, { method: "get" });
+        const athleteStatsRes = await fetch (
+            replaceHttp(data.categories[6].leaders[index].statistics.$ref), 
+            { method: "get" }
+        );
+        
         const athleteStatsData = await athleteStatsRes.json();
 
         const categories = athleteStatsData.splits.categories;

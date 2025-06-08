@@ -1,3 +1,5 @@
+import replaceHttp from "@/app/helpers/replaceHttp";
+
 interface LeaderCategory {
     displayName: string;
     shortDisplayName: string;
@@ -55,10 +57,11 @@ export default async function formatLeaders(season: string, seasonType: string, 
 }
 
 async function teamLeaders(category: LeaderCategory) {
-    // replace http with https to fix 'Blocked loading mixed active content' on production
-    const url = (category.leaders[0].athlete.$ref).replace("http", "https");
 
-    const athleteRes = await fetch(url, { method: "get" });
+    const athleteRes = await fetch (
+        replaceHttp(category.leaders[0].athlete.$ref), 
+        { method: "get" }
+    );
     if (!athleteRes.ok) throw new Error('Something went wrong');
             
     const athleteData = await athleteRes.json();
@@ -79,17 +82,18 @@ async function leagueLeaders(category: LeaderCategory) {
     let leaders = [];
     
     for (let count = 0; count < 3; count += 1) {
-        // replace http with https to fix 'Blocked loading mixed active content' on production
-        const url = (category.leaders[count].athlete.$ref).replace("http", "https");
-
-        const athleteRes = await fetch(url, { method: "get" });
+        const athleteRes = await fetch (
+            replaceHttp(category.leaders[count].athlete.$ref), 
+            { method: "get" }
+        );
         if (!athleteRes.ok) throw new Error('Something went wrong');
             
         const athleteData = await athleteRes.json();
-
-        const teamUrl = (category.leaders[count].team.$ref).replace("http", "https");
       
-        const athleteTeamRes = await fetch(teamUrl, { method: "get" });
+        const athleteTeamRes = await fetch (
+            replaceHttp(category.leaders[count].team.$ref), 
+            { method: "get" }
+        );
         let athleteTeam = await athleteTeamRes.json();
             
         // QB Rating needs displayValue, everything else can use value
