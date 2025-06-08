@@ -11,7 +11,6 @@ import TeamSummary from '@/app/components/TeamSummary';
 import { Team } from '@/app/types/team';
 
 export default function NavBar({ team }: { team?: Team }) {
-    const [showNav, setShowNav] = useState(true);
     const [scrolledNav, setScrolledNav] = useState(false);
 
     const allTeamsColors = teamColors as AllTeamsColors;
@@ -20,11 +19,10 @@ export default function NavBar({ team }: { team?: Team }) {
     const teamBgColor = hasTeam && allTeamsColors[team.id]?.bgColor;
     const teamTextColor = hasTeam && allTeamsColors[team.id]?.textColor;
 
-    // hide the top nav bar when scrolling over header; make it return when it passes the mid-screen navbar
+    // for applying certain styling when top navbar passes the mid-screen navbar
     useEffect(() => {
         const handleScroll = () => {
             const y = window.scrollY;
-            setShowNav(y < 75 || y > 350);
             setScrolledNav(y > 350);
         };
 
@@ -35,9 +33,9 @@ export default function NavBar({ team }: { team?: Team }) {
     return (
         <nav 
             className={`font-rubik fixed w-full flex justify-between py-2.5 px-4 md:px-11 top-0 z-10 ${ 
-                showNav || "hidden" 
-            } ${ scrolledNav && "drop-shadow-md" }`}
-            style={ scrolledNav && hasTeam ? { backgroundColor: teamBgColor as string } : undefined }
+                scrolledNav && "drop-shadow-md" 
+            }`}
+            style={ hasTeam ? { backgroundColor: teamBgColor as string } : { backgroundColor: "#1c232b" } }
         >
             <Link 
                 href={ '/' } 
