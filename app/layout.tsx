@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Home | Big Football",
-  description: "Big Football is...",
+  description: "Big Football is an NFL statistics website for casual football fans with a focus on minimalistic design. View dashboards with schedules, stats, rosters, and standings — all styled to match each team's identity.",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
