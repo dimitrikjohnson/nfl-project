@@ -15,13 +15,13 @@ export default async function Scoreboard() {
     return (
         <section className="overflow-x-auto bg-altTableRow drop-shadow-md">
             <div className="w-full flex text-nowrap font-rubik">
-                <div className="text-sm flex flex-col justify-center items-center px-4 border-r-2 border-secondaryGrey">
+                <div className="text-sm flex flex-col justify-center items-center px-2.5 md:px-4 border-r-2 border-secondaryGrey">
                     <p className="text-lighterSecondaryGrey pb-1">WEEK</p>
                     <p className="font-bold pb-1">{ weekNum }</p>
                     <p className="text-lighterSecondaryGrey text-xs">{ weekDetail }</p>
                 </div>
                 { games.map((game: GameData) =>
-                    <div className="px-4 pt-1.5 border-r-2 border-secondaryGrey" key={ game.id }>
+                    <div className="px-2.5 md:px-4 pt-1.5 border-r-2 border-secondaryGrey" key={ game.id }>
                         <div className="flex pb-2">
                             <div className="w-full">
                                 { game.teams?.map((team: CompetitorTeam) =>
@@ -54,7 +54,7 @@ export default async function Scoreboard() {
                                 </div>
                             */}
                         </div>
-                        <div className="flex text-sm justify-between gap-x-6 min-w-28">
+                        <div className="flex text-sm justify-between gap-x-3 md:gap-x-6 min-w-28">
                             { game.state == "pre" 
                                 ? <>
                                     <div>{ formatDateTime(game.date).scoreboard }</div>                     
