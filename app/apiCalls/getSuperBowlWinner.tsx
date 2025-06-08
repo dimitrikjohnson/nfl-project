@@ -1,8 +1,8 @@
 async function getSuperBowlWinner() {
     const res = await fetch("https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events", { method: "get" });
     const data = await res.json();
-    const mostRecentGame = data.items[0].$ref;
-
+    const mostRecentGame = (data.items[0].$ref).replace("http", "https");
+    
     const gameInfo = await fetch(mostRecentGame, { method: "get" });
     const newData = await gameInfo.json();
 
@@ -17,7 +17,7 @@ async function getSuperBowlWinner() {
     const gameCompetitors = newData.competitions[0].competitors;
 
     if (gameHeadline.startsWith("Super Bowl")) {
-        for (var competitor of gameCompetitors) {
+        for (let competitor of gameCompetitors) {
             if (competitor.winner) {
                 return {
                     headline: gameHeadline,
