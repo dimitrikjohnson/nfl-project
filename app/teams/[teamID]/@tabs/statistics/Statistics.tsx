@@ -7,7 +7,7 @@ import PlayerStatistics from './PlayerStatistics';
 export default function Statistics({ teamID, tags }: { teamID: string, tags: string[] }) {
     // gets the 'stats' query from the URL
     const searchParams = useSearchParams();
-    const stats = searchParams.has('stats') && searchParams.get('stats');
+    const stats = searchParams.get('stats');
     const popupActive = searchParams.has('popupActive');
 
     return (<>
