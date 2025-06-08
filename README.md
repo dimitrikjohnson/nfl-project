@@ -11,9 +11,9 @@ The app uses dynamic routing, strong type safety, and modular React components t
 
 All data is courtesy of ESPN's NFL API, and a curated list of many of the available endpoints can be found on [@nntrn's GitHub page](https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#scoreboard-api).
 
-Created and designed by Dimitrik Johnson with help from Elleni Adhanom.
+Favicon: [Sport](https://icons8.com/icon/W2pGKt6brLlk/sport) icon by [Icons8](https://icons8.com).
 
-**Big Football is a work in progress.**
+Big Football was created and designed by Dimitrik Johnson with help from Elleni Adhanom, and it is a **work in progress**.
 
 ## Upcoming features
 - Player-specific dashboards
@@ -26,8 +26,6 @@ Created and designed by Dimitrik Johnson with help from Elleni Adhanom.
 - [Next.js (App Router)](https://nextjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- Modular component architecture
-- Typed API consumption and data normalization
 
 --------------------------------------
 
