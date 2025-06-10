@@ -5,7 +5,7 @@ import { displayHomeAway, displayGameResult } from '@/app/helpers/displayGameInf
 import formatLastTwoGames from '@/app/formatAPIcalls/formatLastTwoGames';
 
 export default async function LastTwoGames({ teamID }: { teamID: string }) {
-    const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2";
+    const labelClasslist = "uppercase text-gray-500 dark:text-lighterSecondaryGrey mr-2";
 
     const lastTwoGames = await formatLastTwoGames(teamID);
     
@@ -52,7 +52,7 @@ export default async function LastTwoGames({ teamID }: { teamID: string }) {
     }
 
     return (    
-        <div className="font-rubik bg-sectionColor rounded-md p-3">
+        <div className="font-rubik bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md p-3">
             { lastTwoGames.length > 0
                 ? <div className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4 pb-4 md:pb-10">
                     { displayGames() }

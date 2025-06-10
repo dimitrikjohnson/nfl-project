@@ -33,16 +33,17 @@ export default function NavBar({ team }: { team?: Team }) {
     return (
         <nav 
             className={`font-rubik fixed w-full flex justify-between py-2.5 px-4 md:px-11 top-0 z-10 ${ 
-                scrolledNav && "drop-shadow-md" 
+                scrolledNav && "drop-shadow-md" } ${ 
+                hasTeam || "bg-gray-200 dark:bg-backdrop-dark" 
             }`}
-            style={ hasTeam ? { backgroundColor: teamBgColor as string } : { backgroundColor: "#1c232b" } }
+            style={ hasTeam ? { backgroundColor: teamBgColor as string } : undefined }
         >
             <Link 
                 href={ '/' } 
-                className="flex gap-2 items-center text-lg md:text-xl"
+                className={ `flex gap-2 items-center text-lg md:text-xl ${ hasTeam || "text-primary dark:text-primary-dark" }`}
                 style={{ color: hasTeam 
                     ? teamTextColor as string 
-                    : "#FFFFFF" 
+                    : undefined 
                 }}
             >
                 <FontAwesomeIcon icon={faFootball} rotation={90} className="" />
@@ -67,7 +68,7 @@ export default function NavBar({ team }: { team?: Team }) {
                 <Link 
                     href={ '/teams' } 
                     className={`btn h-8 min-h-8 border-0 ${
-                        hasTeam ? "" : "bg-cyan-400 text-[#1c232b]"
+                        hasTeam ? "" : "bg-cyan-400 text-backdrop-dark"
                     }`}
                     style={ hasTeam 
                         ? { backgroundColor: teamTextColor as string, color: teamBgColor as string } 

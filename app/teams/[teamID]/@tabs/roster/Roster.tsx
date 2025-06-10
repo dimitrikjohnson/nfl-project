@@ -45,14 +45,14 @@ export default function Roster({ teamID }: { teamID: string }) {
     
     const displayPositions = () => {
         return (<>
-            <div className="mt-8 md:mt-0 overflow-x-auto sm:overflow-visible">
-                <table className="table-auto relative w-full text-nowrap font-rubik bg-sectionColor rounded-md">
+            <div className="mt-8 md:mt-0 bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto sm:overflow-visible">
+                <table className="table-auto relative w-full text-nowrap font-rubik">
                     <thead className="border-b border-secondaryGrey text-right">
                         <tr>
                             { tableHeadings.map(heading =>
                                 <th 
                                     key={ heading } 
-                                    className="py-2.5 px-1.5 md:px-3 text-start bg-sectionColor first-of-type:rounded-tl-md last-of-type:rounded-tr-md"
+                                    className="py-2.5 px-1.5 md:px-3 text-start bg-section dark:bg-section-dark first-of-type:rounded-tl-md last-of-type:rounded-tr-md"
                                 >
                                     { heading }
                                 </th>
@@ -63,7 +63,7 @@ export default function Roster({ teamID }: { teamID: string }) {
                         { Object.keys(roster).map(position =>
                             roster[position].tags.includes(unslugifyQuery(players || "")) &&
                             <Fragment key={ position }>
-                                <tr className="bg-altTableRow border-b border-secondaryGrey/[.50]">
+                                <tr className="bg-alt-table-row dark:bg-alt-table-row-dark border-b border-secondaryGrey/[.50]">
                                     <th colSpan={ tableHeadings.length } className="text-start py-2 px-2 md:px-3">
                                         { position }{ Object.keys(roster[position].players).length > 1 && "s" }
                                     </th>
@@ -94,7 +94,7 @@ export default function Roster({ teamID }: { teamID: string }) {
                 const { playerValues } = position[player];
 
                 return (
-                    <tr key={ player } className="border-b border-secondaryGrey/[.50] last-of-type:border-0">
+                    <tr key={ player } className="border-b border-gray-900/20 dark:border-secondaryGrey/[.50] last-of-type:border-0">
                         <td className={ "flex gap-1.5 md:gap-2.5 " + tableCellClasses }>
                             <div className="w-14 relative rounded-sm shrink-0" style={{ background: '#' + teamAltColor }}>
                                 { playerValues.headshot
@@ -104,7 +104,7 @@ export default function Roster({ teamID }: { teamID: string }) {
                             </div>
                             <div className="flex gap-1.5 m-auto mx-0">
                                 <p>{ playerValues.name }</p>
-                                <p className="flex gap-1.5 text-lighterSecondaryGrey text-sm items-end">
+                                <p className="flex gap-1.5 text-gray-500 dark:text-lighterSecondaryGrey text-sm items-end">
                                     { playerValues.jersey &&
                                         <>
                                             <span>#{ playerValues.jersey }</span>
@@ -156,7 +156,7 @@ export default function Roster({ teamID }: { teamID: string }) {
 
     return (
         <>
-            <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2">
+            <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-primary-dark">
                 <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Current Roster</h2>
                 <div className="font-rubik flex">
                     <button 

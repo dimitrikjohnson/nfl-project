@@ -41,17 +41,24 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
     if (!teamsArgument) return false;
     
     const teams = teamsInGame(teamsArgument, chosenTeamID);
+    const containerClasses = `flex gap-x-1 md:gap-x-2.5 items-center ${ onlyShortName && " justify-center" }`;
     
     return (
-        <span className={ `flex gap-x-1 md:gap-x-2.5 items-center ${ onlyShortName && " justify-center" }` }>
+        <span className={ containerClasses }>
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
-            { teams.otherTeam.logo
-                ? <img className={ onlyShortName ? "w-20" : "w-5 md:w-7" } src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
-                : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
-            }
-            <Link href={ `/teams/${ teams.otherTeam.id }` } className="hover:text-cyan-400 hover:underline" title={ teams.otherTeam.name }>
-                <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
-                <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>
+            <Link 
+                href={ `/teams/${ teams.otherTeam.id }` } 
+                className={ containerClasses } 
+                title={ teams.otherTeam.name }
+            >
+                { teams.otherTeam.logo
+                    ? <img className={ onlyShortName ? "w-20" : "w-5 md:w-7" } src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
+                    : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
+                }
+                <p className="hover:text-cyan-500 dark:hover:text-cyan-400">
+                    <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
+                    <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>    
+                </p> 
             </Link>     
         </span>
     ) 

@@ -23,7 +23,7 @@ export default function LandingPage() {
                                 <Link 
                                     href="/teams" 
                                     prefetch={ true } 
-                                    className="btn h-10 min-h-10 mr-2.5 bg-cyan-400 hover:bg-cyan-300 text-[#1c232b]"
+                                    className="btn h-10 min-h-10 mr-2.5 bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
                                 >
                                     Select a team
                                 </Link>

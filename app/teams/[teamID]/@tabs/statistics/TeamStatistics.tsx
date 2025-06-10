@@ -22,14 +22,14 @@ export default function TeamStatistics({ teamID }: { teamID: string }) {
     return (<>
         { isLoading
             ? <div className="skeleton w-full h-56"></div>
-            : <div className="overflow-x-auto sm:overflow-visible">
-                <table className="table-auto relative w-full text-nowrap font-rubik bg-sectionColor rounded-md">
+            : <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto sm:overflow-visible">
+                <table className="table-auto relative w-full text-nowrap font-rubik">
                     <thead className="border-b border-secondaryGrey text-right">
                         <tr>
-                            <th className="bg-sectionColor rounded-tl-md"></th>
-                            <th className="py-2.5 px-3 text-start bg-sectionColor">Per Game</th>
-                            <th className="py-2.5 px-3 text-start bg-sectionColor">Total</th>
-                            <th className="py-2.5 px-3 text-start bg-sectionColor rounded-tr-md">Rank</th>
+                            <th></th>
+                            <th className="py-2.5 px-3 text-start">Per Game</th>
+                            <th className="py-2.5 px-3 text-start">Total</th>
+                            <th className="py-2.5 px-3 text-start">Rank</th>
                         </tr>
                     </thead>
                     <tbody>

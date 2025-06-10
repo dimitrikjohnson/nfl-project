@@ -13,12 +13,12 @@ export default async function Scoreboard() {
     const games = scoreboard[2];
     
     return (
-        <section className="overflow-x-auto bg-altTableRow drop-shadow-md">
+        <section className="overflow-x-auto bg-section dark:bg-alt-table-row-dark drop-shadow-md">
             <div className="w-full flex text-nowrap font-rubik">
                 <div className="text-sm flex flex-col justify-center items-center px-2.5 md:px-4 border-r-2 border-secondaryGrey">
-                    <p className="text-lighterSecondaryGrey pb-1">WEEK</p>
+                    <p className="text-gray-500 dark:text-lighterSecondaryGrey pb-1">WEEK</p>
                     <p className="font-bold pb-1">{ weekNum }</p>
-                    <p className="text-lighterSecondaryGrey text-xs">{ weekDetail }</p>
+                    <p className="text-gray-500 dark:text-lighterSecondaryGrey text-xs">{ weekDetail }</p>
                 </div>
                 { games.map((game: GameData) =>
                     <div className="px-2.5 md:px-4 pt-1.5 border-r-2 border-secondaryGrey" key={ game.id }>
@@ -28,12 +28,12 @@ export default async function Scoreboard() {
                                     <div key={ team.team.id } className="flex gap-x-12 justify-between">
                                         <div className="flex gap-x-2 items-center">
                                             <img className="w-6" src={ team.team.logo } alt={`${ team.team.shortDisplayName } logo`} />
-                                            <div className={`${ team.winner == false && "text-lighterSecondaryGrey" }`}>{ team.team.abbreviation }</div>
+                                            <div className={`${ team.winner == false && "text-gray-500 dark:text-lighterSecondaryGrey" }`}>{ team.team.abbreviation }</div>
                                             { (game.state == "in" && game.possession == team.team.id) &&
                                                 <FontAwesomeIcon className="text-sm text-[#804d14]" icon={faFootballBall} transform={{ rotate: 46 }} /> 
                                             }
                                         </div>
-                                        <div className={`${ team.winner == false ? "text-lighterSecondaryGrey" : game.state == "pre" ? "flex items-center text-lighterSecondaryGrey text-sm italic" : "font-semibold" }`}>
+                                        <div className={`${ team.winner == false ? "text-gray-500 dark:text-lighterSecondaryGrey" : game.state == "pre" ? "flex items-center text-gray-500 dark:text-lighterSecondaryGrey text-sm italic" : "font-semibold" }`}>
                                             { game.state == "pre" 
                                                 ? team.records && team.records[0].summary
                                                 : <>
@@ -58,13 +58,13 @@ export default async function Scoreboard() {
                             { game.state == "pre" 
                                 ? <>
                                     <div>{ formatDateTime(game.date).scoreboard }</div>                     
-                                    <div className="text-lighterSecondaryGrey">{ game.network }</div>
+                                    <div className="text-gray-500 dark:text-lighterSecondaryGrey">{ game.network }</div>
                                 </>
                                 : game.state == "in"
                                     ? <>
                                         <div className="text-red-400 font-semibold">{ game.statusText }</div>
                                         { game.downDistance && 
-                                            <div className="text-lighterSecondaryGrey">{ game.downDistance }</div> 
+                                            <div className="text-gray-500 dark:text-lighterSecondaryGrey">{ game.downDistance }</div> 
                                         }
                                     </>
                                     : game.state == "post" && <div>{ game.statusText }</div>

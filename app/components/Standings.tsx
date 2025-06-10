@@ -31,8 +31,8 @@ export default async function Standings({ groupNum = "", teamID = "" }) {
     return (
         <div className="mb-8">
             <h2 className="font-protest text-2xl 2xl:text-3xl pb-3">{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h2>
-            <div className="overflow-x-auto">
-                <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
+            <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
+                <table className="table-auto w-full text-nowrap font-rubik overflow-hidden">
                     <thead className="border-b border-secondaryGrey">
                         <tr>
                             <th className={ headingClasses } title="Playoff Seed">PS</th>
@@ -45,7 +45,7 @@ export default async function Standings({ groupNum = "", teamID = "" }) {
                     </thead>
                     <tbody>
                         { data.map((team, index) =>
-                            <tr key={ team.name } className="odd:bg-altTableRow">
+                            <tr key={ team.name } className="border-b border-gray-900/20 last-of-type:border-none odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark dark:border-none">
                                 <td className={ bodyClasses }>{ index + 1 }</td>
                                 <td className={ `flex gap-x-1 md:gap-x-2.5 items-center ${ bodyClasses }` }>
                                     <img className="w-5 md:w-7" src={ team.logo } alt={ `${ team.name } logo` } />
@@ -55,13 +55,13 @@ export default async function Standings({ groupNum = "", teamID = "" }) {
                                                 <span className="inline-block md:hidden">{ team.abbreviation }</span>
                                                 <span className="hidden md:inline-block">{ team.name }</span>
                                             </>
-                                            : <Link href={ `/teams/${ team.id }` } className="hover:text-cyan-400 hover:underline" title={ team.name }>
+                                            : <Link href={ `/teams/${ team.id }` } className="hover:text-cyan-500 dark:hover:text-cyan-400" title={ team.name }>
                                                 <span className="inline-block md:hidden">{ team.abbreviation }</span>
                                                 <span className="hidden md:inline-block">{ team.name }</span>
                                             </Link>
                                         }
                                         { team.clinch 
-                                            ? <span className="text-lighterSecondaryGrey">- { team.clinch?.displayValue }</span>
+                                            ? <span className="text-gray-500 dark:text-lighterSecondaryGrey">- { team.clinch?.displayValue }</span>
                                             : null
                                         }    
                                     </span>

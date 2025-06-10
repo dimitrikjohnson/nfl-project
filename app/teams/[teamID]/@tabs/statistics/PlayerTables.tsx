@@ -6,8 +6,8 @@ export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCat
     return (
         <>
             { Object.keys(statGroups).map(group =>
-                <div key={ group } className="overflow-x-auto sm:overflow-visible mb-8 last-of-type:mb-0">
-                    <table className="table-auto relative w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
+                <div key={ group } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto sm:overflow-visible mb-8 last-of-type:mb-0">
+                    <table className="table-auto relative w-full text-nowrap font-rubik rounded-md overflow-hidden">
                         <thead className="border-b border-secondaryGrey text-right">
                             <tr>
                                 { Object.keys(statGroups[group].tableHeadings).map(heading =>
@@ -23,10 +23,10 @@ export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCat
                         </thead>
                         <tbody>
                             { statGroups[group].players.map((player: PlayerStats) =>
-                                <tr key={ player.name } className="odd:bg-altTableRow">
+                                <tr key={ player.name } className="odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark border-b border-gray-900/20 last-of-type:border-none dark:border-none">
                                     <td className={ `flex gap-1.5 ${tableCellFormat}` }>
                                         <p>{ player.name }</p>
-                                        <p className="flex gap-1.5 text-lighterSecondaryGrey text-sm items-end">
+                                        <p className="flex gap-1.5 text-gray-500 dark:text-lighterSecondaryGrey text-sm items-end">
                                             <span>{ player.position }</span>
                                             { player.jersey &&
                                                 <span>#{ player.jersey }</span>  

@@ -3,7 +3,7 @@ import { formatDateTime } from '@/app/helpers/dateFormatter';
 import { displayHomeAway } from '@/app/helpers/displayGameInfo';
 
 export default async function NextTwoGames({ teamID }: { teamID: string }) {
-    const labelClasslist = "uppercase text-lighterSecondaryGrey mr-2";
+    const labelClasslist = "uppercase text-gray-500 dark:text-lighterSecondaryGrey mr-2";
     let nextTwoGames = await getNextTwoGames(teamID);
 
     function whichIsGreater(awayChance: number, homeChance: number) {
@@ -16,11 +16,11 @@ export default async function NextTwoGames({ teamID }: { teamID: string }) {
 
         return (
             <div className="w-full flex justify-between">
-                <div className={`text-left ${whichIsGreater(awayChance, homeChance) || "text-lighterSecondaryGrey"} `}>
+                <div className={`text-left ${whichIsGreater(awayChance, homeChance) || "text-gray-500 dark:text-lighterSecondaryGrey"} `}>
                     <p className="pb-1">{ awayTeam.team.shortDisplayName }</p>
                     <p className="font-bold text-3xl">{ awayChance }%</p>
                 </div>
-                <div className={`text-right ${whichIsGreater(awayChance, homeChance) && "text-lighterSecondaryGrey"} `}>
+                <div className={`text-right ${whichIsGreater(awayChance, homeChance) && "text-gray-500 dark:text-lighterSecondaryGrey"} `}>
                     <p className="pb-1">{ homeTeam.team.shortDisplayName }</p>
                     <p className="font-bold text-3xl">{ homeChance }%</p>
                 </div>
@@ -32,10 +32,13 @@ export default async function NextTwoGames({ teamID }: { teamID: string }) {
         return (
             <>
                 { nextTwoGames.map(game =>
-                    <div key={ game.id } className="first-of-type:border-b-2 pb-4 min-[425px]:pb-0 min-[425px]:first-of-type:border-b-0 min-[425px]:first-of-type:border-r-2 border-cyan-400">
-                        <p className="pb-3">
+                    <div 
+                        key={ game.id } 
+                        className="first-of-type:border-b-2 pb-4 min-[425px]:pb-0 min-[425px]:first-of-type:border-b-0 min-[425px]:first-of-type:border-r-2 border-cyan-500 dark:border-cyan-400"
+                    >
+                        <div className="pb-3">
                             { displayHomeAway(game.teams, teamID, true) }
-                        </p>
+                        </div>
                         <p className="pb-2">
                             <span className={ labelClasslist }>Date:</span>
                             <span className="md:hidden">{ formatDateTime(game.date).short }</span>
@@ -56,7 +59,10 @@ export default async function NextTwoGames({ teamID }: { teamID: string }) {
                         </p>
                         { (game.awayChance && game.homeChance) &&
                             <>
-                                <p className="font-bold pt-6 pb-2 mb-2 mr-3 border-b-2">Win Probability</p>
+                                <p className="font-bold pt-6 pb-2 mb-2 mr-3 border-b-2 border-primary dark:border-primary-dark">
+                                    Win Probability 
+                                    <span className="ml-2 font-normal text-sm text-gray-500 dark:text-lighterSecondaryGrey">(by ESPN)</span>
+                                </p>
                                 <div className="flex justify-between mr-3">
                                     { displayWinProbabilities(game.teams, game.awayChance, game.homeChance) }
                                 </div>
@@ -69,7 +75,7 @@ export default async function NextTwoGames({ teamID }: { teamID: string }) {
     }
 
     return (
-        <div className="font-rubik bg-sectionColor rounded-md p-3">
+        <div className="font-rubik bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md p-3">
             { nextTwoGames.length > 0
                 ? <div className="grid grid-cols-1 min-[425px]:grid-cols-2 gap-4">
                     { displayGames() }

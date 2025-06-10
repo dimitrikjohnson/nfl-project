@@ -31,7 +31,7 @@ export default function LeagueLeaders() {
                     <p className="font-bold pb-3">{ heading }</p>
                     { leaders.map((leader) =>
                         <div 
-                            className="flex gap-3.5 pb-1.5 text-sm first-of-type:text-base first-of-type:text-gold first-of-type:font-bold" 
+                            className="flex gap-3.5 pb-1.5 text-sm first-of-type:text-base first-of-type:text-gold dark:first-of-type:text-gold-dark first-of-type:font-bold" 
                             key={ leader.statValue + leader.playerName }
                         >
                             <p className="w-10">{ leader.statValue }</p>
@@ -61,7 +61,7 @@ export default function LeagueLeaders() {
             </h3>
             <div className="font-rubik grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 { Object.keys(categories).map(stat =>
-                    <div key={ stat } className="bg-sectionColor px-3 pt-3 rounded-md">
+                    <div key={ stat } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none px-3 pt-3 rounded-md">
                         { displayLeaders(stat, categories[stat]) }
                     </div>
                 )}

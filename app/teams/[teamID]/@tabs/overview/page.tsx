@@ -8,7 +8,7 @@ import Standings from "@/app/components/Standings";
 const Overview = ({ teamID }: { teamID: string }) => {
 	return (
 		<>
-			<h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2">Overview</h2>
+			<h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2 border-primary dark:border-primary-dark">Overview</h2>
 			
 			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
 				<Leaders teamID={ teamID } getLeadersOverview={ true } /> 

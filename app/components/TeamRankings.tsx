@@ -11,7 +11,7 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
         return (
             <>
                 { stats.map(stat =>
-                    <tr key={stat.longName} className="odd:bg-altTableRow">
+                    <tr key={stat.longName} className="odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark border-b border-gray-900/20 last-of-type:border-none dark:border-none">
                         <td className={ `text-start ${tablePadding}` }>
                             { stat.shortName }
                         </td>
@@ -37,8 +37,8 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
                         }
                         <span>{ sideOfBall } Rankings</span>
                     </h3>
-                    <div className="font-rubik overflow-x-auto">
-                        <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
+                    <div className="font-rubik rounded-md overflow-x-auto bg-section border border-gray-300 dark:bg-section-dark dark:border-none">
+                        <table className="table-auto w-full text-nowrap">
                             <thead className="border-b border-secondaryGrey">
                                 <tr>
                                     <th className="py-2.5 px-2 md:px-3 text-start">Statastic</th>

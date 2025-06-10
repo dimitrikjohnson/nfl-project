@@ -8,11 +8,11 @@ export default function TeamTable({ statGroups }: { statGroups: TeamStatTable })
     return (<>
         { Object.keys(statGroups).map(group =>
             <Fragment key={ group }>
-                <tr className="bg-altTableRow border-b border-secondaryGrey/[.50] group/row">
+                <tr className="bg-alt-table-row dark:bg-alt-table-row-dark border-b border-secondaryGrey/[.50] group/row">
                     <th colSpan={ 4 } className="text-start py-2 px-2 md:px-3">
                         <span className="mr-1.5">{ group }</span>
                         <span className="inline-block md:hidden relative group/icon">
-                            <FontAwesomeIcon className="text-lighterSecondaryGrey group-hover/icon:text-white" icon={faCircleInfo} />
+                            <FontAwesomeIcon className="text-gray-500 dark:text-lighterSecondaryGrey group-hover/icon:text-white" icon={faCircleInfo} />
                             <legend className="invisible group-hover/icon:visible absolute bottom-10 group-first-of-type/row:-bottom-4 p-2.5 -left-16 group-first-of-type/row:left-7 bg-stone-900 rounded-md border border-secondaryGrey/[.50] w-auto after:content-[''] after:absolute after:-bottom-1 group-first-of-type/row:after:bottom-6 after:w-2 after:h-2 after:left-[67px] group-first-of-type/row:after:-left-1 after:rotate-45 after:bg-stone-900">
                                 { statGroups[group].map(stat =>
                                     <div key={ group + "-" + stat.label } className="pb-2 last-of-type:pb-0">

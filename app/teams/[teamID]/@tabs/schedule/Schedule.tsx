@@ -116,7 +116,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
                                                 <a className="mr-1.5 hover:text-cyan-400 hover:underline" href={ leader.leaders[0].athlete.links[0].href } title={ leader.leaders[0].athlete.displayName } target="_blank">
                                                     { leader.leaders[0].athlete.shortName }
                                                 </a>
-                                                <span className="text-lighterSecondaryGrey">{ leader.leaders[0].value }</span>
+                                                <span className="text-gray-500 dark:text-lighterSecondaryGrey">{ leader.leaders[0].value }</span>
                                             </td>
                                         )}
                                     </> 
@@ -136,8 +136,8 @@ export default function Schedule({ teamID }: { teamID: string }) {
             { schedule.map(seasonType => 
                 <div key={ seasonType.requestedSeason } className="mb-8"> 
                     <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">{ seasonType.requestedSeason }</h3>
-                    <div className="overflow-x-auto">
-                        <table className="table-auto w-full text-nowrap font-rubik bg-sectionColor rounded-md overflow-hidden">
+                    <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
+                        <table className="table-auto w-full text-nowrap font-rubik overflow-hidden">
                             { seasonType.allGames.filter(pastOrUpcoming => pastOrUpcoming.games.length > 0)
                                 .map((filteredPastOrUpcoming, index) => 
                                     <Fragment key={ index }>
@@ -152,7 +152,10 @@ export default function Schedule({ teamID }: { teamID: string }) {
                                         </thead>
                                         <tbody>
                                             { filteredPastOrUpcoming.games.map(game =>
-                                                <tr key={ game.id + formatDateTime(game.date).short } className="odd:bg-altTableRow">
+                                                <tr 
+                                                    key={ game.id + formatDateTime(game.date).short } 
+                                                    className="border-b border-gray-900/20 last-of-type:border-none odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark dark:border-none"
+                                                >
                                                     <td className={ `text-start ${tablePadding}` }>   
                                                         { displayWeek(seasonType.requestedSeason, game.week) }
                                                     </td>
@@ -180,7 +183,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
     
     return (
         <> 
-            <div className="flex justify-between items-end pb-2 mb-4 md:mb-9 border-b-2">
+            <div className="flex justify-between items-end pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-white">
                 { isLoading
                     ? <div className="skeleton w-48 h-10"></div>
                     : <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">{ season ? season : initialSeason } Schedule</h2>
@@ -201,7 +204,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
                             { season ? season : initialSeason }
                             <FontAwesomeIcon icon={faCaretDown} className="" />
                         </div>
-                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-sectionColor rounded-md w-28">
+                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-section dark:bg-section-dark rounded-md w-28">
                             { years.map(year =>
                                 <li key={ year }>
                                     <Link href={ `?season=${year}` }>{ year }</Link>    

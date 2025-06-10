@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>
+      <body className={`bg-gray-200 text-primary dark:bg-backdrop-dark dark:text-primary-dark min-h-screen ${inter.className}`}>
         <SuperBowlWinnerProvider>
           {children}
         </SuperBowlWinnerProvider>

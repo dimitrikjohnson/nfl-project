@@ -13,11 +13,17 @@ const config: Config = {
         rubik: ['Rubik', 'sans-serif'],
       },
       colors: {
+        primary: "#171717",
+        "primary-dark": "#FFFFFF",
+        "backdrop-dark":"#1C232B",
         secondaryGrey: "#848484",
-        gold: "#FFD700",
-        sectionColor: "#323A45",
+        gold: "#D1B000",
+        "gold-dark": "#FFD700",
+        section: "#F6F7F9",
+        "section-dark": "#323A45",
         lighterSecondaryGrey: "#B3B3B3",
-        altTableRow: "#282E37"
+        "alt-table-row": "#ECEEF1",
+        "alt-table-row-dark": "#282E37"
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

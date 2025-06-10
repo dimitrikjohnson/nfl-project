@@ -21,7 +21,7 @@ export default function Tabs({ items, teamID }: { items: TabItems, teamID: strin
     
     return (
         <>
-            <nav className="font-rubik w-full bg-sectionColor mb-11">
+            <nav className="font-rubik w-full bg-section dark:bg-section-dark mb-11">
                 <div className="w-full flex flex-nowrap justify-between overflow-x-auto m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
                     { Object.keys(items).map(item =>
                         <Link 
@@ -29,7 +29,7 @@ export default function Tabs({ items, teamID }: { items: TabItems, teamID: strin
                             href={ item == "overview" ? linkPrefix : `${linkPrefix}/${item}` }
                             aria-selected={ item == selectedTab } 
                             onClick={ () => handleClick(item) } 
-                            className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:font-semibold aria-selected:border-b-2 aria-selected:border-cyan-400"
+                            className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:font-semibold aria-selected:border-b-2 aria-selected:border-cyan-500 dark:aria-selected:border-cyan-400"
                         >
                             { item }
                         </Link> 
