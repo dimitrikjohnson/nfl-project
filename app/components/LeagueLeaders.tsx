@@ -7,9 +7,11 @@ export default function LeagueLeaders() {
     const [season, setSeason] = useState<string>();
     const [seasonType, setSeasonType] = useState<number|string>();
     const [categories, setCategories] = useState<StatLeaders>({});
+    const [isLoading, setIsLoading] = useState(false);
     
     const getLeaders = () => (getLeagueLeaders()).then(
         (res) => {
+            setIsLoading(false);
             setSeason(res[0]);
             setSeasonType(res[1]);
             
@@ -48,24 +50,30 @@ export default function LeagueLeaders() {
     }
 
     useEffect(() => {
+        setIsLoading(true),
         getLeaders()
     }, []);
 
     return (
-        <div className="mb-12">
-            <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">
-                { seasonType == 4 && 
-                    <span className="mr-1.5">{ season }</span> 
-                }
-                <span>NFL Leaders</span>      
-            </h3>
-            <div className="font-rubik grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                { Object.keys(categories).map(stat =>
-                    <div key={ stat } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none px-3 pt-3 rounded-md">
-                        { displayLeaders(stat, categories[stat]) }
+        <>
+            { isLoading
+                ? <div className="skeleton w-full h-36 mb-8"></div>
+                : <div className="mb-12">
+                    <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">
+                        { seasonType == 4 && 
+                            <span className="mr-1.5">{ season }</span> 
+                        }
+                        <span>NFL Leaders</span>      
+                    </h3>
+                    <div className="font-rubik grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        { Object.keys(categories).map(stat =>
+                            <div key={ stat } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none px-3 pt-3 rounded-md">
+                                { displayLeaders(stat, categories[stat]) }
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
-        </div>
+                </div>
+            }
+        </>  
     )
 }
