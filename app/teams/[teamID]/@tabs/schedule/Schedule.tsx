@@ -134,7 +134,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
     const displayTables = () => {
        return (<>
             { schedule.map(seasonType => 
-                <div key={ seasonType.requestedSeason } className="mb-8"> 
+                <div key={ seasonType.requestedSeason } className="mb-8 last-of-type:mb-0"> 
                     <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">{ seasonType.requestedSeason }</h3>
                     <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
                         <table className="table-auto w-full text-nowrap font-rubik overflow-hidden">

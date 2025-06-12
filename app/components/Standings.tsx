@@ -29,7 +29,7 @@ export default async function Standings({ groupNum = "", teamID = "" }) {
     }
 
     return (
-        <div className="mb-8">
+        <div className="mb-8 last-of-type:mb-0">
             <h2 className="font-protest text-2xl 2xl:text-3xl pb-3">{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h2>
             <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
                 <table className="table-auto w-full text-nowrap font-rubik overflow-hidden">
