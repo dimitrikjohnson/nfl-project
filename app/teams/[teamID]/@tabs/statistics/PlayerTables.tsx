@@ -26,7 +26,7 @@ export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCat
                                 <tr key={ player.name } className="odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark border-b border-gray-900/20 last-of-type:border-none dark:border-none">
                                     <td className={ `flex gap-1.5 ${tableCellFormat}` }>
                                         <p>{ player.name }</p>
-                                        <p className="flex gap-1.5 text-gray-500 dark:text-lighterSecondaryGrey text-sm items-end">
+                                        <p className="flex gap-1.5 text-gray-600 dark:text-lighterSecondaryGrey text-sm items-end">
                                             <span>{ player.position }</span>
                                             { player.jersey &&
                                                 <span>#{ player.jersey }</span>  

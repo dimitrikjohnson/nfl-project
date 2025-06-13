@@ -104,7 +104,7 @@ export default function Roster({ teamID }: { teamID: string }) {
                             </div>
                             <div className="flex gap-1.5 m-auto mx-0">
                                 <p>{ playerValues.name }</p>
-                                <p className="flex gap-1.5 text-gray-500 dark:text-lighterSecondaryGrey text-sm items-end">
+                                <p className="flex gap-1.5 text-gray-600 dark:text-lighterSecondaryGrey text-sm items-end">
                                     { playerValues.jersey &&
                                         <>
                                             <span>#{ playerValues.jersey }</span>
