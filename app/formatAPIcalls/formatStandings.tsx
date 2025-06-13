@@ -1,4 +1,5 @@
 import { StandingsData, TeamInStandings } from "@/app/types/standings";
+import replaceHttp from "@/app/helpers/replaceHttp";
 
 export default async function formatStandings(season: string, seasonType: number | string, data: { standings: StandingsData[] }) {
     // season is for keeping track of the season that is being displayed
@@ -6,7 +7,8 @@ export default async function formatStandings(season: string, seasonType: number
     const standings = data.standings;
     
     for (const team of standings) {
-        const teamRes = await fetch(team.team.$ref, { method: "get" });
+        const url = replaceHttp(team.team.$ref);
+        const teamRes = await fetch(url, { method: "get" });
         const teamData = await teamRes.json();
 
         const teamRecords = team.records;

@@ -6,7 +6,6 @@ export default async function getStandings(groupNum: string) {
     const currentSeason = seasonPromise.year;
     const currentSeasonType = seasonPromise.type;
     let displayedSeason = currentSeason;
- 
     
     // if there's an error, decrease the current season number by 1
     // the only time there should be an error is during a small window in the offseason when the season number changes in the API response

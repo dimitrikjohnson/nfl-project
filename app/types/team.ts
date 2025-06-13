@@ -10,6 +10,7 @@ export interface Team {
     record: string;
     standingSummary: string;
     conference: string;
+    division: string;
 }
 
 export interface Teams {

@@ -4,7 +4,7 @@ import getTeamRecord from "@/app/helpers/getTeamRecord";
 export default function formatTeamData(apiTeamData: any, seasonData?: any): Team {
     const team = apiTeamData.team ?? apiTeamData;
     const fullSeasonData = seasonData ?? apiTeamData;
-
+    
     return {
         id: team.id,
         location: team.location,
@@ -19,5 +19,6 @@ export default function formatTeamData(apiTeamData: any, seasonData?: any): Team
         record: fullSeasonData.team?.record?.items?.[0]?.summary || getTeamRecord(team.id),
         standingSummary: fullSeasonData.team?.standingSummary || "",
         conference: team.groups?.parent?.name || "",
+        division: team.groups?.id
     };
 }

@@ -2,8 +2,8 @@ import React from "react";
 import { Suspense } from "react";
 import Link from 'next/link';
 import LeagueLeaders from "@/app/components/LeagueLeaders";
-import Standings from './Standings';
-import Scoreboard from "./Scoreboard";
+import Standings from '@/app/components/Standings';
+import Scoreboard from "@/app/components/Scoreboard";
 
 export default function LandingPage() {
     return (
@@ -35,10 +35,7 @@ export default function LandingPage() {
             <section className="w-full m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
                 <LeagueLeaders />
                 <Suspense fallback={<div className="skeleton w-full h-24"></div>}>
-                    <Standings groupNum={"8"} />
-                </Suspense>
-                <Suspense fallback={<div className="skeleton w-full h-24"></div>}>
-                    <Standings groupNum={"7"} />
+                    <Standings />
                 </Suspense>
             </section>
         </>
