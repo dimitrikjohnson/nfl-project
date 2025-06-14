@@ -89,7 +89,7 @@ export default function ClientStandings({
                             className={`btn h-8 md:h-10 min-h-8 md:min-h-10 dark:border-none ${ groupNum == num 
                                 ? "bg-primary text-primary-dark hover:bg-primary hover:text-primary-dark border-none \
                                     dark:bg-primary-dark dark:text-backdrop-dark dark:hover:bg-primary-dark dark:hover:text-backdrop-dark" 
-                                : "bg-alt-table-row text-primary border border-gray-300 \
+                                : "bg-alt-table-row text-primary border border-gray-300 hover:bg-secondaryGrey/[0.25] \
                                     dark:border-none dark:bg-alt-table-row-dark dark:text-primary-dark" 
                             }`}
                             onClick={ () => handleGroupChange(num) }
