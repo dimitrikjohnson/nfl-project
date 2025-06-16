@@ -32,10 +32,23 @@ export default function TeamCard({ team }: { team: Team }) {
             onMouseEnter={ () => handleMouseEnter(team.id) }
             onMouseLeave={ () => handleMouseLeave() }
             aria-selected={ sbWinner?.winner == team.id }
-            className="group flex items-center gap-2.5 p-2.5 rounded-md bg-section border border-gray-300 dark:bg-section-dark dark:border-none transition ease-in-out delay-50 hover:-translate-y-1 md:hover:scale-105 aria-selected:border-2 aria-selected:border-gold duration-300 motion-reduce:transition-none motion-reduce:hover:transform-none" 
+            className="group flex items-center gap-2.5 p-2.5 rounded-md bg-section border border-gray-300 dark:bg-section-dark dark:border-none \
+                transition ease-in-out delay-50 hover:-translate-y-1 md:hover:scale-105 aria-selected:border-2 aria-selected:border-gold duration-300 \
+                motion-reduce:transition-none motion-reduce:hover:transform-none" 
         >
             <div className="w-20">
-                <img src={ team.logo } alt={ `${team.displayName} logo` } />
+                { team.shortDisplayName === "Jets" 
+                    ? <>
+                            <img src={ team.logo } className="hidden dark:block" alt={ `${team.displayName} logo` } />
+                            <img 
+                                src={ (hover && hoveredTeam == team.id) ? team.logo : team.logoWhite } 
+                                className="block dark:hidden" 
+                                alt={ `${team.displayName} logo` } 
+                            />
+                        </>
+                    : <img src={ team.logo } alt={ `${team.displayName} logo` } />    
+                }
+                
             </div>
             <div>
                 <p className="font-rubik font-semibold mb-1">{ team.displayName }</p>

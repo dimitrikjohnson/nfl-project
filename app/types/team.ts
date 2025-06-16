@@ -5,6 +5,7 @@ export interface Team {
     displayName: string;
     shortDisplayName: string;
     logo: string;
+    logoWhite?: string;
     abbreviation: string;
     alternateColor: string;
     record: string;
