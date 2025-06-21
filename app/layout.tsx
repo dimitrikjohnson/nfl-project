@@ -11,8 +11,11 @@ import SuperBowlWinnerProvider from "./contextProviders/sbWinnerProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Home | Big Football",
-  description: "Big Football is an NFL statistics website for casual football fans with a focus on minimalistic design. View dashboards with schedules, stats, rosters, and standings — all styled to match each team's identity.",
+  title: {
+    template: '%s | Big Football',
+    default: 'Big Football', // a default is required when creating a template
+  },
+  description: "Big Football is an NFL statistics website for casual football fans. View dashboards with schedules, stats, rosters, and standings — all styled to match each team's identity.",
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {

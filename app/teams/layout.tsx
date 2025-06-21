@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
-  title: "Teams | Big Football",
+  title: "Teams",
   description: "A list of all NFL teams.",
 };
 
