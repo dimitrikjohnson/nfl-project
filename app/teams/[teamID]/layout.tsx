@@ -24,8 +24,8 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const allTeamsColors = teamColors as AllTeamsColors;
   const teamName = allTeamsColors[teamID].name;
 
-  metadata.title = teamName;
-  metadata.description = "An overview of the " + teamName + "' season, including stat leaders, rankings, division standings, and more."
+  metadata.title = teamName + " | Big Football";
+  metadata.description = "An overview of the " + teamName + "' season, including stat leaders, rankings, division standings, and more on Big Football."
   
   const items = {
     "overview": { content: <Overview teamID={ teamID } /> }, 
