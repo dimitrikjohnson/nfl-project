@@ -12,7 +12,7 @@ import displayWeek from '@/app/helpers/displayWeekInfo';
 import formatSchedule from '@/app/formatAPIcalls/formatSchedule';
 import Link from 'next/link';
 
-export default function Schedule({ teamID }: { teamID: string }) {
+export default function Schedule({ teamName }: { teamName: string }) {
     const [initialSeason, setInitialSeason] = useState<number>();
     const [schedule, setSchedule] = useState<FormattedSchedule[]>([]);
     const [teamBye, setTeamBye] = useState<number | false>();
@@ -24,6 +24,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
 
     const tablePadding = "py-2.5 px-2 md:py-2 md:px-3 text-sm";
     const allTeamsColors = teamColors as AllTeamsColors;
+    const teamID = allTeamsColors[teamName].id;
 
     const getSchedule = () => formatSchedule(teamID, season).then(
         (res) => {
@@ -113,7 +114,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
                                     : <>
                                         { game.leaders.map(leader => 
                                             <td key={ leader.leaders[0].athlete.lastName + leader.leaders[0].value } className={ tablePadding }>
-                                                <a className="mr-1.5 hover:text-cyan-400 hover:underline" href={ leader.leaders[0].athlete.links[0].href } title={ leader.leaders[0].athlete.displayName } target="_blank">
+                                                <a className="mr-1.5 hover:text-cyan-500 dark:hover:text-cyan-400" href={ leader.leaders[0].athlete.links[0].href } title={ leader.leaders[0].athlete.displayName } target="_blank">
                                                     { leader.leaders[0].athlete.shortName }
                                                 </a>
                                                 <span className="text-gray-500 dark:text-lighterSecondaryGrey">{ leader.leaders[0].value }</span>
@@ -159,7 +160,7 @@ export default function Schedule({ teamID }: { teamID: string }) {
                                                     <td className={ `text-start ${tablePadding}` }>   
                                                         { displayWeek(seasonType.requestedSeason, game.week) }
                                                     </td>
-                                                    { game.week.number == teamBye && seasonType.requestedSeason == "Regular Season"
+                                                    { game?.week?.number == teamBye && seasonType.requestedSeason == "Regular Season"
                                                         ? <td colSpan={ hasCompletedGames ? 7 : 5 } className={ `uppercase ${tablePadding}` }>Bye Week</td> 
                                                         : displayNonByeRows(game)
                                                     }
@@ -196,9 +197,9 @@ export default function Schedule({ teamID }: { teamID: string }) {
                             role="button" 
                             className="flex btn h-10 min-h-10"
                             style={{ 
-                                backgroundColor: allTeamsColors[teamID].bgColor, 
-                                color: allTeamsColors[teamID].textColor, 
-                                border: `1px solid ${allTeamsColors[teamID].textColor}` 
+                                backgroundColor: allTeamsColors[teamName].bgColor, 
+                                color: allTeamsColors[teamName].textColor, 
+                                border: `1px solid ${allTeamsColors[teamName].textColor}` 
                             }}
                         >
                             { season ? season : initialSeason }

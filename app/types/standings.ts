@@ -6,6 +6,7 @@ export interface StandingsData {
 export type TeamInStandings = {
     id: string;
     name: string;
+    shortDisplayName: string;
     abbreviation: string;
     logo: string;
     record: string;

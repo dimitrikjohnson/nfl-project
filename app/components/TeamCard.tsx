@@ -18,16 +18,21 @@ export default function TeamCard({ team }: { team: Team }) {
         setHover(true);
         setHoveredTeam(id);
     }
+
+    const linkSlug = team.shortDisplayName.toLowerCase();
+
+    const teamBgColor = allTeamsColors[linkSlug].bgColor;
+    const teamTextColor = allTeamsColors[linkSlug].textColor;
  
     const handleMouseLeave = () => setHover(false);
 
     return (
         <Link
-            href={ `/teams/${team.id}` } 
+            href={ `/teams/${linkSlug}` } 
             key={ team.id }
             style={{ 
-                backgroundColor: (hover && hoveredTeam == team.id) ? allTeamsColors[team.id].bgColor : undefined,
-                color: (hover && hoveredTeam == team.id) ? allTeamsColors[team.id].textColor : undefined
+                backgroundColor: (hover && hoveredTeam == team.id) ? teamBgColor : undefined,
+                color: (hover && hoveredTeam == team.id) ? teamTextColor : undefined
             }}
             onMouseEnter={ () => handleMouseEnter(team.id) }
             onMouseLeave={ () => handleMouseLeave() }

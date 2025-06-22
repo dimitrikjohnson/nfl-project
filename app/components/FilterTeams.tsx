@@ -69,7 +69,7 @@ export default function FilterTeams({ teams }: { teams: Team[] }) {
             { popupActive && (
                 <FilterList 
                     tags={ divisionFilter == "afc" ? afcTags : nfcTags } 
-                    teamID={""} 
+                    teamName={""} 
                     isMobile={ "override" } 
                     showTeamColors={ false } 
                     query={ "division" }

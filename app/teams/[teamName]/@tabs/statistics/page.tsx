@@ -1,8 +1,8 @@
-import Statistics from "@/app/teams/[teamID]/@tabs/statistics/Statistics";
+import Statistics from "@/app/teams/[teamName]/@tabs/statistics/Statistics";
 import FilterList from '@/app/components/FilterList';
 import FilterDropdownButton from '@/app/components/FilterDropdownButton';
 
-export default function StatisticsHome({ teamID }: { teamID: string }) {
+export default function StatisticsHome({ teamName }: { teamName: string }) {
     const tags = ["team stats", "player stats"];
     
 	return (<>
@@ -10,9 +10,9 @@ export default function StatisticsHome({ teamID }: { teamID: string }) {
             <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Statistics</h2>
             <div className="font-rubik flex">
                 <FilterDropdownButton />
-                <FilterList tags={ tags } teamID={ teamID } isMobile={ false } showTeamColors={ true } query={ 'stats' } />
+                <FilterList tags={ tags } teamName={ teamName } isMobile={ false } showTeamColors={ true } query={ 'stats' } />
             </div>
         </div>
-        <Statistics teamID={ teamID } tags={ tags } />
+        <Statistics teamName={ teamName } tags={ tags } />
     </>)	
 }  

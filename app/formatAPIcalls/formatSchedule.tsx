@@ -89,7 +89,7 @@ async function formatSchedule(teamID: string, season: string | false | null) {
 
             const allGames = [
                 {
-                    tableHeadings: [...tableHeadings, "Result", "W-L", "Pass Lead", "Rush Lead", "REC Lead"],
+                    tableHeadings: [...tableHeadings, "Result", "W-L", "Pass Lead", "Rush Lead", "Rec Lead"],
                     games: pastGames
                 },
                 {

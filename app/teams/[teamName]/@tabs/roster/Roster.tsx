@@ -10,8 +10,10 @@ import getTeam from '@/app/apiCalls/getTeam';
 import FilterList from '@/app/components/FilterList';
 import unslugifyQuery from '@/app/helpers/unslugifyQuery';
 import { AllPlayers } from '@/app/types/roster';
+import type { AllTeamsColors } from "@/app/types/colors";
+import teamColors from "@/app/data/allTeamsColors.json";
 
-export default function Roster({ teamID }: { teamID: string }) {
+export default function Roster({ teamName }: { teamName: string }) {
     const [teamAltColor, setTeamAltColor] = useState("");
     const [roster, setRoster] = useState<AllPlayers>({});
     const [popupActive, setPopupActive] = useState(false);
@@ -20,6 +22,9 @@ export default function Roster({ teamID }: { teamID: string }) {
     // gets the 'players' query from the URL
     const searchParams = useSearchParams();
     const players = searchParams.get('players');
+
+    const allTeamsColors = teamColors as AllTeamsColors;
+    const teamID = allTeamsColors[teamName].id;
 
     /*
      * the tags match the ones assigned to the positions
@@ -168,13 +173,13 @@ export default function Roster({ teamID }: { teamID: string }) {
                         <span>Filters</span>
                         <FontAwesomeIcon icon={faCaretDown} className="" />
                     </button>
-                    <FilterList tags={ tags } teamID={ teamID } isMobile={ false } showTeamColors={ true } query={ "players" }/>
+                    <FilterList tags={ tags } teamName={ teamName } isMobile={ false } showTeamColors={ true } query={ "players" }/>
                 </div>
             </div>    
             { isLoading 
               ? <div className="skeleton w-full h-56"></div>
               : <>  
-                    { popupActive && <FilterList tags={ tags } teamID={ teamID } isMobile={ true } showTeamColors={ true } query={ "players" }/> } 
+                    { popupActive && <FilterList tags={ tags } teamName={ teamName } isMobile={ true } showTeamColors={ true } query={ "players" }/> } 
                     { displayPositions() }
                 </>
             }

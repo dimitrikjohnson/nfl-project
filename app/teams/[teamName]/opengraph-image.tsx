@@ -9,10 +9,11 @@ const size = {
 }
 
 // opengraph-images are the images that appear when sharing a link to the website via text/social media
-export default async function Image({ params }: { params: { teamID: string }}) {
-  const { teamID } = await params;
+export default async function Image({ params }: { params: { teamName: string }}) {
+  const { teamName } = await params;
 
   const allTeamsColors = teamColors as AllTeamsColors;
+  const teamID = allTeamsColors[teamName].id
 
   // fetch the team data
   const team = await getTeam({teamID});
@@ -38,7 +39,7 @@ export default async function Image({ params }: { params: { teamID: string }}) {
           justifyContent: 'center',
         }}
       >
-        <img src={dataUrl} width={375} height={375} alt={`${allTeamsColors[teamID].name} logo`} />
+        <img src={dataUrl} width={375} height={375} alt={`${allTeamsColors[teamName].fullName} logo`} />
       </div>
     ),
     {

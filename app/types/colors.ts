@@ -1,6 +1,7 @@
 // type for allTeamsColors.json
 export interface TeamColor {
-  name: string;
+  fullName: string;
+  id: string;
   textColor: string;
   bgColor: string;
 }

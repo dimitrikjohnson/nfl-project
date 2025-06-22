@@ -1,6 +1,7 @@
 import DefaultLogo from '@/app/images/default_logo.png';
 import Image from "next/image";
 import Link from 'next/link';
+import { idToName } from '@/app/helpers/idToName';
 import type { CompetitorTeam, TeamsInGameResult, GameStatus } from "@/app/types/schedule";
 
 // distinguish the chosen team from the non-chosen team in the game
@@ -30,6 +31,7 @@ function teamsInGame(teams: CompetitorTeam[], chosenTeamID: string): TeamsInGame
             id: otherTeam.id,
             score: normalizeScore(otherTeam.score) as string | number | undefined,
             name: otherTeam.team.displayName,
+            shortDisplayName: otherTeam.team.shortDisplayName,
             abbreviation: otherTeam.team.abbreviation,
             logo: otherTeam.team.logos?.[0]?.href,
             winner: otherTeam.winner
@@ -41,13 +43,16 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
     if (!teamsArgument) return false;
     
     const teams = teamsInGame(teamsArgument, chosenTeamID);
+    const currentName = idToName[teams.otherTeam.id]        // ← derived from ID
+        ?? teams.otherTeam.shortDisplayName.toLowerCase(); // default (will happen most of the time)
+
     const containerClasses = `flex gap-x-1 md:gap-x-2.5 items-center ${ onlyShortName && " justify-center" }`;
     
     return (
         <span className={ containerClasses }>
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             <Link 
-                href={ `/teams/${ teams.otherTeam.id }` } 
+                href={ `/teams/${ currentName }` } 
                 className={ containerClasses } 
                 title={ teams.otherTeam.name }
             >

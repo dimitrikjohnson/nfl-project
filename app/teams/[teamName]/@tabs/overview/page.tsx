@@ -1,11 +1,16 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import Leaders from "@/app/components/Leaders";
 import TeamRankings from "@/app/components/TeamRankings";
 import LastTwoGames from "@/app/components/LastTwoGames";
 import NextTwoGames from "@/app/components/NextTwoGames";
 import Standings from "@/app/components/Standings";
+import type { AllTeamsColors } from "@/app/types/colors";
+import teamColors from "@/app/data/allTeamsColors.json";
 
-const Overview = ({ teamID }: { teamID: string }) => {
+const Overview = ({ teamName }: { teamName: string }) => {
+	const allTeamsColors = teamColors as AllTeamsColors;
+    const teamID = allTeamsColors[teamName].id;
+
 	return (
 		<>
 			<h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2 border-primary dark:border-primary-dark">Overview</h2>

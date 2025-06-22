@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { TeamInStandings } from "@/app/types/standings";
 import getStandings from "@/app/apiCalls/getStandings";
@@ -29,8 +29,8 @@ export default function ClientStandings({
 
     const loadStandings = async (group: string) => {
         try {
-            setLoading(true);
             const res = await getStandings(group);
+            setLoading(true);
             setData(res[2]);
         } 
         catch (err) {
@@ -128,9 +128,13 @@ export default function ClientStandings({
                                                     <span className="inline-block md:hidden">{ team.abbreviation }</span>
                                                     <span className="hidden md:inline-block">{ team.name }</span>
                                                 </>
-                                                : <Link href={ `/teams/${ team.id }` } className="hover:text-cyan-500 dark:hover:text-cyan-400" title={ team.name }>
-                                                    <span className="inline-block md:hidden">{ team.abbreviation }</span>
-                                                    <span className="hidden md:inline-block">{ team.name }</span>
+                                                : <Link 
+                                                    href={ `/teams/${ team.shortDisplayName.toLowerCase() }` } 
+                                                    className="hover:text-cyan-500 dark:hover:text-cyan-400" 
+                                                    title={ team.name }
+                                                  >
+                                                        <span className="inline-block md:hidden">{ team.abbreviation }</span>
+                                                        <span className="hidden md:inline-block">{ team.name }</span>
                                                 </Link>
                                             }
                                             { team.clinch 

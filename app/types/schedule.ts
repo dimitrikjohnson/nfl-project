@@ -61,6 +61,7 @@ export interface TeamsInGameResult {
   otherTeam: {
     id: string;
     score: string | number | undefined;
+    shortDisplayName: string;
     name: string;
     abbreviation: string;
     logo?: string;

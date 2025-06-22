@@ -1,161 +1,193 @@
 {
-    "22": {
-        "name": "Arizona Cardinals",
+    "cardinals": {
+        "fullName": "Arizona Cardinals",
+        "id": "22",
         "textColor": "#ffffff",
         "bgColor": "#a4113e"
     },
-    "1": {
-        "name": "Atlanta Falcons",
+    "falcons": {
+        "fullName": "Atlanta Falcons",
+        "id": "1",
         "textColor": "#a71930",
         "bgColor": "#000000"
     },
-    "2": {
-        "name": "Buffalo Bills",
+    "bills": {
+        "fullName": "Buffalo Bills",
+        "id": "2",
         "textColor": "#ffffff",
         "bgColor": "#00338d"
     },
-    "33": {
-        "name": "Baltimore Ravens",
+    "ravens": {
+        "fullName": "Baltimore Ravens",
+        "id": "33",
         "textColor": "#ffffff",
         "bgColor": "#29126f"
     },
-    "29": {
-        "name": "Carolina Panthers",
+    "panthers": {
+        "fullName": "Carolina Panthers",
+        "id": "29",
         "textColor": "#000000",
         "bgColor": "#0085ca"
     },
-    "3": {
-        "name": "Chicago Bears",
+    "bears": {
+        "fullName": "Chicago Bears",
+        "id": "3",
         "textColor": "#e64100",
         "bgColor": "#0b1c3a"
     },
-    "4": {
-        "name": "Cincinnati Bengals",
+    "bengals": {
+        "fullName": "Cincinnati Bengals",
+        "id": "4",
         "textColor": "#fb4f14",
         "bgColor": "#000000"
     },
-    "5": {
-        "name": "Cleveland Browns",
+    "browns": {
+        "fullName": "Cleveland Browns",
+        "id": "5",
         "textColor": "#ffffff",
         "bgColor": "#472a08"
     },
-    "6": {
-        "name": "Dallas Cowboys",
-        "textColor": "#b0b7bc",
+    "cowboys": {
+        "fullName": "Dallas Cowboys",
+        "id": "6",
+        "textColor": "#ffffff",
         "bgColor": "#002a5c"
     },
-    "7": {
-        "name": "Denver Broncos",
+    "broncos": {
+        "fullName": "Denver Broncos",
+        "id": "7",
         "textColor": "#fc4c02",
         "bgColor": "#0a2343"
     },
-    "8": {
-        "name": "Detroit Lions",
-        "textColor": "#bbbbbb",
+    "lions": {
+        "fullName": "Detroit Lions",
+        "id": "8",
+        "textColor": "#ffffff",
         "bgColor": "#0076b6"
     },
-    "9": {
-        "name": "Green Bay Packers",
+    "packers": {
+        "fullName": "Green Bay Packers",
+        "id": "9",
         "textColor": "#ffb612",
         "bgColor": "#204e32"
     },
-    "34": {
-        "name": "Houston Texans",
+    "texans": {
+        "fullName": "Houston Texans",
+        "id": "34",
         "textColor": "#ffffff",
         "bgColor": "#00143f"
     },
-    "11": {
-        "name": "Indianapolis Colts",
+    "colts": {
+        "fullName": "Indianapolis Colts",
+        "id": "11",
         "textColor": "#ffffff",
         "bgColor": "#003b75"
     },
-    "30": {
-        "name": "Jacksonville Jaguars",
+    "jaguars": {
+        "fullName": "Jacksonville Jaguars",
+        "id": "30",
         "textColor": "#d7a22a",
         "bgColor": "#007487"
     },
-    "12": {
-        "name": "Kansas City Chiefs",
+    "chiefs": {
+        "fullName": "Kansas City Chiefs",
+        "id": "12",
         "textColor": "#ffffff",
         "bgColor": "#e31837"
     },
-    "13": {
-        "name": "Las Vegas Raiders",
+    "raiders": {
+        "fullName": "Las Vegas Raiders",
+        "id": "13",
         "textColor": "#a5acaf",
         "bgColor": "#000000"
     },
-    "24": {
-        "name": "Los Angeles Chargers",
+    "chargers": {
+        "fullName": "Los Angeles Chargers",
+        "id": "24",
         "textColor": "#ffc20e",
         "bgColor": "#0080c6"
     },
-    "14": {
-        "name": "Los Angeles Rams",
+    "rams": {
+        "fullName": "Los Angeles Rams",
+        "id": "14",
         "textColor": "#ffd100",
         "bgColor": "#003594"
     },
-    "15": {
-        "name": "Miami Dolphins",
+    "dolphins": {
+        "fullName": "Miami Dolphins",
+        "id": "15",
         "textColor": "#ffffff",
         "bgColor": "#008e97"
     },
-    "16": {
-        "name": "Minnesota Vikings",
+    "vikings": {
+        "fullName": "Minnesota Vikings",
+        "id": "16",
         "textColor": "#ffc62f",
         "bgColor": "#4f2683"
     },
-    "17": {
-        "name": "New England Patriots",
+    "patriots": {
+        "fullName": "New England Patriots",
+        "id": "17",
         "textColor": "#ffffff",
         "bgColor": "#002a5c"
     },
-    "18": {
-        "name": "New Orleans Saints",
+    "saints": {
+        "fullName": "New Orleans Saints",
+        "id": "18",
         "textColor": "#d3bc8d",
         "bgColor": "#000000"
     },
-    "19": {
-        "name": "New York Giants",
+    "giants": {
+        "fullName": "New York Giants",
+        "id": "19",
         "textColor": "#ffffff",
         "bgColor": "#003c7f"
     },
-    "20": {
-        "name": "New York Jets",
+    "jets": {
+        "fullName": "New York Jets",
+        "id": "20",
         "textColor": "#ffffff",
         "bgColor": "#115740"
     },
-    "21": {
-        "name": "Philidelphia Eagles",
+    "eagles": {
+        "fullName": "Philidelphia Eagles",
+        "id": "21",
         "textColor": "#ffffff",
         "bgColor": "#06424d"
     },
-    "23": {
-        "name": "Pittsburgh Steelers",
+    "steelers": {
+        "fullName": "Pittsburgh Steelers",
+        "id": "23",
         "textColor": "#ffb612",
         "bgColor": "#000000"
     },
-    "25": {
-        "name": "San Francisco 49ers",
+    "49ers": {
+        "fullName": "San Francisco 49ers",
+        "id": "25",
         "textColor": "#ffffff",
         "bgColor": "#aa0000"
     },
-    "26": {
-        "name": "Seattle Seahawks",
+    "seahawks": {
+        "fullName": "Seattle Seahawks",
+        "id": "26",
         "textColor": "#69be28",
         "bgColor": "#002a5c"
     },
-    "27": {
-        "name": "Tampa Bay Buccaneers",
+    "buccaneers": {
+        "fullName": "Tampa Bay Buccaneers",
+        "id": "27",
         "textColor": "#ffffff",
         "bgColor": "#bd1c36"
     },
-    "10": {
-        "name": "Tennessee Titans",
+    "titans": {
+        "fullName": "Tennessee Titans",
+        "id": "10",
         "textColor": "#002a5c",
         "bgColor": "#4b92db"
     },
-    "28": {
-        "name": "Washington Commanders",
+    "commanders": {
+        "fullName": "Washington Commanders",
+        "id": "28",
         "textColor": "#ffb612",
         "bgColor": "#5a1414"
     } 

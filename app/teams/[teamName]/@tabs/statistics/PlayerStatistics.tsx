@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Leaders from '@/app/components/Leaders';
-import PlayerTables from '@/app/teams/[teamID]/@tabs/statistics/PlayerTables';
+import PlayerTables from '@/app/teams/[teamName]/@tabs/statistics/PlayerTables';
 import getPlayerStats from '@/app/apiCalls/getPlayerStats';
 
 export default function PlayerStatistics({ teamID }: { teamID: string }) {

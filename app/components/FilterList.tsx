@@ -5,8 +5,8 @@ import teamColors from "@/app/data/allTeamsColors.json";
 import Link from 'next/link';
 
 export default function FilterList(
-    { tags, teamID, isMobile, showTeamColors, query }: 
-    { tags: string[], teamID: string, isMobile: boolean | string, showTeamColors: boolean, query: string }
+    { tags, teamName, isMobile, showTeamColors, query }: 
+    { tags: string[], teamName: string, isMobile: boolean | string, showTeamColors: boolean, query: string }
 ){
     // gets the query from the URL
     const searchParams = useSearchParams();
@@ -30,9 +30,9 @@ export default function FilterList(
                         bg-alt-table-row text-primary border-gray-300 dark:border-none dark:bg-alt-table-row-dark dark:text-primary-dark"
                     style={ showTeamColors && ((slugify(tag) == queryValue) || (!queryValue && tag == tags[0])) 
                             ? { 
-                                backgroundColor: allTeamsColors[teamID].bgColor, 
-                                color: allTeamsColors[teamID].textColor, 
-                                border: `1px solid ${allTeamsColors[teamID].textColor}`
+                                backgroundColor: allTeamsColors[teamName].bgColor, 
+                                color: allTeamsColors[teamName].textColor, 
+                                border: `1px solid ${allTeamsColors[teamName].textColor}`
                             } 
                             : undefined 
                     }

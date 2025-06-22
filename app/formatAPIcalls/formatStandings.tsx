@@ -16,6 +16,7 @@ export default async function formatStandings(season: string, seasonType: number
         output[2].push({
             id: teamData.id,
             name: teamData.name,
+            shortDisplayName: teamData.shortDisplayName,
             abbreviation: teamData.abbreviation,
             logo: teamData.logos[0].href,
             record: teamRecords[0].displayValue,

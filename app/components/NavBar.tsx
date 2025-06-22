@@ -15,8 +15,8 @@ export default function NavBar({ team }: { team?: Team }) {
     const allTeamsColors = teamColors as AllTeamsColors;
     const hasTeam = !!team?.id;
 
-    const teamBgColor = hasTeam && allTeamsColors[team.id]?.bgColor;
-    const teamTextColor = hasTeam && allTeamsColors[team.id]?.textColor;
+    const teamBgColor = hasTeam && allTeamsColors[team.shortDisplayName.toLowerCase()]?.bgColor;
+    const teamTextColor = hasTeam && allTeamsColors[team.shortDisplayName.toLowerCase()]?.textColor;
 
     // for applying certain styling when top navbar passes the mid-screen navbar
     useEffect(() => {

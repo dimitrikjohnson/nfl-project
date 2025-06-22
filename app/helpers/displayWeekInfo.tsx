@@ -7,7 +7,9 @@ export default function displayWeek(requestedSeason: string | undefined, game: G
     }
     // account for the preseason games being misnumbered because of the Hall of Fame game
     else if (requestedSeason == "Preseason") {
-        if (game.text == 'Hall of Fame Weekend') { return "HOF"; }
+        if (game == undefined) { return "" }
+        
+        if (game.text == 'Hall of Fame Weekend') { return "HOF"; }   
         return game.number-1
     }
     else return game.number

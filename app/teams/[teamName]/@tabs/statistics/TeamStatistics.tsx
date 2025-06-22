@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import getTeamStats from '@/app/apiCalls/getTeamStats';
-import TeamTable from '@/app/teams/[teamID]/@tabs/statistics/TeamTable';
+import TeamTable from '@/app/teams/[teamName]/@tabs/statistics/TeamTable';
 
 export default function TeamStatistics({ teamID }: { teamID: string }) {
     const [statGroups, setStatGroups] = useState({});

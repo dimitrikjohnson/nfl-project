@@ -9,13 +9,13 @@ interface TabItems {
     };
 }
 
-export default function Tabs({ items, teamID }: { items: TabItems, teamID: string }) {
+export default function Tabs({ items, teamName }: { items: TabItems, teamName: string }) {
     const currentPath = useCurrentPath();
  
     // currentPath gets the part of the URL that comes after /teams; determine if that is a valid tab or not
     const [selectedTab, setSelectedTab] = useState(items[currentPath] ? currentPath : "overview");
 
-    const linkPrefix = `/teams/${teamID}`;
+    const linkPrefix = `/teams/${teamName}`;
     
     const handleClick = (e: SetStateAction<string>) => setSelectedTab(e);
     
@@ -29,7 +29,8 @@ export default function Tabs({ items, teamID }: { items: TabItems, teamID: strin
                             href={ item == "overview" ? linkPrefix : `${linkPrefix}/${item}` }
                             aria-selected={ item == selectedTab } 
                             onClick={ () => handleClick(item) } 
-                            className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:font-semibold aria-selected:border-b-2 aria-selected:border-cyan-500 dark:aria-selected:border-cyan-400"
+                            className="hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase aria-selected:font-semibold \
+                                aria-selected:border-b-2 aria-selected:border-cyan-500 dark:aria-selected:border-cyan-400"
                         >
                             { item }
                         </Link> 
