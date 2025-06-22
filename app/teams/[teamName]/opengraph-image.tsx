@@ -31,7 +31,7 @@ export default async function Image({ params }: { params: { teamName: string }})
     (
       <div
         style={{
-          backgroundColor: allTeamsColors[teamID].bgColor,
+          backgroundColor: allTeamsColors[teamName].bgColor,
           width: '100%',
           height: '100%',
           display: 'flex',
