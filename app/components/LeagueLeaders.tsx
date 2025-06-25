@@ -41,7 +41,7 @@ export default function LeagueLeaders() {
                         </div>
                     )}    
                 </div>
-                <div className="relative w-40 md:w-32 lg:w-32 shrink-0">
+                <div className="relative w-32 shrink-0">
                     <img className="absolute bottom-0" src={ topLeader.playerHeadshot } title={ topLeader.playerName } alt={ topLeader.playerName } />
                     <img className="absolute w-10 lg:top-6 right-0 opacity-75" src={ topLeader.playerTeamLogo } title={ topLeader.playerTeamName } alt={ topLeader.playerTeamName } />
                 </div> 
