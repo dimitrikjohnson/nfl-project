@@ -22,7 +22,7 @@ export default async function LandingPage() {
                     className="absolute inset-0 object-cover w-full h-full grayscale opacity-15 dark:opacity-10"
                 />
                 <div className="relative z-10 text-primary-dark flex flex-col items-start text-left md:items-center md:text-center px-4 max-w-2xl mt-24 mb-16 md:mt-36 md:mb-36 mx-auto">
-                    <h1 className="font-protest uppercase mb-8 md:mb-10 text-4xl md:text-5xl font-bold leading-[1.2] md:leading-[1.2]">
+                    <h1 className="font-protest uppercase mb-8 md:mb-10 text-4xl md:text-[53px] tracking-wide leading-[1.2] md:leading-[1.2]">
                         NFL stats,
                         <br />
                         No distractions.
