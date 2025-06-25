@@ -1,16 +1,10 @@
 import { Suspense } from 'react';
-import allTeams from '../formatAPIcalls/allTeams';
-import FilterTeams from '../components/FilterTeams';
-import NavBar from '../components/NavBar';
-import { Team } from '@/app/types/team';
+import FilterTeams from '@/app/components/FilterTeams';
+import NavBar from '@/app/components/NavBar';
+import getAllTeams from '@/app/apiCalls/getAllTeams';
 
 const ListOfTeamsPage = async () => {
-    const res = await fetch("https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams", {
-        method: "GET"
-    });
-
-    const data = await res.json();
-    const teams: Team[] = await allTeams(data);
+    const teams = await getAllTeams();
     
     return (
         <>
