@@ -86,7 +86,7 @@ export default function ClientStandings({
                     { ["8", "7"].map(num =>
                        <button 
                             key={ num } 
-                            className={`btn h-8 md:h-10 min-h-8 md:min-h-10 dark:border-none ${ groupNum == num 
+                            className={`btn h-8 min-h-8 px-3.5 md:px-4 md:h-10 md:min-h-10 dark:border-none ${ groupNum == num 
                                 ? "bg-primary text-primary-dark hover:bg-primary hover:text-primary-dark border-none \
                                     dark:bg-primary-dark dark:text-backdrop-dark dark:hover:bg-primary-dark dark:hover:text-backdrop-dark" 
                                 : "bg-alt-table-row text-primary border border-gray-300 hover:bg-secondaryGrey/[0.25] \
