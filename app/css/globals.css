@@ -27,3 +27,7 @@
     text-wrap: balance;
   }
 }
+
+.group:hover .pause {
+  animation-play-state: paused;
+}
