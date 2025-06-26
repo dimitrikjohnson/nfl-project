@@ -17,7 +17,7 @@ export default function Roster({ teamName }: { teamName: string }) {
     const [teamAltColor, setTeamAltColor] = useState("");
     const [roster, setRoster] = useState<AllPlayers>({});
     const [popupActive, setPopupActive] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // gets the 'players' query from the URL
     const searchParams = useSearchParams();

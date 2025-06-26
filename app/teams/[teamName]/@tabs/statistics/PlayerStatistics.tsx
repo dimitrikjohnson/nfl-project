@@ -8,7 +8,7 @@ export default function PlayerStatistics({ teamID }: { teamID: string }) {
     const [season, setSeason] = useState<string>();
     const [seasonType, setSeasonType] = useState<number|string>();
     const [statGroups, setStatGroups] = useState({});
-    const [isLoading, setIsLoading] = useState(false); 
+    const [isLoading, setIsLoading] = useState(true); 
 
     const getStats = () => getPlayerStats(teamID).then(
         (res) => {
@@ -20,7 +20,6 @@ export default function PlayerStatistics({ teamID }: { teamID: string }) {
     );
     
     useEffect(() => {
-        setIsLoading(true),
         getStats()
     }, [teamID]);
     
