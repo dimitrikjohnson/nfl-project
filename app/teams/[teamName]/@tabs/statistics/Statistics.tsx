@@ -17,9 +17,9 @@ export default function Statistics({ teamName, tags }: { teamName: string, tags:
 
     return (<>
         { popupActive && <FilterList tags={ tags } teamName={ teamName } isMobile={ true } showTeamColors={ true } query={ 'stats' } /> }
-        { stats == "team-stats" || !stats
-            ? <TeamStatistics teamID={ teamID }/>
-            : <PlayerStatistics teamID={ teamID }/>
+        { stats == "player-stats" || !stats
+            ? <PlayerStatistics teamID={ teamID }/>
+            : <TeamStatistics teamID={ teamID }/>
         }
     </>)
 }

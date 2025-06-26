@@ -3,7 +3,7 @@ import FilterList from '@/app/components/FilterList';
 import FilterDropdownButton from '@/app/components/FilterDropdownButton';
 
 export default function StatisticsHome({ teamName }: { teamName: string }) {
-    const tags = ["team stats", "player stats"];
+    const tags = ["player stats","team stats"];
     
 	return (<>
         <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-primary-dark">
