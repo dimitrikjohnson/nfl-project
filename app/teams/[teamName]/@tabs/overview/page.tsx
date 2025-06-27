@@ -15,15 +15,13 @@ const Overview = ({ teamName }: { teamName: string }) => {
 		<>
 			<h2 className="font-protest text-3xl 2xl:text-4xl uppercase pb-2 mb-9 border-b-2 border-primary dark:border-primary-dark">Overview</h2>
 			
-			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
-				<Leaders teamID={ teamID } getLeadersOverview={ true } /> 
-			</Suspense>
+			<Leaders teamID={ teamID } getLeadersOverview={ true } /> 
 			 
 			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
 				<TeamRankings teamID={ teamID } />  
 			</Suspense>
 			
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-12">
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 gap-x-4 mb-12">
 				<div>
 					<h3 className="font-protest pb-3 text-2xl 2xl:text-3xl">Last Two Games</h3>
 					<Suspense fallback={<div className="skeleton w-full h-24"></div>}>
