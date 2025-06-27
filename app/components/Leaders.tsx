@@ -8,18 +8,17 @@ export default function Leaders({ teamID, getLeadersOverview }: { teamID: string
     const [season, setSeason] = useState<string>();
     const [seasonType, setSeasonType] = useState<number|string>();
     const [leaders, setLeaders] = useState<PlayerStatLeader[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     
     const getLeaders = () => getTeamLeaders(teamID, getLeadersOverview).then(
         (res) => {
             setSeason(res[0]);
             setSeasonType(res[1]);
             
-            if (Array.isArray(res[2])) {
-                setLeaders(res[2]);
-            } 
-            else {
-                setLeaders([]);
-            }
+            // need to check for array; error occurs if you don't
+            setLeaders(Array.isArray(res[2]) ? res[2] : [])
+
+            setIsLoading(false);
         }
     );
 
@@ -36,9 +35,14 @@ export default function Leaders({ teamID, getLeadersOverview }: { teamID: string
                 <span>Team Leaders</span>     
             </h3>
 			<div className="font-rubik grid grid-cols-2 md:grid-cols-4 gap-4">
-                { leaders.map((stat: PlayerStatLeader) =>
-                    <Leader key={ stat.statName } stat={ stat } />
-                )}
+                { isLoading
+                    ? Array.from({ length: getLeadersOverview ? 4 : 8 }).map((_, index) => 
+                        <div key={ index } className="skeleton w-full h-36 md:h-56" />
+                    )
+                    : leaders.map((stat: PlayerStatLeader) => 
+                        <Leader key={ stat.statName } stat={ stat } />
+                    )
+                }
             </div>
 		</div>   
     )
