@@ -2,8 +2,7 @@
 import Link from "next/link";
 import useCurrentPath from '@/app/helpers/getCurrentPath';
 
-export default function Tabs({ teamName }: { teamName: string }) {
-  const tabs = ['overview', 'schedule', 'roster', 'statistics'];
+export default function Tabs({ tabs, url }: { tabs: string[]; url: string }) {
   const activeTab = useCurrentPath();
 
   return (
@@ -15,7 +14,7 @@ export default function Tabs({ teamName }: { teamName: string }) {
                 return (
                     <Link
                         key={ tab }
-                        href={ `/teams/${teamName}/${tab}` }
+                        href={ `${url}/${tab}` }
                         className={`hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase ${ isActiveTab && 
                                     "font-semibold border-b-2 border-cyan-500 dark:border-cyan-400" } 
                         `}
