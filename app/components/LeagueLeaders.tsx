@@ -7,7 +7,7 @@ export default function LeagueLeaders() {
     const [season, setSeason] = useState<string>();
     const [seasonType, setSeasonType] = useState<number|string>();
     const [categories, setCategories] = useState<StatLeaders>({});
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     
     const getLeaders = () => (getLeagueLeaders()).then(
         (res) => {
@@ -43,14 +43,13 @@ export default function LeagueLeaders() {
                 </div>
                 <div className="relative w-32 shrink-0">
                     <img className="absolute bottom-0" src={ topLeader.playerHeadshot } title={ topLeader.playerName } alt={ topLeader.playerName } />
-                    <img className="absolute w-10 lg:top-6 right-0 opacity-75" src={ topLeader.playerTeamLogo } title={ topLeader.playerTeamName } alt={ topLeader.playerTeamName } />
+                    <img className="absolute w-8 md:w-10 top-6 right-0 opacity-75" src={ topLeader.playerTeamLogo } title={ topLeader.playerTeamName } alt={ topLeader.playerTeamName } />
                 </div> 
             </div>
         )
     }
 
     useEffect(() => {
-        setIsLoading(true),
         getLeaders()
     }, []);
 
@@ -59,13 +58,13 @@ export default function LeagueLeaders() {
             { isLoading
                 ? <div className="skeleton w-full h-36 mb-8"></div>
                 : <div className="mb-12">
-                    <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">
+                    <h3 className="font-protest text-2xl lg:text-3xl pb-3">
                         { seasonType == 4 && 
                             <span className="mr-1.5">{ season }</span> 
                         }
                         <span>NFL Leaders</span>      
                     </h3>
-                    <div className="font-rubik grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="font-rubik grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                         { Object.keys(categories).map(stat =>
                             <div key={ stat } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none px-3 pt-3 rounded-md">
                                 { displayLeaders(stat, categories[stat]) }

@@ -30,7 +30,7 @@ export default function NavBar({ team }: { team?: Team }) {
     }, []);
 
     return (
-        <nav 
+        <header 
             className={`font-rubik fixed w-full flex justify-between py-2.5 px-4 md:px-11 top-0 z-10 ${ 
                 scrolledNav && "drop-shadow-md" } ${ 
                 hasTeam || "bg-gray-200 dark:bg-backdrop-dark" 
@@ -77,6 +77,6 @@ export default function NavBar({ team }: { team?: Team }) {
                     Teams
                 </Link>
             </div>
-        </nav>
+        </header>
     );
 }

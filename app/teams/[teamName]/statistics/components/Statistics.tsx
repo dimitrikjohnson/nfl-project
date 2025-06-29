@@ -1,6 +1,6 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import FilterList from '../../../../components/FilterList';
+import FilterList from '@/app/components/FilterList';
 import TeamStatistics from './TeamStatistics';
 import PlayerStatistics from './PlayerStatistics';
 import type { AllTeamsColors } from "@/app/types/colors";
@@ -17,9 +17,9 @@ export default function Statistics({ teamName, tags }: { teamName: string, tags:
 
     return (<>
         { popupActive && <FilterList tags={ tags } teamName={ teamName } isMobile={ true } showTeamColors={ true } query={ 'stats' } /> }
-        { stats == "player-stats" || !stats
-            ? <PlayerStatistics teamID={ teamID }/>
-            : <TeamStatistics teamID={ teamID }/>
+        { stats == "team-stats" || !stats
+            ? <TeamStatistics teamID={ teamID }/>
+            : <PlayerStatistics teamName={ teamName} teamID={ teamID }/>
         }
     </>)
 }

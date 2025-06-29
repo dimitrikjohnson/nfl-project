@@ -6,7 +6,7 @@ import teamDivisionsJson from '@/app/data/teamDivisions.json';
 import unslugifyQuery from '@/app/helpers/unslugifyQuery';
 import FilterList from '@/app/components/FilterList';
 import formatDivisionQuery from '@/app/helpers/formatDivisionQuery';
-import TeamCard from '@/app/components/TeamCard';
+import TeamCard from '@/app/teams/components/TeamCard';
 import { Team } from '@/app/types/team';
 import { TeamDivisions, DivisionTeam } from '@/app/types/teamDivisions';
 

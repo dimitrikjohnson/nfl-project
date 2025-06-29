@@ -43,8 +43,7 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
     if (!teamsArgument) return false;
     
     const teams = teamsInGame(teamsArgument, chosenTeamID);
-    const currentName = idToName[teams.otherTeam.id]        // ← derived from ID
-        ?? teams.otherTeam.shortDisplayName.toLowerCase(); // default (will happen most of the time)
+    const currentName = idToName[teams.otherTeam.id];      // ← name derived from ID
 
     const containerClasses = `flex gap-x-1 md:gap-x-2.5 items-center ${ onlyShortName && " justify-center" }`;
     

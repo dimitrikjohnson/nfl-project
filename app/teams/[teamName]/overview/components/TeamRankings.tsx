@@ -1,6 +1,7 @@
 import getRankColor from '@/app/helpers/getRankColor';
 import getOverviewRankings from '@/app/apiCalls/getOverviewRankings';
 import { Stat, Side, Rankings } from '@/app/types/rankings';
+import H3 from '@/app/components/H3';
 
 export default async function TeamRankings({ teamID }: { teamID: string }) {
     const tablePadding = "py-2.5 px-2 md:py-2 md:px-3";
@@ -31,12 +32,12 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mb-12">
             { (Object.keys(rankings.sides) as Side[]).map(sideOfBall =>
                 <div key={ sideOfBall }>
-                    <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">
+                    <H3>
                         { rankings.season.type === 4 &&
                             <span className="mr-1.5">{ rankings.season.year }</span>
                         }
                         <span>{ sideOfBall } Rankings</span>
-                    </h3>
+                    </H3>
                     <div className="font-rubik rounded-md overflow-x-auto bg-section border border-gray-300 dark:bg-section-dark dark:border-none">
                         <table className="table-auto w-full text-nowrap">
                             <thead className="border-b border-secondaryGrey">

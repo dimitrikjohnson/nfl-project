@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import FilterTeams from '@/app/components/FilterTeams';
+import FilterTeams from '@/app/teams/components/FilterTeams';
 import NavBar from '@/app/components/NavBar';
 import getAllTeams from '@/app/apiCalls/getAllTeams';
 

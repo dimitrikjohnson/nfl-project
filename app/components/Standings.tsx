@@ -1,6 +1,6 @@
 import getStandings from "@/app/apiCalls/getStandings";
 import getTeam from "@/app/apiCalls/getTeam";
-import ClientStandings from "./ClientStandings";
+import ClientStandings from "@/app/components/ClientStandings";
 
 export default async function Standings({ teamID = "" }) {
     let groupNum = "8"; // get the AFC standings by default

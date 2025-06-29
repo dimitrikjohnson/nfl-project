@@ -1,10 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Leaders from '@/app/components/Leaders';
-import PlayerTables from '@/app/teams/[teamName]/@tabs/statistics/PlayerTables';
+import PlayerTables from '@/app/teams/[teamName]/statistics/components/PlayerTables';
 import getPlayerStats from '@/app/apiCalls/getPlayerStats';
+import H3 from '@/app/components/H3';
 
-export default function PlayerStatistics({ teamID }: { teamID: string }) {
+export default function PlayerStatistics({ teamName, teamID }: { teamName: string; teamID: string }) {
     const [season, setSeason] = useState<string>();
     const [seasonType, setSeasonType] = useState<number|string>();
     const [statGroups, setStatGroups] = useState({});
@@ -25,13 +26,13 @@ export default function PlayerStatistics({ teamID }: { teamID: string }) {
     
     return (
         <>
-            <Leaders teamID={ teamID } getLeadersOverview={ false } />
-            <h3 className="font-protest text-2xl 2xl:text-3xl pb-3"> 
+            <Leaders teamName={ teamName } getLeadersOverview={ false } />
+            <H3>
                 { seasonType == 4 && 
                     <span className="mr-1.5">{ season }</span> 
                 }
-                <span>Player Statistics</span>     
-            </h3>
+                <span>Player Statistics</span>    
+            </H3>
             { isLoading
                 ? <div className="skeleton w-full h-56"></div>
                 : <PlayerTables statGroups={ statGroups } />

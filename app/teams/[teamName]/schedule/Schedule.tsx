@@ -11,12 +11,15 @@ import teamColors from "@/app/data/allTeamsColors.json";
 import displayWeek from '@/app/helpers/displayWeekInfo';
 import formatSchedule from '@/app/formatAPIcalls/formatSchedule';
 import Link from 'next/link';
+import H2 from '@/app/components/H2';
+import H3 from '@/app/components/H3';
+
 
 export default function Schedule({ teamName }: { teamName: string }) {
     const [initialSeason, setInitialSeason] = useState<number>();
     const [schedule, setSchedule] = useState<FormattedSchedule[]>([]);
     const [teamBye, setTeamBye] = useState<number | false>();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     // gets the 'season' query from the URL
     const searchParams = useSearchParams();
@@ -136,7 +139,7 @@ export default function Schedule({ teamName }: { teamName: string }) {
        return (<>
             { schedule.map(seasonType => 
                 <div key={ seasonType.requestedSeason } className="mb-8 last-of-type:mb-0"> 
-                    <h3 className="font-protest text-2xl 2xl:text-3xl pb-3">{ seasonType.requestedSeason }</h3>
+                    <H3>{ seasonType.requestedSeason }</H3>
                     <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
                         <table className="table-auto w-full text-nowrap font-rubik overflow-hidden">
                             { seasonType.allGames.filter(pastOrUpcoming => pastOrUpcoming.games.length > 0)
@@ -178,7 +181,6 @@ export default function Schedule({ teamName }: { teamName: string }) {
     }
     
     useEffect(() => {
-        setIsLoading(true),
         getSchedule()
     }, [season]);
     
@@ -187,7 +189,7 @@ export default function Schedule({ teamName }: { teamName: string }) {
             <div className="flex justify-between items-end pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-white">
                 { isLoading
                     ? <div className="skeleton w-48 h-10"></div>
-                    : <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">{ season ? season : initialSeason } Schedule</h2>
+                    : <H2>{ season ? season : initialSeason } Schedule</H2>   
                 }
                 { isLoading
                     ? <div className="skeleton w-24 h-10"></div>

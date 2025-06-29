@@ -81,8 +81,8 @@ export default function ClientStandings({
     return (
         <div>
             <div className="flex justify-between items-center pb-3">
-                <h2 className="font-protest text-2xl 2xl:text-3xl">{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h2>
-                <div className={`flex gap-2.5 md:gap-3 ${ teamID != "" && "hidden"}`}>
+                <h3 className="font-protest text-2xl lg:text-3xl">{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h3>
+                <div className={`flex gap-2.5 md:gap-3 ${ teamID != "" && "hidden" }`}>
                     { ["8", "7"].map(num =>
                        <button 
                             key={ num } 

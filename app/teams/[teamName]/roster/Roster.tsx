@@ -12,6 +12,7 @@ import unslugifyQuery from '@/app/helpers/unslugifyQuery';
 import { AllPlayers } from '@/app/types/roster';
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
+import H2 from '@/app/components/H2';
 
 export default function Roster({ teamName }: { teamName: string }) {
     const [teamAltColor, setTeamAltColor] = useState("");
@@ -162,7 +163,7 @@ export default function Roster({ teamName }: { teamName: string }) {
     return (
         <>
             <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-primary-dark">
-                <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Current Roster</h2>
+                <H2>Current Roster</H2>
                 <div className="font-rubik flex">
                     <button 
                         tabIndex={0} 
