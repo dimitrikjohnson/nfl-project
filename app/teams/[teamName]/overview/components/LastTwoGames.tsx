@@ -1,5 +1,3 @@
-import '@fortawesome/fontawesome-svg-core/styles.css';
-
 import { formatDateTime } from '@/app/helpers/dateFormatter';
 import { displayHomeAway, displayGameResult } from '@/app/helpers/displayGameInfo';
 import formatLastTwoGames from '@/app/formatAPIcalls/formatLastTwoGames';

@@ -13,16 +13,10 @@ type Props = {
     teamID: string;
 };
 
-export default function ClientStandings({
-    season,
-    seasonType,
-    originalData,
-    originalGroupNum,
-    teamID,
-}: Props) {
+export default function ClientStandings({ season, seasonType, originalData, originalGroupNum, teamID }: Props) {
     const [groupNum, setGroupNum] = useState<string>(originalGroupNum);
     const [data, setData] = useState<TeamInStandings[]>(originalData);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     // tell TypeScript that groupNumbers can be indexed by any string (prevents error)
     const groupNumbers: Record<string, string> = groupNumbersJson;
@@ -30,7 +24,6 @@ export default function ClientStandings({
     const loadStandings = async (group: string) => {
         try {
             const res = await getStandings(group);
-            setLoading(true);
             setData(res[2]);
         } 
         catch (err) {
@@ -75,6 +68,7 @@ export default function ClientStandings({
 
     // re-load the data whenever the groupNum changes
     useEffect(() => {
+        setLoading(true);
         loadStandings(groupNum);
     }, [groupNum]);
 
@@ -120,8 +114,8 @@ export default function ClientStandings({
                                     className="border-b border-gray-900/20 last-of-type:border-none odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark dark:border-none"
                                 >
                                     <td className={ bodyClasses }>{ index + 1 }</td>
-                                    <td className={ `flex gap-x-1 md:gap-x-2.5 items-center ${ bodyClasses }` }>
-                                        <img className="w-5 md:w-7" src={ team.logo } alt={ `${ team.name } logo` } />
+                                    <td className={ `flex gap-x-1 md:gap-x-2.5 items-center ${bodyClasses}` }>
+                                        <img className="w-5 md:w-7" src={ team.logo } alt={ `${team.name} logo` } />
                                         <span className="flex gap-x-1 md:gap-x-1.5 mr-3 md:mr-0">
                                             { team.id == teamID 
                                                 ? <>
