@@ -5,7 +5,12 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
 
     // function to create the stat objects that will be sent to Statistics component
     const createStatObject = (
-        label: string, categoryNum: number, statNum: number, shortLabel = data[categoryNum].stats[statNum].shortDisplayName, perGame = data[categoryNum].stats[statNum].value / GAMES_PLAYED, reversedColors = false
+        label: string, 
+        categoryNum: number, 
+        statNum: number, 
+        shortLabel = data[categoryNum].stats[statNum].shortDisplayName, 
+        perGame = data[categoryNum].stats[statNum].value / GAMES_PLAYED, 
+        reversedColors = false
     ) => {
         return {
             label: label,
@@ -21,6 +26,20 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
     // the objects that don't use the createStatObject function don't have a perGame value
     const stats = {
         "Scoring": [
+            {
+                label: "Red Zone Scoring %",
+                shortLabel: "RZ%",
+                total: data[10].stats[12].value.toFixed(2),
+                rank: data[10].stats[12].rank,
+                rankDisplay: data[10].stats[12].rankDisplayValue,
+            },
+            {
+                label: "Red Zone Touchdown %",
+                shortLabel: "RZTD%",
+                total: data[10].stats[13].value.toFixed(2),
+                rank: data[10].stats[13].rank,
+                rankDisplay: data[10].stats[13].rankDisplayValue,
+            },
             createStatObject("Points Scored", 1, 29, "PTS", data[1].stats[30].value),
             createStatObject("Touchdowns", 1, 31, "TD")
         ],
@@ -108,31 +127,6 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
                 rankDisplay: data[4].stats[6].rankDisplayValue
             },
         ],
-        "Special Teams": [
-            {
-                label: "Extra Point Percentage",
-                shortLabel: "XP%",
-                total: (data[6].stats[3].value).toFixed(2),
-                rank: data[6].stats[3].rank,
-                rankDisplay: data[6].stats[3].rankDisplayValue
-            },
-            createStatObject("Field Goal Attempts", 6, 9),
-            createStatObject("Field Goals Made", 6, 21),
-            {
-                label: "Field Goal Percentage",
-                shortLabel: "FG%",
-                total: (data[6].stats[18].value).toFixed(2),
-                rank: data[6].stats[18].rank,
-                rankDisplay: data[6].stats[18].rankDisplayValue
-            },
-            {
-                label: "Longest Field Goal Made",
-                shortLabel: "LONG FG",
-                total: data[6].stats[37].displayValue,
-                rank: data[6].stats[37].rank,
-                rankDisplay: data[6].stats[37].rankDisplayValue
-            }
-        ]
     };
 
     return stats
