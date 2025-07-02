@@ -150,8 +150,8 @@ export default async function formatPlayerStats(displayedSeason: string, current
     
     // get rushing stats
     for (let index = 0; index < data.categories[4].leaders.length; index += 1) {
-        // only show 5 or less players per section to limit amount of API calls
-        if (index == 5) break;
+        // only show 8 or less players per section to limit amount of API calls
+        if (index == 8) break;
 
         /*
          * 5 = Rushing Attempts | 11 = Rushing Yards | 27 = Rushing Yards Per Attempt
@@ -165,8 +165,8 @@ export default async function formatPlayerStats(displayedSeason: string, current
 
     // get receiving stats
     for (let index = 0; index < data.categories[5].leaders.length; index += 1) {
-        // only show 7 or less players per section to limit amount of API calls
-        if (index == 7) break;
+        // only show 8 or less players per section to limit amount of API calls
+        if (index == 8) break;
 
         /*
          * 9 = Receiving Targets | 15 = Receptions | 11 = Receiving Yards
@@ -180,8 +180,8 @@ export default async function formatPlayerStats(displayedSeason: string, current
 
     // get defensive stats
     for (let index = 0; index < data.categories[6].leaders.length; index += 1) {
-        // only show 7 or less players per section to limit amount of API calls
-        if (index == 7) break;
+        // only show 10 or less players per section to limit amount of API calls
+        if (index == 10) break;
         
         const profileInfo = await getPlayerProfile(data.categories[6], index);
         
@@ -202,7 +202,7 @@ export default async function formatPlayerStats(displayedSeason: string, current
         output.stats["Defense"].players.push({
             ...profileInfo,
             stats: [
-                generalCategory[4].displayValue,
+                generalCategory[4].displayValue, // Games Played
                 defStats[23].displayValue, // Tackles
                 defStats[20].displayValue, // Tackles for Loss
                 defStats[12].displayValue, // QB Hits
