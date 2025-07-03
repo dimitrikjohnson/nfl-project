@@ -19,7 +19,7 @@ export default function formatTeamData(apiTeamData: any, seasonData?: any): Team
         logoWhite: team.shortDisplayName === "Jets" && team.logos?.[0]?.href, // Need both Jets logos for light and dark mode
         record: fullSeasonData.team?.record?.items?.[0]?.summary || getTeamRecord(team.id),
         standingSummary: fullSeasonData.team?.standingSummary || "",
-        conference: team.groups?.parent?.name || "",
+        conference: team.groups?.parent?.id || "",
         division: team.groups?.id
     };
 }
