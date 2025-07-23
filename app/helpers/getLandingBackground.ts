@@ -10,7 +10,7 @@ export default async function getLandingBackground() {
     const allTeamsColors = teamColors as AllTeamsColors;
 
     /*
-     * 1. Get all the object keys
+     * 1. Get all the object keys (aka team names)
      * 2. Generate a random index
      * 3. Get a random key (team) using the index
      * 4. Get the ID from that random team
@@ -19,7 +19,10 @@ export default async function getLandingBackground() {
     const keys = Object.keys(allTeamsColors);
     const randomIndex = Math.floor(Math.random() * keys.length);
     const randomTeam = keys[randomIndex];
-    const randomID = allTeamsColors[randomTeam].id;
+    let randomID = allTeamsColors[randomTeam].id;
+
+    // the Chargers (id 24) don't have a venue image in their API response. Therefore, if 24 is rolled, use 23 instead
+    if (randomID == "24") { randomID = "23"}
     
     const res = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/franchises/${randomID}`, {
         method: "GET"
