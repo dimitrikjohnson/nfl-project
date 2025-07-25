@@ -1,8 +1,6 @@
 'use client';
 import { useState, useEffect, Fragment } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { formatDateTime } from '@/app/helpers/dateFormatter';
 import { displayHomeAway, displayGameResult, displayRecordAfterGame } from '@/app/helpers/displayGameInfo';
 import { GameData, FormattedSchedule } from "@/app/types/schedule";
@@ -10,10 +8,9 @@ import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
 import displayWeek from '@/app/helpers/displayWeekInfo';
 import formatSchedule from '@/app/formatAPIcalls/formatSchedule';
-import Link from 'next/link';
 import H2 from '@/app/components/H2';
 import H3 from '@/app/components/H3';
-
+import YearDropdownButton from '@/app/components/YearDropdownButton';
 
 export default function Schedule({ teamName }: { teamName: string }) {
     const [initialSeason, setInitialSeason] = useState<number>();
@@ -26,8 +23,13 @@ export default function Schedule({ teamName }: { teamName: string }) {
     const season = searchParams.has('season') && searchParams.get('season');
 
     const tablePadding = "py-2.5 px-2 md:py-2 md:px-3 text-sm";
+    
     const allTeamsColors = teamColors as AllTeamsColors;
     const teamID = allTeamsColors[teamName].id;
+    const colors = {
+        bg: allTeamsColors[teamName].bgColor,
+        text: allTeamsColors[teamName].textColor
+    };
 
     const getSchedule = () => formatSchedule(teamID, season).then(
         (res) => {
@@ -181,6 +183,7 @@ export default function Schedule({ teamName }: { teamName: string }) {
     }
     
     useEffect(() => {
+        setIsLoading(true);
         getSchedule()
     }, [season]);
     
@@ -193,28 +196,11 @@ export default function Schedule({ teamName }: { teamName: string }) {
                 }
                 { isLoading
                     ? <div className="skeleton w-24 h-10"></div>
-                    : <div className="dropdown dropdown-end">
-                        <div 
-                            tabIndex={0} 
-                            role="button" 
-                            className="flex btn h-10 min-h-10"
-                            style={{ 
-                                backgroundColor: allTeamsColors[teamName].bgColor, 
-                                color: allTeamsColors[teamName].textColor, 
-                                border: `1px solid ${allTeamsColors[teamName].textColor}` 
-                            }}
-                        >
-                            { season ? season : initialSeason }
-                            <FontAwesomeIcon icon={faCaretDown} className="" />
-                        </div>
-                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-section dark:bg-section-dark rounded-md w-28">
-                            { years.map(year =>
-                                <li key={ year }>
-                                    <Link href={ `?season=${year}` }>{ year }</Link>    
-                                </li>   
-                            )}
-                        </ul>
-                    </div>
+                    : <YearDropdownButton 
+                        colors={ colors } 
+                        displaySeason={ season ? season : initialSeason } 
+                        allYears={ years } 
+                    />
                 }  
             </div>
             { isLoading 
