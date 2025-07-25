@@ -51,7 +51,7 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
         <span className={ containerClasses }>
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             <Link 
-                href={ `/teams/${ currentName }` } 
+                href={ `/teams/${currentName}` } 
                 className={ containerClasses } 
                 title={ teams.otherTeam.name }
             >
@@ -60,8 +60,8 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
                     : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
                 }
                 <p className="hover:text-cyan-500 dark:hover:text-cyan-400">
-                    <span className={ onlyShortName ? "hidden" : "hidden md:block" }>{ teams.otherTeam.name }</span>
-                    <span className={ onlyShortName ? "" : "md:hidden"}>{ teams.otherTeam.abbreviation }</span>    
+                    <span className={ onlyShortName ? "hidden" : "hidden xl:block" }>{ teams.otherTeam.name }</span>
+                    <span className={ onlyShortName ? "" : "xl:hidden"}>{ teams.otherTeam.abbreviation }</span>    
                 </p> 
             </Link>     
         </span>
