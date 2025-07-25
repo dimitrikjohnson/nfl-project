@@ -5,11 +5,11 @@ import { Team } from "@/app/types/team";
 
 export default function TeamSummary({ team, hasTrophy }: { team: Team, hasTrophy: boolean }) {
     const sbWinner = useContext(SuperBowlWinner);
-   
+  
     return (
         <>
             { team.record }
-            { team.standingSummary && 
+            { (team.standingSummary && team.record != "0-0") &&  // don't display standing summary if team is 0-0
                 <>
                     <span>&#183;</span>
                     <span>{ team.standingSummary }</span>
