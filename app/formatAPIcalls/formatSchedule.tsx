@@ -10,10 +10,10 @@ async function formatSchedule(teamID: string, season: string | false | null) {
         let res1;
         
         if (!season) {
-            res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?seasontype=${counter}`, { method: "GET" });
+            res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?xhr=1&seasontype=${counter}`, { method: "GET" });
         }
         else {
-            res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?seasontype=${counter}&season=${season}`, { method: "GET" }); 
+            res1 = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${teamID}/schedule?xhr=1&seasontype=${counter}&season=${season}`, { method: "GET" }); 
         }
         
         if (!res1.ok) throw new Error('Failed to fetch team schedule');
@@ -34,7 +34,7 @@ async function formatSchedule(teamID: string, season: string | false | null) {
                     id: game.id, // used in JSX as a key
                     date: game.date,
                     teams: game.competitions[0].competitors,
-                    status: game.competitions[0].status,
+                    status: game.competitions[0].status.type,
                     week: game.week,
                     season: game.season.year,
                     seasonType: game.seasonType

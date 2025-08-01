@@ -79,7 +79,7 @@ export default function Schedule({ teamName }: { teamName: string }) {
     const displayNonByeRows = (game: GameData) => { 
         return (<>
             <td className={ tablePadding }>   
-                { game.status?.type.state == "in"
+                { game.status?.state == "in"
                     ? displayGameResult(game.teams, game.status, teamID, true)
                     : <>
                         <span className="md:hidden">{ formatDateTime(game.date).short }</span>
@@ -87,10 +87,10 @@ export default function Schedule({ teamName }: { teamName: string }) {
                     </>
                 }
             </td>       
-            <td className={ `flex gap-x-1 md:gap-x-2.5 ${tablePadding}` }>
+            <td className={`flex gap-x-1 md:gap-x-2.5 ${tablePadding}`}>
                 { displayHomeAway(game.teams, teamID) }
             </td>
-            { game.status?.type.state == "pre"
+            { game.status?.state == "pre"
                 ? <>
                     <td className={ tablePadding }>
                         { game.network }
@@ -119,10 +119,15 @@ export default function Schedule({ teamName }: { teamName: string }) {
                                     : <>
                                         { game.leaders.map(leader => 
                                             <td key={ leader.leaders[0].athlete.lastName + leader.leaders[0].value } className={ tablePadding }>
-                                                <a className="mr-1.5 hover:text-cyan-500 dark:hover:text-cyan-400" href={ leader.leaders[0].athlete.links[0].href } title={ leader.leaders[0].athlete.displayName } target="_blank">
+                                                <a 
+                                                    className="mr-1.5 hover:text-cyan-500 dark:hover:text-cyan-400" 
+                                                    href={ leader?.leaders[0].athlete.links[0].href } 
+                                                    title={ leader?.leaders[0].athlete.displayName } 
+                                                    target="_blank"
+                                                >
                                                     { leader.leaders[0].athlete.shortName }
                                                 </a>
-                                                <span className="text-gray-500 dark:text-lighterSecondaryGrey">{ leader.leaders[0].value }</span>
+                                                <span className="text-gray-500 dark:text-lighterSecondaryGrey">{ leader?.leaders[0].value }</span>
                                             </td>
                                         )}
                                     </> 

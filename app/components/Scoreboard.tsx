@@ -2,9 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFootballBall } from '@fortawesome/free-solid-svg-icons';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 
-import formatScoreboard from "../formatAPIcalls/formatScoreboard";
-import { formatDateTime } from "../helpers/dateFormatter";
+import formatScoreboard from "@/app/formatAPIcalls/formatScoreboard";
+import { formatDateTime } from "@/app/helpers/dateFormatter";
 import { GameData, CompetitorTeam } from "@/app/types/schedule";
+
+export const revalidate = 30;  // revalidate after 30 seconds
 
 export default async function Scoreboard() {
     const scoreboard = await formatScoreboard();

@@ -52,17 +52,17 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             <Link 
                 href={ `/teams/${currentName}` } 
-                className={ containerClasses } 
+                className={`group ${containerClasses}`} 
                 title={ teams.otherTeam.name }
             >
                 { teams.otherTeam.logo
-                    ? <img className={ onlyShortName ? "w-20" : "w-5 md:w-7" } src={ teams.otherTeam.logo } alt={ teams.otherTeam.name } />
+                    ? <img className={ onlyShortName ? "w-20" : "w-5 md:w-7" } src={ teams.otherTeam.logo } alt={`${teams.otherTeam.name} logo`} />
                     : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
                 }
-                <p className="hover:text-cyan-500 dark:hover:text-cyan-400">
+                <span className="group-hover:text-cyan-500 dark:group-hover:text-cyan-400">
                     <span className={ onlyShortName ? "hidden" : "hidden xl:block" }>{ teams.otherTeam.name }</span>
                     <span className={ onlyShortName ? "" : "xl:hidden"}>{ teams.otherTeam.abbreviation }</span>    
-                </p> 
+                </span> 
             </Link>     
         </span>
     ) 
@@ -76,12 +76,12 @@ function displayGameResult(teamsArgument: CompetitorTeam[] | undefined, gameStat
     
     // if there is no winner, the game is in progress or was cancelled
     if (teams.chosenTeam.winner == null) {
-        if (gameStatus?.type?.state =="in") {
+        if (gameStatus?.state =="in") {
             return (<> 
                 { dateField 
                     ? <>
                         <span className="animate-pulse text-red-400 font-semibold mr-1.5">LIVE</span>
-                        <span>{ gameStatus?.type?.shortDetail }</span>
+                        <span>{ gameStatus?.shortDetail }</span>
                     </>
                     : <span className="flex items-center">
                         <span className="flex items-center gap-x-2">
@@ -111,8 +111,8 @@ function displayGameResult(teamsArgument: CompetitorTeam[] | undefined, gameStat
 
             <span>{ teams.chosenTeam.score + "-" + teams.otherTeam.score }</span>  
 
-            { gameStatus?.type?.altDetail &&
-                <span className="ml-2">{ gameStatus.type.altDetail }</span>
+            { gameStatus?.altDetail &&
+                <span className="ml-2">{ gameStatus.altDetail }</span>
             }
         </>
     )
