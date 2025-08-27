@@ -1,4 +1,4 @@
-import displayWeek from "@/app/helpers/displayWeekInfo";
+import { displayWeek } from "@/app/helpers/displayWeekInfo";
 
 export default async function getNextTwoGames( teamID: any ) {
     let nextTwoGames = [];
@@ -20,10 +20,6 @@ export default async function getNextTwoGames( teamID: any ) {
                         status: game.competitions[0].status,
                         week: displayWeek(schedule.requestedSeason.name, game.week),
                         network: game.competitions[0].broadcasts.length > 0 ? game.competitions[0].broadcasts[0].media.shortName : "TBD",
-                        //venue: game.competitions[0].venue,
-                        //season: game.season.year,
-                        //spread: null,
-                        //overUnder: null,
                         homeChance: null,
                         awayChance: null,
                         seasonType: game.seasonType

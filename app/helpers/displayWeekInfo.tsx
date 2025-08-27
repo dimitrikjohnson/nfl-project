@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy } from '@fortawesome/free-solid-svg-icons';
 
 // function for displaying the week number/text
-export default function displayWeek(requestedSeason: string | undefined, game: GameData["week"]) {
+export function displayWeek(requestedSeason: string | undefined, game: GameData["week"]) {
     if (requestedSeason == "Postseason") {
         if (game.text == "Divisional Round") {
             return (
@@ -39,4 +39,38 @@ export default function displayWeek(requestedSeason: string | undefined, game: G
         return game.number-1
     }
     else return game.number
+}
+
+export function displayGamelogWeek(week: string | undefined) {
+    if (!week) { return undefined }
+
+    if (week.toLowerCase().includes("wild card")) {
+        return "Wild Card";
+    }
+    else if (week.toLowerCase().includes("divisional")) {
+        return (
+            <>
+                <span className="md:hidden">Div. Round</span>
+                <span className="hidden xl:block">Divisional Round</span>
+            </>
+        )
+    }
+    else if (week.toLowerCase().includes("championship")) {
+        return (
+            <>
+                <span className="md:hidden">Conf. Champ</span>
+                <span className="hidden md:block">Conference Champ</span>
+            </>
+        )
+    } 
+    else if (week.includes("Super Bowl")) {
+        return (
+            <>
+                <span>{ week }</span>
+                <FontAwesomeIcon icon={faTrophy} className="hidden md:inline-flex ml-2 text-gold dark:text-gold-dark" /> 
+            </> 
+        )
+    }
+                
+    return week;
 }
