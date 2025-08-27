@@ -2,6 +2,7 @@ export interface PlayerStats {
     jersey: string | undefined;
     name: string;
     position: string;
+    link: string;
     stats: string[];
 }
 
