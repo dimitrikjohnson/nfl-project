@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Link from "next/link";
 import getLeagueLeaders from '@/app/apiCalls/getLeagueLeaders';
 import { PlayerStatLeader, StatLeaders } from '@/app/types/statLeaders';
 
@@ -37,7 +38,12 @@ export default function LeagueLeaders() {
                             key={ leader.statValue + leader.playerName }
                         >
                             <p className="w-10">{ leader.statValue }</p>
-                            <p>{ leader.playerName }</p>
+                            <Link 
+                                href={ leader.playerLink }
+                                className="hover:text-blue-800 dark:hover:text-cyan-400"     
+                            >
+                                { leader.playerName }
+                            </Link>
                         </div>
                     )}    
                 </div>
@@ -59,7 +65,7 @@ export default function LeagueLeaders() {
                 ? <div className="skeleton w-full h-36 mb-8"></div>
                 : <div className="mb-12">
                     <h3 className="font-protest text-2xl lg:text-3xl pb-3">
-                        { seasonType == 4 && 
+                        { (seasonType == 4 || seasonType == 1) && 
                             <span className="mr-1.5">{ season }</span> 
                         }
                         <span>NFL Leaders</span>      

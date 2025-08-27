@@ -1,4 +1,4 @@
-import displayWeek from "@/app/helpers/displayWeekInfo";
+import { displayWeek } from "@/app/helpers/displayWeekInfo";
 import formatSchedule from "@/app/formatAPIcalls/formatSchedule";
 import { GameData } from "@/app/types/schedule";
 

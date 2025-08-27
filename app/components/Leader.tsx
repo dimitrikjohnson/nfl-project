@@ -1,4 +1,5 @@
 import { PlayerStatLeader } from "@/app/types/statLeaders";
+import Link from "next/link";
 
 export default function Leader({ stat }: { stat: PlayerStatLeader }) {
     // if a player is no longer on a team, their jersey number disappears
@@ -7,7 +8,7 @@ export default function Leader({ stat }: { stat: PlayerStatLeader }) {
         if (num) return `#${ num }` 
     }
 
-    // for mobile, replace "touchdowns" with "tds"
+    // on mobile, replace "touchdowns" with "tds"
     const tdMobile = stat.statName.replace("Touchdowns", "tds");
     
     return (
@@ -15,14 +16,16 @@ export default function Leader({ stat }: { stat: PlayerStatLeader }) {
             <p className="hidden lg:block mb-2 uppercase">{ stat.statName }</p>
             <p className="lg:hidden mb-2 uppercase">{ tdMobile }</p>
             <p className="mb-2 font-semibold text-lg">{ stat.statValue }</p>
-            <p className="mb-1">{ stat.playerName }</p>
+            <Link href={ stat.playerLink } className="text-blue-800 dark:text-cyan-400 hover:underline">
+                { stat.playerName }
+            </Link>
             <p className="mb-2 flex gap-1 text-sm text-gray-500 dark:text-lighterSecondaryGrey">
                 <span>{ stat.playerPosition }</span> 
                 <span>{ isJerseyNumPresent(stat.playerJersey) }</span>
             </p>
-            <div className="w-32 md:w-40 rounded-sm shrink-0">
+            <Link href={ stat.playerLink } className="w-32 md:w-40 rounded-sm shrink-0">
                 <img src={ stat.playerHeadshot } alt={ stat.playerName } />
-            </div>
+            </Link>
         </div>
     )
 }

@@ -2,20 +2,46 @@ import DefaultLogo from '@/app/images/default_logo.png';
 import Image from "next/image";
 import Link from 'next/link';
 import { idToName } from '@/app/helpers/idToName';
-import type { CompetitorTeam, TeamsInGameResult, GameStatus } from "@/app/types/schedule";
+import type { CompetitorTeam, TeamsInGameResult, GameLeader, GameStatus } from "@/app/types/schedule";
 
 // distinguish the chosen team from the non-chosen team in the game
-function teamsInGame(teams: CompetitorTeam[], chosenTeamID: string): TeamsInGameResult {
+function teamsInGame(teams: any, chosenTeamID: string): TeamsInGameResult {
     const [first, second] = teams;
     const chosenTeam = first.id === chosenTeamID ? first : second;
     const otherTeam = first.id === chosenTeamID ? second : first;
 
     // the score response may be formatted in 2 different ways 
     const normalizeScore = (score: CompetitorTeam["score"]) => {
-        if (!score) return undefined;
-        if (typeof score === "object" && "value" in score) return score.value ?? undefined;
-        return score;
+        if (score === null || score === undefined) return undefined;
+
+        // Case 1: object with value/displayValue
+        if (typeof score === "object") {
+            if ("value" in score && score.value !== undefined) return String(score.value);
+            if ("displayValue" in score && score.displayValue !== undefined) return score.displayValue;
+        }
+
+        // Case 2: already number or string
+        return String(score);
     };
+
+    const leaders: GameLeader[] = [];
+
+    chosenTeam.leaders?.map((stat: any) => {
+        const leader = stat.leaders[0];
+
+        const slugifyName = leader.athlete.displayName.toLowerCase().replace(' ', '-');
+
+        const link = `/player/${slugifyName}-${leader.athlete.id}`
+        leaders.push({
+            value: leader.value,
+            player: {
+                displayName: leader.athlete.displayName,
+                shortName: leader.athlete.shortName,
+                lastName: leader.athlete.lastName,
+                link: link
+            }
+        });
+    });
 
     return {
         chosenTeam: {
@@ -25,7 +51,7 @@ function teamsInGame(teams: CompetitorTeam[], chosenTeamID: string): TeamsInGame
             winner: chosenTeam.winner,
             record: chosenTeam.record?.[0]?.displayValue ?? null,
             logo: chosenTeam.team.logos?.[0]?.href,
-            leaders: chosenTeam.leaders // this is only for the schedule
+            leaders: leaders // this is only for the schedule
         },
         otherTeam: {
             id: otherTeam.id,
@@ -51,15 +77,15 @@ function displayHomeAway(teamsArgument: CompetitorTeam[] | undefined, chosenTeam
         <span className={ containerClasses }>
             <span>{ teams.chosenTeam.homeAway == "home" ? "vs" : "@" }</span>
             <Link 
-                href={ `/teams/${currentName}` } 
-                className={`group ${containerClasses}`} 
+                href={`/teams/${currentName}`} 
+                className={`group text-blue-800 dark:text-cyan-400 ${containerClasses}`} 
                 title={ teams.otherTeam.name }
             >
                 { teams.otherTeam.logo
                     ? <img className={ onlyShortName ? "w-20" : "w-5 md:w-7" } src={ teams.otherTeam.logo } alt={`${teams.otherTeam.name} logo`} />
                     : <Image className="w-4 md:w-6" src={ DefaultLogo }  alt="Default logo" priority />
                 }
-                <span className="group-hover:text-cyan-500 dark:group-hover:text-cyan-400">
+                <span className="group-hover:underline">
                     <span className={ onlyShortName ? "hidden" : "hidden xl:block" }>{ teams.otherTeam.name }</span>
                     <span className={ onlyShortName ? "" : "xl:hidden"}>{ teams.otherTeam.abbreviation }</span>    
                 </span> 
@@ -80,7 +106,10 @@ function displayGameResult(teamsArgument: CompetitorTeam[] | undefined, gameStat
             return (<> 
                 { dateField 
                     ? <>
-                        <span className="animate-pulse text-red-400 font-semibold mr-1.5">LIVE</span>
+                        <span className="text-red-600 dark:text-red-400 font-semibold mr-1.5">
+                            <span aria-hidden className="animate-pulse">&#8226;</span>
+                            <span>LIVE</span>
+                        </span>
                         <span>{ gameStatus?.shortDetail }</span>
                     </>
                     : <span className="flex items-center">

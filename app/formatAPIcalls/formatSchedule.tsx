@@ -30,18 +30,27 @@ async function formatSchedule(teamID: string, season: string | false | null) {
                 // for reg season games, keep track of their week numbers to find the bye week
                 if (game.seasonType.type == 2) weeks.push(game.week.number);
 
+                let teams = game.competitions[0].competitors;
+
+                // if the game is in progress, call the Boxscore API for more accurate live scores
+                if (game.competitions[0].status.type.state == "in") {
+                    const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${game.id}`);
+                    teams = (await res.json()).header.competitions[0].competitors;
+                }
+
                 let data: GameData = {
                     id: game.id, // used in JSX as a key
                     date: game.date,
-                    teams: game.competitions[0].competitors,
+                    teams: teams,
                     status: game.competitions[0].status.type,
                     week: game.week,
                     season: game.season.year,
-                    seasonType: game.seasonType
+                    seasonType: game.seasonType,
+                    state: game.competitions[0].status.type.state
                 }
                 
                 // if the game hasn't happened yet, add the ESPN Bet spread and over/under
-                if (game.competitions[0].status.type.state == "pre") {
+                if (data.state == "pre") {
                     data.network = game.competitions[0].broadcasts.length > 0 ? game.competitions[0].broadcasts[0].media.shortName : "TBD";
                     
                     // an error will be thrown if the spread/odds haven't been added yet
@@ -75,7 +84,7 @@ async function formatSchedule(teamID: string, season: string | false | null) {
                     week: {
                         number: byeWeek,
                         text: ""
-                    }       
+                    }
                 };
 
                 // determine which array the bye week should be in and add it

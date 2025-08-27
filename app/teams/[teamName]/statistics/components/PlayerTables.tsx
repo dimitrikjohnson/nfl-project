@@ -1,4 +1,5 @@
 import { PlayerStats, PlayerStatCategories } from "@/app/types/teamStats";
+import Link from "next/link";
 
 export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCategories }) {
     const tableCellFormat = "text-end py-2 px-2 md:px-3";
@@ -24,8 +25,10 @@ export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCat
                         <tbody>
                             { statGroups[group].players.map((player: PlayerStats) =>
                                 <tr key={ player.name } className="odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark border-b border-gray-900/20 last-of-type:border-none dark:border-none">
-                                    <td className={ `flex gap-1.5 ${tableCellFormat}` }>
-                                        <p>{ player.name }</p>
+                                    <td className={`flex gap-1.5 items-end ${tableCellFormat}`}>
+                                        <Link className="text-blue-800 dark:text-cyan-400 hover:underline" href={ player.link }>
+                                            { player.name }
+                                        </Link>
                                         <p className="flex gap-1.5 text-gray-600 dark:text-lighterSecondaryGrey text-sm items-end">
                                             <span>{ player.position }</span>
                                             { player.jersey &&

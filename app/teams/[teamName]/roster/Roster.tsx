@@ -3,8 +3,6 @@ import { useState, useEffect, Fragment } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-import Image from "next/image";
-import DefaultHeadshot from '@/app/images/default_headshot.png';
 import getRoster from '@/app/apiCalls/getRoster';
 import getTeam from '@/app/apiCalls/getTeam';
 import FilterList from '@/app/components/FilterList';
@@ -13,10 +11,12 @@ import { AllPlayers } from '@/app/types/roster';
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
 import H2 from '@/app/components/H2';
+import Link from 'next/link';
 
 export default function Roster({ teamName }: { teamName: string }) {
     const [teamAltColor, setTeamAltColor] = useState("");
     const [roster, setRoster] = useState<AllPlayers>({});
+    const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
     const [popupActive, setPopupActive] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -41,7 +41,8 @@ export default function Roster({ teamName }: { teamName: string }) {
     const getTeamRoster = () => getRoster(teamID).then(
         (res) => {
             setIsLoading(false);
-            setRoster(res);
+            setRoster(res.allPlayers);
+            setErrors(res.errors);
         }
     );
     
@@ -66,17 +67,48 @@ export default function Roster({ teamName }: { teamName: string }) {
                         </tr>
                     </thead>
                     <tbody>
-                        { Object.keys(roster).map(position =>
-                            roster[position].tags.includes(unslugifyQuery(players || "")) &&
-                            <Fragment key={ position }>
-                                <tr className="bg-alt-table-row dark:bg-alt-table-row-dark border-b border-secondaryGrey/[.50]">
-                                    <th colSpan={ tableHeadings.length } className="text-start py-2 px-2 md:px-3">
-                                        { position }{ Object.keys(roster[position].players).length > 1 && "s" }
-                                    </th>
-                                </tr>
-                                { displayPlayerRows(roster[position].players) }
-                            </Fragment>
-                        )}
+                        {["offense", "defense", "special teams"].map((tag) => {
+                            const filteredPositions = Object.keys(roster).filter(
+                                position => roster[position].tags.includes(tag) &&
+                                            roster[position].tags.includes(unslugifyQuery(players || ""))
+                            );
+
+                            // Show an error row if a section is empty and has a corresponding error
+                            if (filteredPositions.length === 0 && (
+                                (tag === "offense" && errors.offenseUnavailable) ||
+                                (tag === "defense" && errors.defenseUnavailable) ||
+                                (tag === "special teams" && errors.specialTeamsUnavailable)
+                            )) {
+                                const errorMsg = {
+                                    offense: "The offensive roster is unavailable right now.",
+                                    defense: "The defensive roster is unavailable right now.",
+                                    "special teams": "The Special Teams roster is unavailable right now."
+                                }[tag];
+
+                                return (
+                                    <tr key={`error-${tag}`}>
+                                        <td 
+                                            colSpan={ tableHeadings.length } 
+                                            className="text-red-500 dark:text-red-400 text-center p-3"
+                                        >
+                                            { errorMsg }
+                                        </td>
+                                    </tr>
+                                );
+                            }
+
+                            // Otherwise, display the normal position rows
+                            return filteredPositions.map(position => (
+                                <Fragment key={position}>
+                                    <tr className="bg-alt-table-row dark:bg-alt-table-row-dark border-b border-secondaryGrey/[.50]">
+                                        <th colSpan={ tableHeadings.length } className="text-start py-2 px-2 md:px-3">
+                                            { position }{ Object.keys(roster[position].players).length > 1 && "s" }
+                                        </th>
+                                    </tr>
+                                    { displayPlayerRows(roster[position].players) }
+                                </Fragment>
+                            ));
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -102,14 +134,17 @@ export default function Roster({ teamName }: { teamName: string }) {
                 return (
                     <tr key={ player } className="border-b border-gray-900/20 dark:border-secondaryGrey/[.50] last-of-type:border-0">
                         <td className={ "flex gap-1.5 md:gap-2.5 " + tableCellClasses }>
-                            <div className="w-14 relative rounded-sm shrink-0" style={{ background: '#' + teamAltColor }}>
-                                { playerValues.headshot
-                                    ? <img className="relative bottom-0" src={ playerValues.headshot } alt={ playerValues.name } />
-                                    : <Image className="w-14 object-cover rounded-sm" src={ DefaultHeadshot }  alt="Default profile picture" priority />
-                                } 
-                            </div>
+                            <Link href={ playerValues.link } className="w-14 relative rounded-sm shrink-0" style={{ background: '#' + teamAltColor }}>
+                                <img 
+                                    className="relative bottom-0 rounded-sm" 
+                                    src={ playerValues.headshot } 
+                                    alt={ playerValues.headshot.startsWith("/_") ? "Default headshot" : playerValues.name } 
+                                />
+                            </Link>
                             <div className="flex gap-1.5 m-auto mx-0">
-                                <p>{ playerValues.name }</p>
+                                <Link className="text-blue-800 dark:text-cyan-400 hover:underline" href={ playerValues.link }>
+                                    { playerValues.name }
+                                </Link>
                                 <p className="flex gap-1.5 text-gray-600 dark:text-lighterSecondaryGrey text-sm items-end">
                                     { playerValues.jersey &&
                                         <>
@@ -132,14 +167,10 @@ export default function Roster({ teamName }: { teamName: string }) {
                                 </p>
                             </div>
                         </td>
-                        <td className={ tableCellClasses }>
-                            { playerValues.age ?? "N/A" }
-                        </td>
+                        <td className={ tableCellClasses }>{ playerValues.age }</td>
                         <td className={ tableCellClasses }>{ playerValues.height }</td>
                         <td className={ tableCellClasses }>{ playerValues.weight }</td>
-                        <td className={ tableCellClasses }>
-                            { playerValues.college ?? "Unknown" }
-                        </td>
+                        <td className={ tableCellClasses }>{ playerValues.college }</td>
                         <td className={ tableCellClasses }>
                             { position[player].playerValues.experience == 0
                                 ? "Rookie"

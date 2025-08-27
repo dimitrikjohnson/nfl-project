@@ -6,7 +6,7 @@ import { displayHomeAway, displayGameResult, displayRecordAfterGame } from '@/ap
 import { GameData, FormattedSchedule } from "@/app/types/schedule";
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
-import displayWeek from '@/app/helpers/displayWeekInfo';
+import { displayWeek } from '@/app/helpers/displayWeekInfo';
 import formatSchedule from '@/app/formatAPIcalls/formatSchedule';
 import H2 from '@/app/components/H2';
 import H3 from '@/app/components/H3';
@@ -117,17 +117,16 @@ export default function Schedule({ teamName }: { teamName: string }) {
                                 ? game.leaders.every(leader => leader == null) 
                                     ? <td>Not yet available</td> 
                                     : <>
-                                        { game.leaders.map(leader => 
-                                            <td key={ leader.leaders[0].athlete.lastName + leader.leaders[0].value } className={ tablePadding }>
+                                        { game.leaders.map((leader, index) => 
+                                            <td key={ index } className={ tablePadding }>
                                                 <a 
-                                                    className="mr-1.5 hover:text-cyan-500 dark:hover:text-cyan-400" 
-                                                    href={ leader?.leaders[0].athlete.links[0].href } 
-                                                    title={ leader?.leaders[0].athlete.displayName } 
-                                                    target="_blank"
+                                                    className="mr-1.5 text-blue-800 dark:text-cyan-400 hover:underline" 
+                                                    href={ leader.player.link } 
+                                                    title={ leader.player.displayName } 
                                                 >
-                                                    { leader.leaders[0].athlete.shortName }
+                                                    { leader.player.shortName }
                                                 </a>
-                                                <span className="text-gray-500 dark:text-lighterSecondaryGrey">{ leader?.leaders[0].value }</span>
+                                                <span className="text-gray-500 dark:text-lighterSecondaryGrey">{ leader.value }</span>
                                             </td>
                                         )}
                                     </> 

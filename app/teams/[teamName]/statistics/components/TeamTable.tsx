@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import getRankColor from '@/app/helpers/getRankColor';
+import {getTeamRankColor} from '@/app/helpers/getRankColor';
 import { TeamStatTable } from '@/app/types/teamStats';
 
 export default function TeamTable({ statGroups }: { statGroups: TeamStatTable }) {
@@ -31,7 +31,7 @@ export default function TeamTable({ statGroups }: { statGroups: TeamStatTable })
                         <td className="text-start py-2 px-2 md:px-3">{ stat.perGame ? stat.perGame : "N/A" }</td>
                         <td className="text-start py-2 px-2 md:px-3">{ stat.total }</td>
                         <td className="text-start py-2 px-2 md:px-3">
-                            <span className={ getRankColor(stat.rank, stat.reversedColors) }>{ stat.rankDisplay }</span>
+                            <span className={ getTeamRankColor(stat.rank, stat.reversedColors) }>{ stat.rankDisplay }</span>
                         </td>
                     </tr>
                 )}

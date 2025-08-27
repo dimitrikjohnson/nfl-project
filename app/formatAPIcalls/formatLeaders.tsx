@@ -11,6 +11,15 @@ interface LeaderCategory {
     }[];
 }
 
+interface BasePlayerData {
+    id: string;
+    slug: string;
+    displayName: string;
+    headshot: { href: string };
+    jersey: string;
+    position: { abbreviation: string };
+}
+
 export default async function formatLeaders(season: string, seasonType: string, data: any, getLeadersOverview: boolean, getLeagueLeaders = false) {
     let categories;
 
@@ -57,58 +66,64 @@ export default async function formatLeaders(season: string, seasonType: string, 
 }
 
 async function teamLeaders(category: LeaderCategory) {
-
-    const athleteRes = await fetch (
-        replaceHttp(category.leaders[0].athlete.$ref), 
-        { method: "get" }
-    );
-    if (!athleteRes.ok) throw new Error('Something went wrong');
-            
-    const athleteData = await athleteRes.json();
-            
-    // QB Rating needs displayValue, everything else can use value
-    // toLocaleString adds a comma to numbers in the thousands
+    const athleteData = await fetchPlayerData(category.leaders[0].athlete.$ref);
+    
     return {
         statName: category.displayName,
-        statValue: category.shortDisplayName == "RAT" ? category.leaders[0].displayValue : (category.leaders[0].value).toLocaleString('en-US'), 
-        playerName: athleteData.displayName,
-        playerHeadshot: athleteData.headshot.href,
-        playerJersey: athleteData.jersey,
-        playerPosition: athleteData.position.abbreviation
+        statValue: formatStatValue("RAT", category.leaders[0].displayValue, category.leaders[0].value), 
+        ...formatPlayerBase(athleteData),
     }     
 }
 
 async function leagueLeaders(category: LeaderCategory) {
     let leaders = [];
     
+    // only want to display 3 leaders per category
     for (let count = 0; count < 3; count += 1) {
-        const athleteRes = await fetch (
-            replaceHttp(category.leaders[count].athlete.$ref), 
-            { method: "get" }
-        );
-        if (!athleteRes.ok) throw new Error('Something went wrong');
-            
-        const athleteData = await athleteRes.json();
-      
-        const athleteTeamRes = await fetch (
-            replaceHttp(category.leaders[count].team.$ref), 
-            { method: "get" }
-        );
-        let athleteTeam = await athleteTeamRes.json();
-            
-        // QB Rating needs displayValue, everything else can use value
-        // toLocaleString adds a comma to numbers in the thousands
+        const athleteData = await fetchPlayerData(category.leaders[count].athlete.$ref);
+        let athleteTeam;
+        
+        // get the leading player's team (player leading the stat category)
+        if (count == 0) {
+            const athleteTeamRes = await fetch (
+                replaceHttp(category.leaders[count].team.$ref), 
+                { method: "get" }
+            );
+            athleteTeam = await athleteTeamRes.json();    
+        }
+           
         leaders.push({
-            statValue: category.shortDisplayName == "RAT" ? category.leaders[count].displayValue : (category.leaders[count].value).toLocaleString('en-US'), 
-            playerName: athleteData.displayName,
-            playerHeadshot: athleteData.headshot.href,
-            playerJersey: athleteData.jersey,
-            playerPosition: athleteData.position.abbreviation,
-            playerTeamID: athleteTeam.id,
-            playerTeamAbbreviation: athleteTeam.abbreviation,
-            playerTeamName: athleteTeam.displayName,
-            playerTeamLogo: athleteTeam.logos[0].href
+            statValue: formatStatValue(category.shortDisplayName, category.leaders[count].displayValue, category.leaders[count].value),
+            ...formatPlayerBase(athleteData),
+            playerTeamID: athleteTeam?.id,
+            playerTeamAbbreviation: athleteTeam?.abbreviation,
+            playerTeamName: athleteTeam?.displayName,
+            playerTeamLogo: athleteTeam?.logos[0].href
         });
     }   
     return leaders;
+}
+
+// ------------ shared logic functions --------------
+
+async function fetchPlayerData(url: string) {
+    const res = await fetch(replaceHttp(url));
+    if (!res.ok) throw new Error("Failed to fetch player");
+    return res.json();
+}
+
+function formatPlayerBase(player: BasePlayerData) {
+    return {
+        playerName: player.displayName,
+        playerLink: `/player/${player.slug}-${player.id}`,
+        playerHeadshot: player.headshot.href,
+        playerJersey: player.jersey,
+        playerPosition: player.position.abbreviation
+    }
+}
+
+// QB Rating needs displayValue, everything else can use value
+// toLocaleString adds a comma to numbers in the thousands
+function formatStatValue(shortName: string, displayValue: string, value: number) {
+    return shortName === "RAT" ? displayValue : value.toLocaleString("en-US");
 }

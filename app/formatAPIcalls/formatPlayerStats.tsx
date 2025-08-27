@@ -16,7 +16,8 @@ async function getPlayerProfile(category: any, currentIndex: number) {
     return {
         name: athleteProfileData.displayName,
         jersey: athleteProfileData.jersey,
-        position: athleteProfileData.position.abbreviation
+        position: athleteProfileData.position.abbreviation,
+        link: `/player/${athleteProfileData.slug}-${athleteProfileData.id}`
     }
 }
 

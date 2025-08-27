@@ -4,7 +4,8 @@ function formatDateTime(date?: string | Date) {
         return {
             short: "TBD",
             long: "TBD",
-            scoreboard: "TBD"
+            scoreboard: "TBD",
+            noTime: "TBD"
         };
     }
 
@@ -13,6 +14,12 @@ function formatDateTime(date?: string | Date) {
         day:"numeric",
         hour:"numeric", 
         minute:"numeric"
+    });
+
+    const formattedDateShortWithoutTime = new Date(date).toLocaleString('en-us', {
+        month:"numeric", 
+        day:"numeric",
+        year:"numeric"
     });
     
     const formattedDateTimeLong = new Date(date).toLocaleString('en-us', { 
@@ -30,11 +37,19 @@ function formatDateTime(date?: string | Date) {
         minute:"numeric",
     });
 
-    // send multiple options for different screen sizes (and the scoreboard)
+    const formattedDateWithoutTime = new Date(date).toLocaleString('en-us', { 
+        month:"short", 
+        day:"numeric", 
+        year:"numeric",
+    });
+
+    // send multiple options for different screen sizes (+ the scoreboard and no time versions)
     return {
         short: formattedDateTimeShort,
+        shortNoTime: formattedDateShortWithoutTime,
         long: formattedDateTimeLong,
-        scoreboard: formattedDateTimeScoreboard
+        scoreboard: formattedDateTimeScoreboard,
+        noTime: formattedDateWithoutTime
     }
 }
 
