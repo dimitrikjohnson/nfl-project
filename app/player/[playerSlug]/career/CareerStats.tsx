@@ -49,7 +49,7 @@ export default function CareerStats({ playerID, playerSlug }: { playerID: string
                                         <td className={`text-start ${tablePadding}`}>
                                             <Link 
                                                 href={`/player/${playerSlug}/games?season=${season.season}`} 
-                                                className="text-blue-800 dark:text-cyan-400 group-hover:underline"
+                                                className="text-blue-800 dark:text-cyan-400 hover:underline"
                                             >
                                                 { season.season }
                                             </Link>                                             
