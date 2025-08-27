@@ -15,24 +15,14 @@ export interface TeamInfo {
     logo?: string;
 }
 
-export interface AthleteLink {
-    href: string;
-}
-
-export interface Athlete {
-    displayName: string;
-    shortName: string;
-    lastName: string;
-    links: AthleteLink[];
-}
-
-export interface LeaderEntry {
-    athlete: Athlete;
-    value: string | number;
-}
-
 export interface GameLeader {
-    leaders: LeaderEntry[];
+    value: string,
+    player: {
+        displayName: string;
+        shortName: string;
+        lastName: string;
+        link: string;
+    };  
 }
 
 // Teams in a game

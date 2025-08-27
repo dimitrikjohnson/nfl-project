@@ -1,14 +1,10 @@
+import { BasePlayerInfo } from "./player";
+
 // defines the types for getRoster and Roster
-export interface PlayerValues {
-    name: string;
-    jersey: number;
-    age: number;
-    weight: string;
-    height: string;
-    experience: number;
+export interface PlayerValues extends BasePlayerInfo {
     injuries?: string;
-    headshot?: string;
-    college?: string;
+    experience: number;
+    link: string;
 }
 
 export interface AllPlayers {

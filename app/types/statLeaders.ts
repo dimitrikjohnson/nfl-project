@@ -4,6 +4,7 @@ export interface PlayerStatLeader {
     playerHeadshot: string;
     playerJersey?: string;
     playerName: string;
+    playerLink: string;
     playerPosition: string;
     statName: string;
     statValue: string;
