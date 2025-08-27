@@ -28,6 +28,31 @@
   }
 }
 
+/* Applies to any element with `custom-scrollbar` */
+.custom-scrollbar::-webkit-scrollbar {
+  height: 15px;              /* horizontal scrollbar height */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;   /* or a light gray */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #9ca3af; /* Tailwind gray-400 */
+  border-radius: 9999px;     /* fully rounded */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280; /* Tailwind gray-500 on hover */
+}
+
+/* Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent;
+}
+
+/* Pauses the team scroller on the landing page (on hover) */
 .group:hover .pause {
   animation-play-state: paused;
 }

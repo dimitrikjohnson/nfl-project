@@ -13,9 +13,9 @@ export default async function LandingPage() {
     const { venueName, venueImage } = background;
 
     return (
-        <>
-            <Scoreboard />
+        <> 
             <section className="relative bg-black dark:bg-transparent w-full h-fit mb-16 md:mb-24 overflow-hidden">
+                <Scoreboard />
                 <img
                     src={ venueImage }
                     alt={ venueName }
