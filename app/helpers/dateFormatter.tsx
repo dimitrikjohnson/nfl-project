@@ -10,6 +10,7 @@ function formatDateTime(date?: string | Date) {
     }
 
     const formattedDateTimeShort = new Date(date).toLocaleString('en-us', {
+        timeZone:"America/New_York",
         month:"numeric", 
         day:"numeric",
         hour:"numeric", 
@@ -17,12 +18,14 @@ function formatDateTime(date?: string | Date) {
     });
 
     const formattedDateShortWithoutTime = new Date(date).toLocaleString('en-us', {
+        timeZone:"America/New_York",
         month:"numeric", 
         day:"numeric",
         year:"numeric"
     });
     
     const formattedDateTimeLong = new Date(date).toLocaleString('en-us', { 
+        timeZone:"America/New_York",
         weekday:"short", 
         month:"short", 
         day:"numeric", 
@@ -38,6 +41,7 @@ function formatDateTime(date?: string | Date) {
     });
 
     const formattedDateWithoutTime = new Date(date).toLocaleString('en-us', { 
+        timeZone:"America/New_York",
         month:"short", 
         day:"numeric", 
         year:"numeric",
