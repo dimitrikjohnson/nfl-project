@@ -36,7 +36,7 @@ export default function Leaders({ teamName, getLeadersOverview }: { teamName: st
         <div className="mb-12">
 			<div className="flex items-end justify-between pb-3">
                 <h3 className="font-protest text-2xl lg:text-3xl">
-                    { seasonType == 4 && 
+                    { (seasonType == 4 || seasonType == 1) && 
                         <span className="mr-1.5">{ season }</span> 
                     }
                     <span>Team Leaders</span>     

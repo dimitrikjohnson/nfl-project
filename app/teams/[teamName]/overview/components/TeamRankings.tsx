@@ -1,4 +1,4 @@
-import getRankColor from '@/app/helpers/getRankColor';
+import { getTeamRankColor } from '@/app/helpers/getRankColor';
 import getOverviewRankings from '@/app/apiCalls/getOverviewRankings';
 import { Stat, Side, Rankings } from '@/app/types/rankings';
 import H3 from '@/app/components/H3';
@@ -13,13 +13,13 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
             <>
                 { stats.map(stat =>
                     <tr key={stat.longName} className="odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark border-b border-gray-900/20 last-of-type:border-none dark:border-none">
-                        <td className={ `text-start ${tablePadding}` }>
+                        <td className={`text-start ${tablePadding}`}>
                             { stat.shortName }
                         </td>
-                        <td className={ `text-start ${tablePadding}` }>
+                        <td className={`text-start ${tablePadding}`}>
                             { stat.value }
                         </td>
-                        <td className={ `text-start ${tablePadding} ${getRankColor(stat.rank, false)}` }>
+                        <td className={`text-start ${tablePadding} ${getTeamRankColor(stat.rank, false)}`}>
                             { stat.rankDisplayValue }
                         </td>
                     </tr>
@@ -33,7 +33,7 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
             { (Object.keys(rankings.sides) as Side[]).map(sideOfBall =>
                 <div key={ sideOfBall }>
                     <H3>
-                        { rankings.season.type === 4 &&
+                        { (rankings.season.type == 4 || rankings.season.type == 1) &&
                             <span className="mr-1.5">{ rankings.season.year }</span>
                         }
                         <span>{ sideOfBall } Rankings</span>

@@ -25,5 +25,5 @@ export default async function getOverviewRankings( teamID: any ) {
    
     const data = await res.json();
 
-    return formatOverviewRankings(currentSeason, currentSeasonType, data);
+    return formatOverviewRankings(displayedSeason, currentSeasonType, data);
 }

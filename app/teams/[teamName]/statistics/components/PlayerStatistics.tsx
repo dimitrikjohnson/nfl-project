@@ -28,7 +28,7 @@ export default function PlayerStatistics({ teamName, teamID }: { teamName: strin
         <>
             <Leaders teamName={ teamName } getLeadersOverview={ false } />
             <H3>
-                { seasonType == 4 && 
+                { (seasonType == 4 || seasonType == 1) && 
                     <span className="mr-1.5">{ season }</span> 
                 }
                 <span>Player Statistics</span>    
