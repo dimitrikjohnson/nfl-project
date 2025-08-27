@@ -2,7 +2,7 @@ import { fantasyPositions } from "@/app/data/fantasyPositions";
 import { calculateYearFantasyPoints, calculateGameFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
 import { idToName } from "@/app/helpers/idToName";
 import getPlayerSeasonStats from "@/app/apiCalls/getPlayerSeasonStats";
-import { Headings, Rows } from "../types/gameAndCareerStats";
+import { Headings, Rows } from "@/app/types/gameAndCareerStats";
 
 export default async function formatPlayerGames(data: any, position: string, playerID: string) {
     // get the currently fetched season
@@ -159,7 +159,7 @@ function buildRows(allGames: any, seasonType: any, includeFantasy: boolean, valu
         // get game info (week, opponent, score, etc.)
         const gameInfo = allGames[game.eventId];
 
-        if (gameInfo.eventNote == "PRO BOWL") continue;
+        if (gameInfo.eventNote?.includes("PRO BOWL")) continue;
 
         let rowData: Rows = {
             id: game.eventId,
