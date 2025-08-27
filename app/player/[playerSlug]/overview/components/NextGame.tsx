@@ -83,8 +83,8 @@ function displayTeam(team: any, direction: string, gameInProgess: boolean) {
                 </div>     
                 <div className={`${direction == "left" ? "sm:order-2" : "sm:order-1"} `}>
                     <div className="flex items-center gap-1.5 sm:block mb-1">
-                        <p className={`md:hidden text-sm font-semibold text-${direction} group-hover:text-blue-800 dark:group-hover:text-cyan-400 sm:pb-1`}>{ team.abbreviation }</p>
-                        <p className={`hidden md:block font-semibold text-${direction} group-hover:text-blue-800 dark:group-hover:text-cyan-400 sm:pb-1`}>{ team.name }</p>
+                        <p className={`md:hidden text-sm font-semibold text-${direction} text-blue-800 dark:text-cyan-400 group-hover:underline sm:pb-1`}>{ team.abbreviation }</p>
+                        <p className={`hidden md:block font-semibold text-${direction} text-blue-800 dark:text-cyan-400 group-hover:underline sm:pb-1`}>{ team.name }</p>
                         <p className={`text-sm text-gray-500 text-${direction} dark:text-lighterSecondaryGrey`}>{ team.record }</p>    
                     </div>
                     
