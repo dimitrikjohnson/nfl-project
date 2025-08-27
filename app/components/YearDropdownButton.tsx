@@ -10,7 +10,7 @@ type DropdownItems = {
         text: string;
     };
     displaySeason: string | number | undefined;
-    allYears: number[];
+    allYears: number[] | string[];
 }
 
 export default function YearDropdownButton({ colors, displaySeason, allYears }: DropdownItems) {
