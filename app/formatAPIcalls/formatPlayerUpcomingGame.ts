@@ -37,7 +37,7 @@ export default async function formatPlayerUpcomingGame(nextGame: any, includeFan
     const awayTeam = findTeam(game.competitors, "away");
     const homeTeam = findTeam(game.competitors, "home"); 
 
-    const { date, time} = formatDateAndTime(game.date);
+    const { date, time } = formatDateAndTime(game.date);
 
     // establish variables for game-in-progress stats
     let currentGame;
@@ -91,13 +91,17 @@ function findTeam(teams: any, homeAway: string) {
 }
 
 function formatDateAndTime(date: string) {
+    // if the timezone isn't included, the wrong time will be displayed on production
+    
     const formattedDate = new Date(date).toLocaleString('en-us', {
+        timeZone:"America/New_York",
         weekday:"short",
         month:"short", 
         day:"numeric"
     });
 
     const formattedTime = new Date(date).toLocaleString('en-us', {
+        timeZone:"America/New_York",
         hour:"numeric", 
         minute:"numeric",
     });
