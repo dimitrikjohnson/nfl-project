@@ -114,21 +114,21 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                                     className="border-b border-gray-900/20 last-of-type:border-none odd:bg-alt-table-row dark:odd:bg-alt-table-row-dark dark:border-none"
                                 >
                                     <td className={ bodyClasses }>{ index + 1 }</td>
-                                    <td className={ `flex gap-x-1 md:gap-x-2.5 items-center ${bodyClasses}` }>
-                                        <img className="w-5 md:w-7" src={ team.logo } alt={ `${team.name} logo` } />
+                                    <td className={`flex gap-x-1 md:gap-x-2.5 items-center ${bodyClasses}`}>
+                                        <img className="w-5 md:w-7" src={ team.logo } alt={`${team.name} logo`} />
                                         <span className="flex gap-x-1 md:gap-x-1.5 mr-3 md:mr-0">
                                             { team.id == teamID 
                                                 ? <>
-                                                    <span className="inline-block md:hidden">{ team.abbreviation }</span>
-                                                    <span className="hidden md:inline-block">{ team.name }</span>
+                                                    <span className="md:hidden">{ team.abbreviation }</span>
+                                                    <span className="hidden md:inline">{ team.name }</span>
                                                 </>
                                                 : <Link 
-                                                    href={ `/teams/${ team.shortDisplayName.toLowerCase() }` } 
-                                                    className="hover:text-cyan-500 dark:hover:text-cyan-400" 
+                                                    href={`/teams/${team.shortDisplayName.toLowerCase()}`} 
+                                                    className="text-blue-800 dark:text-cyan-400 hover:underline" 
                                                     title={ team.name }
                                                   >
-                                                        <span className="inline-block md:hidden">{ team.abbreviation }</span>
-                                                        <span className="hidden md:inline-block">{ team.name }</span>
+                                                        <span className="md:hidden">{ team.abbreviation }</span>
+                                                        <span className="hidden md:inline">{ team.name }</span>
                                                 </Link>
                                             }
                                             { team.clinch 
@@ -141,7 +141,7 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                                     { team.stats.map(stat =>
                                         <td 
                                             key={ team.id + stat.heading } 
-                                            className={ `${ headingClasses } ${ stat.heading == "DIFF" && differentialColor(stat.value) }` }
+                                            className={`${ headingClasses } ${ stat.heading == "DIFF" && differentialColor(stat.value) }`}
                                         >
                                             { stat.value }
                                         </td>
