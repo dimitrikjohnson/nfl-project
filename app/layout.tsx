@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./css/globals.css";
 import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,8 +6,6 @@ import { faFootball } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
  
 import SuperBowlWinnerProvider from "./contextProviders/sbWinnerProvider";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -21,11 +18,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en" className="scroll-smooth">
-            <body className={`bg-gray-200 text-primary dark:bg-backdrop-dark dark:text-primary-dark min-h-screen ${inter.className}`}>
+            <body className={`bg-gray-200 text-primary dark:bg-backdrop-dark dark:text-primary-dark min-h-screen font-rubik`}>
                 <SuperBowlWinnerProvider>
                     {children}
                 </SuperBowlWinnerProvider>
-                <footer className="font-rubik footer md:footer-horizontal justify-items-center justify-between gap-x-10 mt-28 py-12 px-4 md:px-11 border-t border-gray-500 dark:border-lighterSecondaryGrey bg-[#D0D6E1] text-primary dark:bg-[#1C253B] dark:text-primary-dark">
+                <footer className="footer md:footer-horizontal justify-items-center justify-between gap-x-10 mt-28 py-12 px-4 md:px-11 border-t border-gray-500 dark:border-lighterSecondaryGrey bg-[#D0D6E1] text-primary dark:bg-[#1C253B] dark:text-primary-dark">
                     <Link 
                         href={ '/' } 
                         className="flex gap-2 items-center text-xl"
