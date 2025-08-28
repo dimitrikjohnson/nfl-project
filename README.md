@@ -24,15 +24,15 @@ Big Football was created and designed by Dimitrik Johnson with help from Elleni 
 
 ## 📁 Project Structure
 - /app
-  - [/apiCalls](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/apiCalls)                      → API calls for various pieces of data
-  - [/components](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/components)                  → Reusable UI elements that are used in multiple directories
-  - [/data](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/data)                              → JSON data (e.g. team colors)
-  - [/formatAPIcalls](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/formatAPIcalls)          → Format the API response before it's sent to the JSX
-  - [/helpers](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/helpers)                        → Utility logic
-  - /player/[playerSlug]                                                                                      → Player-specific pages and components
-  - [/teams](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/teams)                            → Select-a-team dashboard
-    - [/teamName](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/teams/%5BteamName%5D)        → Team-specific pages and components
-  - [/types](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/types)                            → Shared TypeScript interfaces and types
+  - [/apiCalls](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/apiCalls)                          → API calls for various pieces of data
+  - [/components](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/components)                      → Reusable UI elements that are used in multiple directories
+  - [/data](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/data)                                  → JSON data (e.g. team colors)
+  - [/formatAPIcalls](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/formatAPIcalls)              → Format the API response before it's sent to the JSX
+  - [/helpers](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/helpers)                            → Utility logic
+  - [/player/playerSlug](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/player/%5BplayerSlug%5D)  → Player-specific pages and components
+  - [/teams](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/teams)                                → Select-a-team dashboard
+    - [/teamName](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/teams/%5BteamName%5D)            → Team-specific pages and components
+  - [/types](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/types)                                → Shared TypeScript interfaces and types
 
 ## 💻 Tech Stack
 - [Next.js (App Router)](https://nextjs.org/)
