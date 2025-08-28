@@ -16,8 +16,8 @@ export default async function Scoreboard() {
     const gameBoxStyling = "px-2.5 md:px-3.5 py-1.5 bg-section border border-gray-300 dark:bg-alt-table-row-dark dark:border-secondaryGrey rounded-md";
     
     return (
-        <div className="overflow-x-auto relative mt-1 z-30 drop-shadow-md custom-scrollbar">
-            <div className="w-full flex gap-2 text-nowrap font-rubik">
+        <section className="overflow-x-auto relative mt-1 z-30 drop-shadow-md custom-scrollbar" aria-label={`Scoreboard for games during the week of ${weekDetail}`}>
+            <div className="w-full flex gap-2 text-nowrap">
                 <div className={`text-sm flex flex-col justify-center items-center px-2.5  bg-section border border-gray-300 dark:bg-alt-table-row-dark dark:border-secondaryGrey rounded-md`}>
                     <p className="text-gray-500 dark:text-lighterSecondaryGrey pb-1">WEEK</p>
                     <p className="font-bold pb-1">{ weekNum }</p>
@@ -75,6 +75,6 @@ export default async function Scoreboard() {
                     </div>
                 )}
             </div>
-        </div>
+        </section>
     )
 }

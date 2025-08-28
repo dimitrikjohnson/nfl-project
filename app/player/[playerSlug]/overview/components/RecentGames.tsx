@@ -17,7 +17,7 @@ export default async function RecentGames({ playerID, playerSlug } : { playerID:
                 </Link>             
             </div>
             <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
-                <table className="table-auto w-full text-nowrap font-rubik overflow-hidden whitespace-nowrap">
+                <table className="table-auto w-full text-nowrap overflow-hidden whitespace-nowrap">
                     { displayTableHead(games.headings, "half-ppr") }
                     { displayTableBody(games.headings, games.rows, "half-ppr") }
                 </table>    

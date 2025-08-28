@@ -19,9 +19,9 @@ export default function InjuryStatus({ injury }: { injury: PlayerOverview["injur
     }
 
     return (
-        <div className="mb-9 md:mb-7">
+        <section className="mb-9 md:mb-7">
             <H3>Injury Status</H3>
-            <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none font-rubik text-sm pb-3 rounded-md">
+            <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none text-sm pb-3 rounded-md">
                 <div 
                     className={`flex gap-1.5 justify-center items-center font-bold text-stone-950 p-1 mb-3 rounded-t-md ${ getInjuryColor(injury?.abbreviation) }`}
                 >
@@ -72,6 +72,6 @@ export default function InjuryStatus({ injury }: { injury: PlayerOverview["injur
                     </div>
                 </div>
             </div>
-        </div>  
+        </section>  
     )
 }

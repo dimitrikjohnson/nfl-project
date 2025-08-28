@@ -39,8 +39,12 @@ export default function ClientStandings({ season, seasonType, originalData, orig
         setGroupNum(group);
     };
 
-    const headingClasses = "py-2.5 px-2 md:px-3 text-start";
+    const tableHeadingClasses = "py-2.5 px-2 md:px-3 text-start";
     const bodyClasses = "py-2.5 px-2 md:py-2 md:px-3";
+    const sectionHeadingClasses = "font-protest text-2xl lg:text-3xl";
+
+    // true means conference standings, false means division standings
+    const isConferenceStandings = teamID == "";
 
     const clinchValues = [
         { 
@@ -73,10 +77,13 @@ export default function ClientStandings({ season, seasonType, originalData, orig
     }, [groupNum]);
 
     return (
-        <div>
+        <section>
             <div className="flex justify-between items-center pb-3">
-                <h3 className="font-protest text-2xl lg:text-3xl">{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h3>
-                <div className={`flex gap-2.5 md:gap-3 ${ teamID != "" && "hidden" }`}>
+                { isConferenceStandings
+                    ? <h2 className={ sectionHeadingClasses }>{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h2>
+                    : <h3 className={ sectionHeadingClasses }>{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h3>
+                }   
+                <div className={`flex gap-2.5 md:gap-3 ${ !isConferenceStandings && "hidden" }`}>
                     { ["8", "7"].map(num =>
                        <button 
                             key={ num } 
@@ -96,14 +103,14 @@ export default function ClientStandings({ season, seasonType, originalData, orig
             <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
                 { loading
                     ? <div className="skeleton w-full rounded-none h-80"></div>
-                    : <table className="table-auto w-full text-nowrap font-rubik overflow-hidden border-b border-secondaryGrey">
+                    : <table className="table-auto w-full text-nowrap overflow-hidden border-b border-secondaryGrey">
                         <thead className="border-b border-secondaryGrey">
                             <tr>
-                                <th className={ headingClasses } title="Playoff Seed">PS</th>
-                                <th className={ headingClasses }>TEAM</th>
-                                <th className={ headingClasses }>W-L</th>
+                                <th className={ tableHeadingClasses } title="Playoff Seed">PS</th>
+                                <th className={ tableHeadingClasses }>TEAM</th>
+                                <th className={ tableHeadingClasses }>W-L</th>
                                 { data[0].stats.map(stat =>
-                                    <th key={ stat.heading } className={ headingClasses } title={ stat.description }>{ stat.heading }</th>
+                                    <th key={ stat.heading } className={ tableHeadingClasses } title={ stat.description }>{ stat.heading }</th>
                                 )}
                             </tr>
                         </thead>
@@ -141,7 +148,7 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                                     { team.stats.map(stat =>
                                         <td 
                                             key={ team.id + stat.heading } 
-                                            className={`${ headingClasses } ${ stat.heading == "DIFF" && differentialColor(stat.value) }`}
+                                            className={`${tableHeadingClasses} ${stat.heading == "DIFF" && differentialColor(stat.value)}`}
                                         >
                                             { stat.value }
                                         </td>
@@ -173,6 +180,6 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                     </div>
                 </div>
             </div>      
-        </div>
+        </section>
     )
 }

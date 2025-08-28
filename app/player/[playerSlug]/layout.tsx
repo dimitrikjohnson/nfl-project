@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import Tabs from '@/app/components/Tabs';
 import getPlayer from "@/app/apiCalls/getPlayer";
 import PlayerHeader from "./components/PlayerHeader";
+import Link from "next/link";
 
 interface PlayerLayoutProps {
     children: ReactNode;
@@ -27,16 +28,21 @@ export default async function PlayerLayout({ children, params }: PlayerLayoutPro
     
     return (
         <>
+            <Link 
+				className="absolute left-0 top-0 block z-50 -translate-x-full rounded-md bg-cyan-400 text-backdrop-dark px-4 py-3 text-sm font-bold uppercase tracking-wide focus-visible:translate-x-0" 
+				href="#content">
+					Skip to content
+			</Link>
             <PlayerHeader player={ player } />
             <Tabs 
                 tabs={ tabs } 
-                url={ `/player/${playerSlug}` } 
+                url={`/player/${playerSlug}`} 
             />
-            <section className="m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
+            <main id="#content" className="m-auto px-4 md:px-6 lg:px-14 max-w-screen-xl">
                 <Suspense fallback={<div className="skeleton w-full h-14"></div>}>
                     { children }  
                 </Suspense>   
-            </section> 
+            </main> 
         </>
     );
     

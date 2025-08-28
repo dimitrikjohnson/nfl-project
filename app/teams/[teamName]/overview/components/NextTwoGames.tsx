@@ -12,7 +12,7 @@ export default async function NextTwoGames({ teamID }: { teamID: string }) {
                 { nextTwoGames.map(game =>
                     <div 
                         key={ game.id } 
-                        className="font-rubik bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md p-3"
+                        className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md p-3"
                     >   
                         <div className="pb-3">
                             { displayHomeAway(game.teams, teamID, true) }

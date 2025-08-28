@@ -4,7 +4,7 @@ import { PlayerOverview } from "@/app/types/player";
 
 export default async function StatsSummary({ summary }: {summary: PlayerOverview["statsSummary"]}) {
     return (
-        <div className="mb-9 md:mb-12">
+        <section className="mb-9 md:mb-12">
             <H3>
                 <span className="capitalize">{ summary?.heading }</span>
             </H3>
@@ -33,6 +33,6 @@ export default async function StatsSummary({ summary }: {summary: PlayerOverview
                     </div>
                 ))}
             </div>
-        </div> 
+        </section> 
     )
 }

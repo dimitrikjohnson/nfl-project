@@ -53,7 +53,7 @@ export default function Roster({ teamName }: { teamName: string }) {
     const displayPositions = () => {
         return (<>
             <div className="mt-8 md:mt-0 bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto sm:overflow-visible">
-                <table className="table-auto relative w-full text-nowrap font-rubik">
+                <table className="table-auto relative w-full text-nowrap">
                     <thead className="border-b border-secondaryGrey text-right">
                         <tr>
                             { tableHeadings.map(heading =>
@@ -195,7 +195,7 @@ export default function Roster({ teamName }: { teamName: string }) {
         <>
             <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-primary-dark">
                 <H2>Current Roster</H2>
-                <div className="font-rubik flex">
+                <div className="flex">
                     <button 
                         tabIndex={0} 
                         role="button" 

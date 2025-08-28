@@ -42,10 +42,10 @@ export default function FilterTeams({ teams }: { teams: Team[] }) {
     return (
         <>
             <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-primary-dark">
-                <h2 className="font-protest text-3xl 2xl:text-4xl uppercase">Teams</h2>
-                <div className="font-rubik flex">
+                <h1 className="font-protest text-3xl 2xl:text-4xl uppercase">Teams</h1>
+                <div className="flex">
                     <Link 
-                        href={ `?division=all` }
+                        href={`?division=all`}
                         className="btn h-10 min-h-10 mr-2.5 border border-secondaryGrey/[.50] hover:bg-secondaryGrey/[0.25] rounded-md"
                         onClick = { () => setPopupActive(false) }
                     >
@@ -77,12 +77,12 @@ export default function FilterTeams({ teams }: { teams: Team[] }) {
             )} 
             
             { (division == "all" || !division) ? null : (
-                <h3 className="flex font-protest text-2xl 2xl:text-3xl pb-2 gap-1.5">
+                <h2 className="flex font-protest text-2xl 2xl:text-3xl pb-2 gap-1.5">
                     { formatDivisionQuery(division) }
-                </h3>
+                </h2>
             )}
 
-            <div className="grid gap-2.5 md:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <section className="grid gap-2.5 md:gap-3.5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 { division != "all" && division 
                     ? filterArray().map(team =>
                         team && <TeamCard key={ team.id } team={ team } />    
@@ -91,7 +91,7 @@ export default function FilterTeams({ teams }: { teams: Team[] }) {
                         <TeamCard key={ team.id } team={ team } />
                     )
                 }
-            </div>
+            </section>
         </>
     )
 }

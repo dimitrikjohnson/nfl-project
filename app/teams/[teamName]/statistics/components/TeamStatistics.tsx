@@ -22,7 +22,7 @@ export default function TeamStatistics({ teamID }: { teamID: string }) {
         { isLoading
             ? <div className="skeleton w-full h-56"></div>
             : <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto sm:overflow-visible">
-                <table className="table-auto relative w-full text-nowrap font-rubik">
+                <table className="table-auto relative w-full text-nowrap">
                     <thead className="border-b border-secondaryGrey text-right">
                         <tr>
                             <th></th>

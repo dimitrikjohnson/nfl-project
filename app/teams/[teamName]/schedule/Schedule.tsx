@@ -147,7 +147,7 @@ export default function Schedule({ teamName }: { teamName: string }) {
                 <div key={ seasonType.requestedSeason } className="mb-8 last-of-type:mb-0"> 
                     <H3>{ seasonType.requestedSeason }</H3>
                     <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
-                        <table className="table-auto w-full text-nowrap font-rubik overflow-hidden">
+                        <table className="table-auto w-full text-nowrap overflow-hidden">
                             { seasonType.allGames.filter(pastOrUpcoming => pastOrUpcoming.games.length > 0)
                                 .map((filteredPastOrUpcoming, index) => 
                                     <Fragment key={ index }>

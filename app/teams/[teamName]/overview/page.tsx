@@ -24,7 +24,7 @@ export default async function OverviewTab({ params }: { params: Promise<{ teamNa
 				<TeamRankings teamID={ teamID } />  
 			</Suspense>
 			
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 gap-x-4 mb-12">
+			<section className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 gap-x-4 mb-12">
 				<div>
 					<H3>Last Two Games</H3>
 					<Suspense fallback={<div className="skeleton w-full h-24"></div>}>
@@ -37,7 +37,7 @@ export default async function OverviewTab({ params }: { params: Promise<{ teamNa
 						<NextTwoGames teamID={ teamID } />
 					</Suspense>
 				</div>
-			</div>
+			</section>
 
 			<Suspense fallback={<div className="skeleton w-full h-14"></div>}>
 				<Standings teamID={ teamID } />  

@@ -64,9 +64,9 @@ async function displayPlayerHistory(playerID: string) {
 
 export default async function Bio({ player }: { player: PlayerOverview }) {
     return (
-        <div>
+        <section>
             <H3>Bio</H3>
-            <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none font-rubik text-sm p-3 rounded-md">
+            <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none text-sm p-3 rounded-md">
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 xl:block mb-6 last-of-type:mb-0">
                     <div className="lg:hidden">
                         { displayBioData(player.position.abbreviation, "Position") }    
@@ -96,6 +96,6 @@ export default async function Bio({ player }: { player: PlayerOverview }) {
                     </div>
                 }
             </div>
-        </div>
+        </section>
     )
 }

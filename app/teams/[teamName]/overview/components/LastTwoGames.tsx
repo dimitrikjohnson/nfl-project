@@ -11,7 +11,7 @@ export default async function LastTwoGames({ teamID }: { teamID: string }) {
         return (
             <>
                 { lastTwoGames.map(game =>
-                    <div key={ game.date } className="font-rubik bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md p-3">
+                    <div key={ game.date } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md p-3">
                         <div className="pb-3">
                             { displayHomeAway(game.teams, teamID, true) }
                         </div>

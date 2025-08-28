@@ -39,7 +39,7 @@ export default function CareerStats({ playerID, playerSlug }: { playerID: string
 
         return (
             <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
-                <table className="table-auto w-full text-nowrap font-rubik overflow-hidden whitespace-nowrap">
+                <table className="table-auto w-full text-nowrap overflow-hidden whitespace-nowrap">
                     { displayTableHead(headings, fantasyType) }
                     <tbody className="text-sm">
                         { seasons.map((season) => 

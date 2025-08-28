@@ -33,13 +33,10 @@ export default function Leaders({ teamName, getLeadersOverview }: { teamName: st
     }, [teamName]);
    
     return (
-        <div className="mb-12">
+        <section className="mb-12">
 			<div className="flex items-end justify-between pb-3">
                 <h3 className="font-protest text-2xl lg:text-3xl">
-                    { (seasonType == 4 || seasonType == 1) && 
-                        <span className="mr-1.5">{ season }</span> 
-                    }
-                    <span>Team Leaders</span>     
+                    <span>{`${(seasonType == 4 || seasonType == 1) ? season : ""} Team Leaders`}</span>     
                 </h3>
                 { getLeadersOverview &&
                     <Link
@@ -50,7 +47,7 @@ export default function Leaders({ teamName, getLeadersOverview }: { teamName: st
                     </Link>
                 }
             </div>
-			<div className="font-rubik grid grid-cols-2 md:grid-cols-4 gap-4">
+			<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 { isLoading
                     ? Array.from({ length: getLeadersOverview ? 4 : 8 }).map((_, index) => 
                         <div key={ index } className="skeleton w-full h-36 md:h-56" />
@@ -60,6 +57,6 @@ export default function Leaders({ teamName, getLeadersOverview }: { teamName: st
                     )
                 }
             </div>
-		</div>   
+		</section>   
     )
 }

@@ -10,7 +10,7 @@ export default async function StatisticsTab({ params }: { params: Promise<{ team
 	return (<>
         <div className="flex justify-between pb-2 mb-4 md:mb-9 border-b-2 border-primary dark:border-primary-dark">
             <H2>Statistics</H2>
-            <div className="font-rubik flex">
+            <div className="flex">
                 <FilterDropdownButton />
                 <FilterList tags={ tags } teamName={ teamName } isMobile={ false } showTeamColors={ true } query={ 'stats' } />
             </div>

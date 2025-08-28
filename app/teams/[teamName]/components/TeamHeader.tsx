@@ -29,7 +29,7 @@ export default async function TeamHeader({ teamName }: { teamName: string }) {
                         <div className="text-center" style={{ color: allTeamsColors[teamName].textColor }}>
                             <p className="font-protest uppercase text-3xl md:text-5xl mb-1">{ team.location }</p>
                             <p className="font-protest uppercase text-6xl md:text-8xl mb-2">{ team.name }</p>
-                            <p className="font-rubik text-sm md:text-base font-semibold flex gap-1.5 justify-center">
+                            <p className="text-sm md:text-base font-semibold flex gap-1.5 justify-center">
                                 <TeamSummary team={ team } hasTrophy={ true } />
                             </p>
                         </div>

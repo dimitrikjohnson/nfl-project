@@ -56,7 +56,7 @@ export default function TeamCard({ team }: { team: Team }) {
                 
             </div>
             <div>
-                <p className="font-rubik font-semibold mb-1">{ team.displayName }</p>
+                <p className="font-semibold mb-1">{ team.displayName }</p>
                 <p className="flex gap-1 text-sm text-gray-500 dark:text-lighterSecondaryGrey group-hover:text-inherit">
                     <TeamSummary team={ team } hasTrophy={ false } />
                 </p>

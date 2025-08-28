@@ -8,7 +8,7 @@ export default function PlayerTables({ statGroups }: { statGroups: PlayerStatCat
         <>
             { Object.keys(statGroups).map(group =>
                 <div key={ group } className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto sm:overflow-visible mb-8 last-of-type:mb-0">
-                    <table className="table-auto relative w-full text-nowrap font-rubik rounded-md overflow-hidden">
+                    <table className="table-auto relative w-full text-nowrap rounded-md overflow-hidden">
                         <thead className="border-b border-secondaryGrey text-right">
                             <tr>
                                 { Object.keys(statGroups[group].tableHeadings).map(heading =>

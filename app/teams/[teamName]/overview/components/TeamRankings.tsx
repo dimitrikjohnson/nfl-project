@@ -29,7 +29,7 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mb-12">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mb-12">
             { (Object.keys(rankings.sides) as Side[]).map(sideOfBall =>
                 <div key={ sideOfBall }>
                     <H3>
@@ -38,7 +38,7 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
                         }
                         <span>{ sideOfBall } Rankings</span>
                     </H3>
-                    <div className="font-rubik rounded-md overflow-x-auto bg-section border border-gray-300 dark:bg-section-dark dark:border-none">
+                    <div className="rounded-md overflow-x-auto bg-section border border-gray-300 dark:bg-section-dark dark:border-none">
                         <table className="table-auto w-full text-nowrap">
                             <thead className="border-b border-secondaryGrey">
                                 <tr>
@@ -54,6 +54,6 @@ export default async function TeamRankings({ teamID }: { teamID: string }) {
                     </div>
                 </div>
             )}
-        </div>
+        </section>
     );
 }

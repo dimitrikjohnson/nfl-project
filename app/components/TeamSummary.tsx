@@ -16,7 +16,7 @@ export default function TeamSummary({ team, hasTrophy }: { team: Team, hasTrophy
                 </>
             }
             { (hasTrophy && sbWinner?.winner == team.id) &&
-                <span className="font-rubik flex gap-1 items-end">
+                <span className="flex gap-1 items-end">
                     <span>&#183;</span>
                     <span>&#127942;</span>
                 </span>

@@ -15,33 +15,34 @@ export default function FilterList(
     const allTeamsColors = teamColors as AllTeamsColors;
 
     return (
-        <div className={ isMobile == true
+        <ul className={ isMobile == true
             ? "flex w-full overflow-x-auto mb-4 md:hidden" 
             : isMobile == "override" 
                 ? "flex w-full overflow-x-auto mb-4" 
                 : "hidden md:flex"
         }>
             { tags.map((tag: string) =>
-                <Link 
-                    key={ tag } 
-                    href={ `?${query}=${slugify(tag)}` }
-                    className="btn h-10 min-h-10 mr-2.5 capitalize border text-center text-nowrap \
-                        hover:bg-secondaryGrey/[0.25] py-2 md:py-0 px-3.5 rounded-md last-of-type:m-0 \
-                        bg-alt-table-row text-primary border-gray-300 dark:border-none dark:bg-alt-table-row-dark dark:text-primary-dark"
-                    style={ showTeamColors && ((slugify(tag) == queryValue) || (!queryValue && tag == tags[0])) 
-                            ? { 
-                                backgroundColor: allTeamsColors[teamName].bgColor, 
-                                color: allTeamsColors[teamName].textColor, 
-                                border: `1px solid ${allTeamsColors[teamName].textColor}`
-                            } 
-                            : undefined 
-                    }
-                    replace
-                >
-                    { tag }
-                </Link>
+                <li key={ tag } className="mr-2.5">
+                    <Link  
+                        href={ `?${query}=${slugify(tag)}` }
+                        className="btn h-10 min-h-10 capitalize border text-center text-nowrap \
+                            hover:bg-secondaryGrey/[0.25] py-2 md:py-0 px-3.5 rounded-md last-of-type:m-0 \
+                            bg-alt-table-row text-primary border-gray-300 dark:border-none dark:bg-alt-table-row-dark dark:text-primary-dark"
+                        style={ showTeamColors && ((slugify(tag) == queryValue) || (!queryValue && tag == tags[0])) 
+                                ? { 
+                                    backgroundColor: allTeamsColors[teamName].bgColor, 
+                                    color: allTeamsColors[teamName].textColor, 
+                                    border: `1px solid ${allTeamsColors[teamName].textColor}`
+                                } 
+                                : undefined 
+                        }
+                        replace
+                    >
+                        { tag }
+                    </Link>    
+                </li> 
             )}
-        </div>
+        </ul>
     )
 }
 

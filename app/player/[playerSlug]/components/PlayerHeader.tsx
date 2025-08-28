@@ -20,7 +20,7 @@ export default async function PlayerHeader({ player }: { player: PlayerOverview 
                             <p className="md:hidden font-protest uppercase text-4xl mb-1">{ player.name }</p>
                             <p className="hidden md:block font-protest uppercase text-3xl md:text-5xl mb-1">{ player.firstName }</p>
                             <p className="hidden md:block font-protest uppercase text-6xl md:text-8xl mb-2">{ player.lastName }</p>
-                            <div className="font-rubik text-sm md:text-base font-semibold flex gap-1.5 items-center justify-center">
+                            <div className="text-sm md:text-base font-semibold flex gap-1.5 items-center justify-center">
                                 { player.onATeam && 
                                     <>
                                         <Link 

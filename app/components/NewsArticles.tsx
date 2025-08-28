@@ -39,7 +39,7 @@ export default async function NewsArticles({ type, id, playerSlug }:{ type: Page
 
     // Latest News heading should only appear on league homepage and Overview pages (when news is present)
     return (
-        <>
+        <section>
             { !type.includes("Full") &&
                 <div className={`${showMoreNewsLink && "flex items-end justify-between"} pb-3`}>
                     <h3 className="font-protest text-2xl lg:text-3xl">Latest News</h3>
@@ -53,7 +53,7 @@ export default async function NewsArticles({ type, id, playerSlug }:{ type: Page
             <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ${ type != "playerOverview" && "xl:grid-cols-4" } gap-7`}>
                 { loopThroughNews(news, type) }
             </div>
-        </>
+        </section>
     )
 }
 
