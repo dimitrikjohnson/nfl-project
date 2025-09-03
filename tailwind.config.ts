@@ -42,6 +42,11 @@ const config: Config = {
       },
     },
   },
+  variants: {
+    extend: {
+      translate: ['focus-visible'],
+    },
+  },
   plugins: [
     require('daisyui'),
   ],
