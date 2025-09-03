@@ -1,15 +1,34 @@
+'use client';
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function SkipToContent() {
-    // Add a class to <body> if the user presses Tab
-    // this stops the link from grabbing focus on mobile unnecessarily
-    if (typeof window !== "undefined") {
-        window.addEventListener("keydown", (e) => {
+    useEffect(() => {
+        const handleFirstTab = (e: KeyboardEvent) => {
             if (e.key === "Tab") {
                 document.body.classList.add("user-is-tabbing");
+
+                window.removeEventListener("keydown", handleFirstTab);
+                window.addEventListener("mousedown", handleMouseDownOnce);
+                window.addEventListener("touchstart", handleMouseDownOnce);
             }
-        });
-    }
+        };
+
+        const handleMouseDownOnce = () => {
+            document.body.classList.remove("user-is-tabbing");
+
+            window.addEventListener("keydown", handleFirstTab);
+            window.removeEventListener("mousedown", handleMouseDownOnce);
+            window.removeEventListener("touchstart", handleMouseDownOnce);
+        };
+
+        window.addEventListener("keydown", handleFirstTab);
+        return () => {
+            window.removeEventListener("keydown", handleFirstTab);
+            window.removeEventListener("mousedown", handleMouseDownOnce);
+            window.removeEventListener("touchstart", handleMouseDownOnce);
+        };
+    }, []);
 
     return (
         <Link 
@@ -18,8 +37,8 @@ export default function SkipToContent() {
                 rounded-md bg-cyan-400 text-backdrop-dark
                 px-4 py-3 text-sm font-bold uppercase tracking-wide
 
-                body-has[.user-is-tabbing]:-translate-x-full
                 focus-visible:translate-x-0
+                [body.user-is-tabbing_&]:-translate-x-full
             "
 			href="#content">
 				Skip to content
