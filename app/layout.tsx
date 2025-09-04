@@ -8,17 +8,17 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import SuperBowlWinnerProvider from "./contextProviders/sbWinnerProvider";
 
 export const metadata: Metadata = {
-  title: {
-    template: '%s | Big Football',
-    default: 'Big Football', // a default is required when creating a template
-  },
-  description: "Big Football is an NFL statistics website for casual football fans. View dashboards with schedules, stats, rosters, and standings — all styled to match each team's identity.",
+    title: {
+        template: '%s | Big Football',
+        default: 'Big Football', // a default is required when creating a template
+    },
+    description: "View NFL dashboards with schedules, stats, rosters, and standings — all styled to match each team's identity."
 };
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en" className="scroll-smooth">
-            <body className={`body bg-gray-200 text-primary dark:bg-backdrop-dark dark:text-primary-dark min-h-screen font-rubik`}>
+            <body className={`bg-gray-200 text-primary dark:bg-backdrop-dark dark:text-primary-dark min-h-screen font-rubik`}>
                 <SuperBowlWinnerProvider>
                     {children}
                 </SuperBowlWinnerProvider>
@@ -32,7 +32,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                     </Link>
                     <p className="flex h-full items-center text-center">
                         <span>
-                            All data is courtesy of ESPN&apos;s NFL API. A list of many of the available endpoints has been curated by <a 
+                            All data comes from ESPN&apos;s NFL API. A list of many of the available endpoints has been curated by <a 
                                 href="https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#scoreboard-api" 
                                 target="_blank"
                                 className="text-blue-800 dark:text-cyan-400 hover:underline"
