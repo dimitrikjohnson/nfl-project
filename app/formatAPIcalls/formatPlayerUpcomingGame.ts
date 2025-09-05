@@ -1,7 +1,8 @@
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
-import { calculateGameFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
+import { calculateGameFantasyPoints, findStat } from "@/app/helpers/calculateFantasyPoints";
 import { formatlabel } from "./formatPlayerStatsSummary";
+import { PlayerOverview } from "../types/player";
 
 export type UpcomingGame = {
     weekText: string,
@@ -29,7 +30,7 @@ type TeamData = {
     score?: string 
 }
 
-export default async function formatPlayerUpcomingGame(nextGame: any, includeFantasy: boolean): Promise<UpcomingGame> {
+export default async function formatPlayerUpcomingGame(nextGame: any, player: PlayerOverview, includeFantasy: boolean): Promise<UpcomingGame> {
     const game = nextGame.league.events[0];
 
     const allTeamsColors = teamColors as AllTeamsColors;
@@ -47,7 +48,7 @@ export default async function formatPlayerUpcomingGame(nextGame: any, includeFan
     let statsInCurrentGame: UpcomingGame["statsInCurrentGame"] = [];
 
     if (game.status == "in") {
-        const res = await formatGameInProgressStats(nextGame, game, includeFantasy);
+        const res = await formatGameInProgressStats(nextGame, game, player, includeFantasy);
         currentGame = res.currentGame;
         timeLeft = res.timeLeft;
         awayScore = res.awayScore;
@@ -112,7 +113,7 @@ function formatDateAndTime(date: string) {
     }
 }
 
-async function formatGameInProgressStats(nextGame: any, game: any, includeFantasy: boolean) {
+async function formatGameInProgressStats(nextGame: any, game: any, player: PlayerOverview, includeFantasy: boolean) {
     const res = await fetch(`https://cdn.espn.com/core/nfl/boxscore?xhr=1&gameId=${game.id}`);
     const currentGame = (await res.json()).gamepackageJSON.header.competitions[0];
     
@@ -145,9 +146,25 @@ async function formatGameInProgressStats(nextGame: any, game: any, includeFantas
         }  
 
         if (includeFantasy) {
+            const statNums = nextGame.statistics.splits[0].stats;
+            const statNames = nextGame.statistics.names;
+
+            // get a QB's rushing stats (doesn't show in summary stats by default)
+            if (player.position.abbreviation == "QB") {
+                const playerGameStatsRes = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/competitors/${player.team.id}/roster/${player.id}/statistics/0`);
+                const playerGameStats = await playerGameStatsRes.json();
+                        
+                const rushingCategory = findStat("rushing", playerGameStats);
+                const rushingYards = findStat("rushingYards", rushingCategory, true);
+                const rushingTD = findStat("rushingTouchdowns", rushingCategory, true);
+                            
+                statNums.push(rushingYards.toString(), rushingTD.toString());
+                statNames.push("rushingYards", "rushingTouchdowns");
+            }
+
             statsInCurrentGame.push({
                 longName: "FPTS (Half-PPR)",
-                value: Object.keys(nextGame.statistics).length > 0 ? calculateGameFantasyPoints(nextGame.statistics.splits[0].stats, nextGame.statistics.names).halfPPR : "0"
+                value: Object.keys(nextGame.statistics).length > 0 ? calculateGameFantasyPoints(statNums, statNames).halfPPR : "0"
             });
         }    
     } 

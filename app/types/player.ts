@@ -19,6 +19,7 @@ export interface PlayerOverview extends BasePlayerInfo {
     };
     onATeam: boolean;
     team: {
+        id: string;
         logo: string;
         longName?: string;
         shortName?: string;

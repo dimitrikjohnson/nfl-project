@@ -53,6 +53,7 @@ export default async function formatPlayerData(apiPlayerData: any): Promise<Play
         onATeam: onATeam,
         team: {
             logo: onATeam ? player.team.logos[1].href : NFLLogo.src, // getting logos[1] should always get the logo for dark backgrounds
+            id: player.team.id,
             longName: player.team.displayName,
             shortName: player.team.shortDisplayName,
             bgColor: onATeam ? allTeamsColors[(player.team.shortDisplayName).toLowerCase()].bgColor : "#94a3b8",
