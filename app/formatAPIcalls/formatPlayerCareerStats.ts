@@ -2,28 +2,40 @@ import replaceHttp from "@/app/helpers/replaceHttp";
 import { fantasyPositions } from "@/app/data/fantasyPositions";
 import { calculateYearFantasyPoints, findStat } from "@/app/helpers/calculateFantasyPoints";
 import { idToName } from "@/app/helpers/idToName";
-import getPlayerGames from "@/app/apiCalls/getPlayerGames";
 import getGamesPlayed from "@/app/helpers/getGamesPlayed";
 import type { Career } from "@/app/types/gameAndCareerStats";
+import { buildHeadings } from "./formatPlayerGames";
+import extractSeasonFromURL from "../helpers/extractSeasonFromURL";
 
 export default async function formatPlayerCareerStats(playerID: string, seasons: any, position: string) {
     const includeFantasy = fantasyPositions.includes(position);
 
-    // get the player's table headings
-    const games = await getPlayerGames(playerID);
-    
-    const seasonTypes = games.seasonTypes;
-    
-    // if they have no data to display, return an empty object
-    if (seasonTypes.length == 0) {
-        return {
-            includesFantasyData: includeFantasy,
-            headings: [],
-            seasons: [] 
+    // get the player's headings by calling the gamelog API
+    let data;
+    try {
+        const res = await fetch(`https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${playerID}/gamelog`);
+        data = await res.json(); 
+        
+        if (!data.seasonTypes) throw new Error("Player doesn't have stats in current season");   
+    }
+    catch(error) {
+        // if the player has played in previous seasons, get those stats
+        if (seasons.length > 1) {
+            const res = await fetch(`https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${playerID}/gamelog?season=${extractSeasonFromURL(seasons[1].season.$ref)}`);
+            data = await res.json(); 
+        }
+        // otherwise, send nothing
+        else {
+            return {
+                includesFantasyData: includeFantasy,
+                headings: [],
+                seasons: [] 
+            }
         }
     }
 
-    const headings = seasonTypes[1]?.headings ?? seasonTypes[0].headings;
+    // get the player's table headings
+    const headings = buildHeadings(data, {}, includeFantasy);
 
     // replace the first category [0]
     headings.splice(0, 1, {
@@ -64,7 +76,7 @@ export default async function formatPlayerCareerStats(playerID: string, seasons:
         const { gamesPlayed, stats } = await formatStats(season.statistics[0].statistics.$ref, includeFantasy, headings);
 
         output.seasons.push({
-            season: seasonURL.substring(seasonURL.lastIndexOf("/")+1, seasonURL.indexOf("?")),
+            season: extractSeasonFromURL(seasonURL),
             statsOnTeam: teams,
             totalStats: {
                 gamesPlayed: gamesPlayed,

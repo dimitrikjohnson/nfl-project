@@ -57,7 +57,7 @@ export default async function formatPlayerGames(data: any, position: string, pla
     }
 }
 
-function buildHeadings(data: any, seasonType: any, includeFantasy: boolean) {
+export function buildHeadings(data: any, seasonType: any, includeFantasy: boolean) {
     let team;
 
     // get the team they played for in the selected season
