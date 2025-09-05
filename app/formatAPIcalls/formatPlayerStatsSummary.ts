@@ -82,7 +82,8 @@ export default async function formatPlayerStatsSummary(summary: Stats, playerID:
                 },
                 {
                     label: "Fantasy PTS / Game", 
-                    value: ppgFormatted.toString()
+                    // ppgFormatted will be NaN if the player hasn't reg season played a game yet
+                    value: ppgFormatted == "NaN" ? "--" : ppgFormatted.toString() 
                 }
             );  
         } 

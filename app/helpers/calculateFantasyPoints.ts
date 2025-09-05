@@ -78,7 +78,7 @@ export function findStat(needle: any, haystack: any, returnValue?: boolean, disp
         return displayValue ? category?.displayValue : category?.value;
     }
     
-    return haystack?.splits.categories.find(
+    return haystack?.splits?.categories.find(
         (stat: { name: string; }) => stat.name == needle
     );
 }
