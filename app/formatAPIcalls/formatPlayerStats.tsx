@@ -198,7 +198,7 @@ export default async function formatPlayerStats(displayedSeason: string, current
         const defStats = categories[1].stats;
         const generalCategory = categories[0].stats;
         const interceptions = categories[2].stats[0].displayValue;
-        const touchdowns = categories[3].stats[10].displayValue;
+        const touchdowns = categories[3]?.stats[10].displayValue || "0"; // show 0 if category doesn't exist
         
         output.stats["Defense"].players.push({
             ...profileInfo,
