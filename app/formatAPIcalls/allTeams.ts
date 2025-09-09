@@ -8,7 +8,7 @@ async function allTeams(data: { sports: { leagues: { teams: any; }[]; }[]; }) {
         const res = await fetch(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/${team.team.id}`, { method:'GET' });
         const teamSeasonData = await res.json();
        
-        output.push(formatTeamData(team, teamSeasonData))
+        output.push(await formatTeamData(team, teamSeasonData))
     }
 
     return output;
