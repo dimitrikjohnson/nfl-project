@@ -1,8 +1,10 @@
 import { PlayerOverview } from "@/app/types/player";
 import getPlayerSeasonStats from "@/app/apiCalls/getPlayerSeasonStats";
-import { calculateYearFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
+import { calculateFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
 import { fantasyPositions } from "@/app/data/fantasyPositions";
 import getGamesPlayed from "@/app/helpers/getGamesPlayed";
+import getCurrentSeason from "../helpers/getCurrentSeason";
+import labelFormatter from "@/app/helpers/labelFormatter";
 
 // type for the data that is pulled from API response
 interface Stats {
@@ -39,7 +41,7 @@ export default async function formatPlayerStatsSummary(summary: Stats, playerID:
 
     for (const stat of summary.statistics) {
         output.stats.push({
-            label: formatlabel(stat.displayName), 
+            label: labelFormatter(stat.displayName), 
             value: stat.displayValue,
             rank: excludeRank.includes(stat.name) ? false : stat.rank,
             rankDisplay: stat.rankDisplayValue
@@ -65,16 +67,24 @@ export default async function formatPlayerStatsSummary(summary: Stats, playerID:
             const fantasy = data.fantasy;
 
             // calculate the player's number of fantasy points per game
-            const ppg = Number(calculateYearFantasyPoints(statsData).halfPPR) / gamesPlayed;
+            const ppg = Number(calculateFantasyPoints(statsData).halfPPR) / gamesPlayed;
             
             // then format it
             const ppgFormatted = Number.isInteger(ppg) ? ppg : ppg.toFixed(2);
 
+            const currentSeasonType = (await getCurrentSeason()).type;
+
+            // only add the fantasy rank (ADP) in the offseason
+            if (currentSeasonType == 4) {
+                output.stats.push(
+                    {
+                        label: "Fantasy Rank", 
+                        value: fantasy?.draftRank || "-"
+                    }
+                ); 
+            }
+
             output.stats.push(
-                {
-                    label: "Fantasy Rank", 
-                    value: fantasy?.draftRank || "-"
-                },
                 {
                     label: `Fantasy ${positionAbbreviation} Rank`, 
                     value: fantasy?.positionRank || "-",
@@ -100,28 +110,6 @@ function formatHeading(heading: string) {
     }
 
     return `${ getSeason(heading) } Summary`;
-}
-
-// remove/replace certain phrases in labels
-export function formatlabel(label: string) {
-    let outputLabel = label;
-
-    if (outputLabel.includes("Touchdowns")) { 
-        outputLabel = outputLabel.replace("Touchdowns", "TD");                  // replace "Touchdowns" with "TD"
-    } 
-    if (outputLabel.includes("Per")) { 
-        outputLabel = outputLabel.replace("Per ", "/ ");                          // replace "Per" with "/"
-    } 
-    if (outputLabel.includes("Rush Attempt")) { 
-        outputLabel = outputLabel.replace("Rush Attempt", "Rush");              // replace "Rush Attempt" with "Rush"
-    } 
-    if (outputLabel.includes("Rushing Attempts")) { 
-        outputLabel = outputLabel.replace("Rushing Attempts", "Rush Attempts");  // replace "Rushing Attempts" with "Rush Attempts"
-    }
-    if (outputLabel.includes("Percentage")) { 
-        outputLabel = outputLabel.replace("Percentage", "%");  // replace "Rushing Attempts" with "Rush Attempts"
-    }
-    return outputLabel;
 }
 
 // extract the season from the heading (will only be called if the season is present)
