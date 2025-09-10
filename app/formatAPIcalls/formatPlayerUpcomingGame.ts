@@ -1,19 +1,20 @@
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
-import { calculateGameFantasyPoints, findStat } from "@/app/helpers/calculateFantasyPoints";
-import { formatlabel } from "./formatPlayerStatsSummary";
+import labelFormatter from "@/app/helpers/labelFormatter";
 import { PlayerOverview } from "../types/player";
+import getMissingFantasyStats from "../helpers/getMissingFantasyStats";
+import findHomeAwayTeam from "../helpers/findHomeAwayTeam";
 
 export type UpcomingGame = {
     weekText: string,
-    date: string,
-    time: string,
+    date?: string,
+    time?: string,
     awayTeam: TeamData,
     homeTeam: TeamData
     status: string,
     broadcast: string,
-    location: string,
     timeLeft?: string,
+    teamWithPossession?: string | false;
     statsInCurrentGame?: {
         longName: string,
         value: string
@@ -35,8 +36,8 @@ export default async function formatPlayerUpcomingGame(nextGame: any, player: Pl
 
     const allTeamsColors = teamColors as AllTeamsColors;
 
-    const awayTeam = findTeam(game.competitors, "away");
-    const homeTeam = findTeam(game.competitors, "home"); 
+    const awayTeam = findHomeAwayTeam(game.competitors, "away");
+    const homeTeam = findHomeAwayTeam(game.competitors, "home"); 
 
     const { date, time } = formatDateAndTime(game.date);
 
@@ -45,12 +46,14 @@ export default async function formatPlayerUpcomingGame(nextGame: any, player: Pl
     let timeLeft;
     let awayScore;
     let homeScore;
+    let teamWithPossession;
     let statsInCurrentGame: UpcomingGame["statsInCurrentGame"] = [];
 
     if (game.status == "in") {
         const res = await formatGameInProgressStats(nextGame, game, player, includeFantasy);
         currentGame = res.currentGame;
         timeLeft = res.timeLeft;
+        teamWithPossession = res.teamWithPossession;
         awayScore = res.awayScore;
         homeScore = res.homeScore;
         statsInCurrentGame = res.statsInCurrentGame;
@@ -62,8 +65,8 @@ export default async function formatPlayerUpcomingGame(nextGame: any, player: Pl
         time,
         status: game.status,
         broadcast: game.broadcast,
-        location: game.location,
         timeLeft,
+        teamWithPossession,
         statsInCurrentGame,
         awayTeam: {
             abbreviation: awayTeam.abbreviation,
@@ -86,39 +89,54 @@ export default async function formatPlayerUpcomingGame(nextGame: any, player: Pl
     }
 }
 
-// distinguish teams in "competitors" arrays
-function findTeam(teams: any, homeAway: string) {
-    return teams.find((competitor: { homeAway: string }) => competitor.homeAway == homeAway);
-}
+// date & time will never actually be undefined; just added it to fix a TypeScript error
+export function formatDateAndTime(date: string | undefined) {
+    if (date) {
+        // if the timezone isn't included, the wrong time will be displayed on production
+        const formattedDate = new Date(date).toLocaleString('en-us', {
+            timeZone:"America/New_York",
+            weekday:"short",
+            month:"short", 
+            day:"numeric"
+        });
 
-function formatDateAndTime(date: string) {
-    // if the timezone isn't included, the wrong time will be displayed on production
-    
-    const formattedDate = new Date(date).toLocaleString('en-us', {
-        timeZone:"America/New_York",
-        weekday:"short",
-        month:"short", 
-        day:"numeric"
-    });
+        const formattedTime = new Date(date).toLocaleString('en-us', {
+            timeZone:"America/New_York",
+            hour:"numeric", 
+            minute:"numeric",
+        });
 
-    const formattedTime = new Date(date).toLocaleString('en-us', {
-        timeZone:"America/New_York",
-        hour:"numeric", 
-        minute:"numeric",
-    });
-
-    return {
-        date: formattedDate,
-        time: formattedTime
+        return {
+            date: formattedDate,
+            time: formattedTime
+        }    
     }
+    return {}
 }
 
 async function formatGameInProgressStats(nextGame: any, game: any, player: PlayerOverview, includeFantasy: boolean) {
     const res = await fetch(`https://cdn.espn.com/core/nfl/boxscore?xhr=1&gameId=${game.id}`);
     const currentGame = (await res.json()).gamepackageJSON.header.competitions[0];
     
-    const awayScore = findTeam(currentGame.competitors, "away").score;
-    const homeScore = findTeam(currentGame.competitors, "home").score;
+    const awayTeam = findHomeAwayTeam(currentGame.competitors, "away");
+    const homeTeam = findHomeAwayTeam(currentGame.competitors, "home");
+
+    let teamWithPossession;
+    // get the ID of the team with the ball (or set it to false if neither team has possession)
+    if (awayTeam.possession || homeTeam.possession) {
+        if (awayTeam.possession) {
+            teamWithPossession = awayTeam.id;
+        }
+        else {
+            teamWithPossession = homeTeam.id;    
+        }      
+    }
+    else {
+        teamWithPossession = false;    
+    }
+        
+    const awayScore = awayTeam.score;
+    const homeScore = homeTeam.score;
 
     let timeLeft;
     const statsInCurrentGame = [];
@@ -140,37 +158,22 @@ async function formatGameInProgressStats(nextGame: any, game: any, player: Playe
             const indexOfStat = nextGame.statistics.names.indexOf(stat.name);
                 
             statsInCurrentGame.push({
-                longName: formatlabel(stat.displayName),
+                longName: labelFormatter(stat.displayName),
                 value: Object.keys(nextGame.statistics).length > 0 ? nextGame.statistics.splits[0].stats[indexOfStat] : "0"
             });
         }  
 
         if (includeFantasy) {
-            const statNums = nextGame.statistics.splits[0].stats;
-            const statNames = nextGame.statistics.names;
-
-            // get a QB's rushing stats (doesn't show in summary stats by default)
-            if (player.position.abbreviation == "QB") {
-                const playerGameStatsRes = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/events/${game.id}/competitions/${game.id}/competitors/${player.team.id}/roster/${player.id}/statistics/0`);
-                const playerGameStats = await playerGameStatsRes.json();
-                        
-                const rushingCategory = findStat("rushing", playerGameStats);
-                const rushingYards = findStat("rushingYards", rushingCategory, true);
-                const rushingTD = findStat("rushingTouchdowns", rushingCategory, true);
-                            
-                statNums.push(rushingYards.toString(), rushingTD.toString());
-                statNames.push("rushingYards", "rushingTouchdowns");
-            }
-
             statsInCurrentGame.push({
                 longName: "FPTS (Half-PPR)",
-                value: Object.keys(nextGame.statistics).length > 0 ? calculateGameFantasyPoints(statNums, statNames).halfPPR : "0"
+                value: Object.keys(nextGame.statistics).length > 0 ? await getMissingFantasyStats(game.id, player.id, player.team.id) : "0"
             });
         }    
     } 
 
     return {
         timeLeft,
+        teamWithPossession,
         awayScore,
         homeScore,
         currentGame,
