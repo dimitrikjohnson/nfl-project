@@ -20,7 +20,7 @@ export default async function OverviewTab({ params }: { params: Promise<{ player
             <h2 className="font-protest text-3xl lg:text-4xl uppercase pb-2 mb-9 border-b-2 border-primary dark:border-primary-dark">Overview</h2>
             <div className="grid grid-cols-1 xl:flex gap-x-7 gap-y-9">
                 <div className="order-2 xl:order-1 xl:basis-3/4">
-                    <Suspense fallback={<div className="skeleton w-full h-32"></div>}>
+                    <Suspense fallback={<div className="skeleton w-full h-32 mb-8"></div>}>
                         <NextGame playerID={ playerID } />
                     </Suspense>
                     { player.statsSummary &&

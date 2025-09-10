@@ -1,6 +1,6 @@
 import replaceHttp from "@/app/helpers/replaceHttp";
 import { fantasyPositions } from "@/app/data/fantasyPositions";
-import { calculateYearFantasyPoints, findStat } from "@/app/helpers/calculateFantasyPoints";
+import { calculateFantasyPoints, findStat } from "@/app/helpers/calculateFantasyPoints";
 import { idToName } from "@/app/helpers/idToName";
 import getGamesPlayed from "@/app/helpers/getGamesPlayed";
 import type { Career } from "@/app/types/gameAndCareerStats";
@@ -96,7 +96,7 @@ async function formatStats(statsURL: string, includeFantasy: boolean, headings: 
     const statsOutput: string[] = [];
  
     if (includeFantasy) {
-        const { halfPPR, ppr } = calculateYearFantasyPoints(stats);
+        const { halfPPR, ppr } = calculateFantasyPoints(stats);
         statsOutput.push(halfPPR.toString(), ppr.toString());
     }
     

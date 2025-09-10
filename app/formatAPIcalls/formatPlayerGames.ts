@@ -1,5 +1,5 @@
 import { fantasyPositions } from "@/app/data/fantasyPositions";
-import { calculateYearFantasyPoints, calculateGameFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
+import { calculateFantasyPoints, calculateGameFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
 import { idToName } from "@/app/helpers/idToName";
 import getPlayerSeasonStats from "@/app/apiCalls/getPlayerSeasonStats";
 import { Headings, Rows } from "@/app/types/gameAndCareerStats";
@@ -35,7 +35,7 @@ export default async function formatPlayerGames(data: any, position: string, pla
         let totals = seasonType.summary?.stats?.[0].stats;
 
         if (includeFantasy) {
-            const totalFantasyStats = calculateYearFantasyPoints(await getPlayerSeasonStats(selectedSeason, "2", playerID));
+            const totalFantasyStats = calculateFantasyPoints(await getPlayerSeasonStats(selectedSeason, "2", playerID));
             const { halfPPR, ppr } = totalFantasyStats;
 
             totals.unshift(halfPPR, ppr);
