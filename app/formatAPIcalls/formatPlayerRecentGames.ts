@@ -1,16 +1,17 @@
-import { calculateGameFantasyPoints } from "@/app/helpers/calculateFantasyPoints";
 import { Headings, Rows } from "@/app/types/gameAndCareerStats";
 import { idToName } from "@/app/helpers/idToName";
+import { PlayerOverview } from "../types/player";
+import getMissingFantasyStats from "../helpers/getMissingFantasyStats";
 
 export type RecentGamesType = {
     headings: Headings[],
     rows: Rows[]
 };
 
-export default function formatPlayerRecentGames(gamelog: any, includeFantasy: boolean): RecentGamesType {
+export default async function formatPlayerRecentGames(gamelog: any, player: PlayerOverview, includeFantasy: boolean): Promise<RecentGamesType> {
     const headings = buildHeadings(gamelog.statistics[0], includeFantasy);
     
-    const rows = buildRows(gamelog.statistics[0].events, gamelog.events, includeFantasy, gamelog.statistics[0].names);
+    const rows = await buildRows(gamelog.statistics[0].events, gamelog.events, player, includeFantasy, gamelog.statistics[0].names);
 
     return { headings, rows }
 }
@@ -82,7 +83,7 @@ function buildHeadings(data: any, includeFantasy: boolean) {
     return headings;
 }
 
-function buildRows(allGamesStats: any, allGames: any, includeFantasy: boolean, valueNames: string[]) {
+async function buildRows(allGamesStats: any, allGames: any, player: PlayerOverview, includeFantasy: boolean, valueNames: string[]) {
     const allRows = [];
      
     for (const game of allGamesStats) {
@@ -108,7 +109,7 @@ function buildRows(allGamesStats: any, allGames: any, includeFantasy: boolean, v
         }
 
         if (includeFantasy) {
-            const { halfPPR } = calculateGameFantasyPoints(game.stats, valueNames);
+            const halfPPR = await getMissingFantasyStats(game.eventId, player.id, player.team.id) //calculateGameFantasyPoints(game.stats, valueNames);
             rowData.stats.push(halfPPR);
         }
 

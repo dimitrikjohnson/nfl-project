@@ -21,7 +21,7 @@ const passingTDPoints = 4;
 const rushingYardPoints = 0.1;
 const rushingTDPoints = 6;
 
-export function calculateYearFantasyPoints(data: any) {
+export function calculateFantasyPoints(data: any) {
     // passing
     const passingCategory = findStat("passing", data);
     const passingYards = findStat("passingYards", passingCategory, true);
