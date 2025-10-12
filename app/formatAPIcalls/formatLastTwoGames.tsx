@@ -2,7 +2,7 @@ import { displayWeek } from "@/app/helpers/displayWeekInfo";
 import formatSchedule from "@/app/formatAPIcalls/formatSchedule";
 import { GameData } from "@/app/types/schedule";
 
-export default async function formatLastTwoGames( teamID: string ) {
+export default async function formatLastTwoGames(teamID: string) {
     const schedule = await formatSchedule(teamID, null);
     
     let games: GameData[] = [];
@@ -19,7 +19,14 @@ export default async function formatLastTwoGames( teamID: string ) {
         }
         
         else {
-            games = [season.allGames[0].games[numPastGames-2], season.allGames[0].games[numPastGames-1]]
+            for (let i = numPastGames - 1; i >= 0; i -= 1) {
+                // avoid bye weeks by checking for a game ID
+                if (season.allGames[0].games[i].id) {
+                    games.push(season.allGames[0].games[i]);
+                }
+                
+                if (games.length == 2) { break; }
+            }
         }
 
         if (games.length == 2) { break; }
@@ -27,18 +34,18 @@ export default async function formatLastTwoGames( teamID: string ) {
 
     const output = [];
 
-    // loop through the past games that were found and collect the game's data
-    for (const game of games) {
-        const getLiveRes = await fetch(`https://cdn.espn.com/core/nfl/game?xhr=1&gameId=${game.id}`, { method: "get" });
-        const liveRes = await getLiveRes.json();
-        
+    // loop through the past games that were found (backwards) and collect the game's data
+    for (const game of games.reverse()) {  
+        const res = await fetch(`https://site.web.api.espn.com/apis/site/v2/sports/football/nfl/summary?event=${game.id}`, { method: "get" });
+        const resData = await res.json();
+            
         output.push({
             seasonType: game.seasonType,
             date: game.date,
             week: displayWeek(game.seasonType?.name, game.week),
             teams: game.teams, 
-            status: liveRes.gamepackageJSON.header.competitions[0].status.type
-        });  
+            status: resData.header.competitions[0].status.type
+        });     
     }
 
     return output;
