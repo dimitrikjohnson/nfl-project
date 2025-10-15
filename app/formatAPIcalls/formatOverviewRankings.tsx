@@ -18,7 +18,7 @@ export default function formatOverviewRankings( season: string | number, seasonT
                 getValues(categories[4].stats[20]), // Tackles for Loss
                 getValues(categories[4].stats[14]), // Sacks
                 getValues(categories[5].stats[0]), // Interceptions
-                getValues(categories[10].stats[20], "Takeaways")    
+                getValues(categories[10].stats[19], "Takeaways")    
             ]    
         }
     }

@@ -118,7 +118,7 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
             createStatObject("Passes Defended", 4, 12, "PD"),
             createStatObject("Interceptions", 5, 0, "INT"),
             createStatObject("Fumble Recoveries", 7, 2),
-            createStatObject("Takeaways", 10, 20, "TAKE"),
+            createStatObject("Takeaways", 10, 19, "TAKE"),
             {
                 label: "Defensive Touchdowns",
                 shortLabel: "DEF TD",
