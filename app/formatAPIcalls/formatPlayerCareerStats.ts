@@ -9,7 +9,7 @@ import extractSeasonFromURL from "../helpers/extractSeasonFromURL";
 
 export default async function formatPlayerCareerStats(playerID: string, seasons: any, position: string) {
     const includeFantasy = fantasyPositions.includes(position);
-
+   
     // get the player's headings by calling the gamelog API
     let data;
     try {
@@ -21,9 +21,17 @@ export default async function formatPlayerCareerStats(playerID: string, seasons:
     catch(error) {
         // if the player has played in previous seasons, get those stats
         if (seasons.length > 1) {
-            const res = await fetch(`https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${playerID}/gamelog?season=${extractSeasonFromURL(seasons[1].season.$ref)}`);
-            data = await res.json(); 
+            // loop through the seasons until the most recent season with stats is found
+            for (let x = 1; x < seasons.length; x += 1) {
+                const res = await fetch(`https://site.web.api.espn.com/apis/common/v3/sports/football/nfl/athletes/${playerID}/gamelog?season=${extractSeasonFromURL(seasons[x].season.$ref)}`);
+                data = await res.json();
+
+                if (data.categories) {
+                    break;
+                }
+            }
         }
+        
         // otherwise, send nothing
         else {
             return {
