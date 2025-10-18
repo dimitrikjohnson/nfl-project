@@ -11,7 +11,7 @@ const ListOfTeamsPage = async () => {
         <>
             <SkipToContent />
             <NavBar />
-            <main id="#content" className="mt-12 px-4 pt-10 md:px-6 lg:px-14 xl:mx-auto max-w-screen-xl">
+            <main id="#content" className="px-4 pt-10 md:px-6 lg:px-14 xl:mx-auto max-w-screen-xl">
                 <Suspense fallback={<div className="skeleton w-full h-24"></div>}>
                     <FilterTeams teams={ teams } />
                 </Suspense>    
