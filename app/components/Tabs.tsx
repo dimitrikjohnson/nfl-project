@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import useCurrentPath from '@/app/helpers/getCurrentPath';
+import useCurrentPath from '@/app/helpers/useCurrentPath';
 
 export default function Tabs({ tabs, url }: { tabs: string[]; url: string }) {
   const activeTab = useCurrentPath();
