@@ -29,6 +29,9 @@ function teamsInGame(teams: any, chosenTeamID: string): TeamsInGameResult {
     chosenTeam.leaders?.map((stat: any) => {
         const leader = stat.leaders[0];
 
+        // in the rare instance that leader is undefined
+        if (leader == undefined) return undefined;
+
         const slugifyName = leader.athlete.displayName.toLowerCase().replace(' ', '-');
 
         const link = `/player/${slugifyName}-${leader.athlete.id}`
