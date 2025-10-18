@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
-import TeamSummary from '@/app/components/TeamSummary';
 import { Team } from '@/app/types/team';
 import { PlayerOverview } from '@/app/types/player';
+import SearchBar from './SearchBar';
+import getCurrentPath from '../helpers/useCurrentPath';
 
 export default function NavBar({ team, player }: { team?: Team, player?: PlayerOverview }) {
     const [scrolledNav, setScrolledNav] = useState(false);
@@ -19,6 +20,8 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
 
     const isDashboard = hasTeam || hasPlayer;
 
+    const onTeamsPage = getCurrentPath() == "teams";
+
     // display colors depending on whether the user is on a Team or Player dashboard
     const bgColor = hasTeam 
         ? allTeamsColors[team.shortDisplayName.toLowerCase()]?.bgColor 
@@ -28,7 +31,7 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
         ? allTeamsColors[team.shortDisplayName.toLowerCase()]?.textColor 
         : hasPlayer && player.team.textColor;
 
-    // for applying certain styling when top navbar passes the mid-screen navbar
+    // for applying certain styling when top navbar passes the mid-screen navbar   
     useEffect(() => {
         const handleScroll = () => {
             const y = window.scrollY;
@@ -40,52 +43,41 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
     }, []);
 
     return (
-        <header 
-            className={`fixed w-full flex justify-between py-2.5 px-4 md:px-11 top-0 z-10 ${ 
+        <nav 
+            className={`w-full flex justify-between py-2.5 px-4 md:px-6 lg:px-14 top-0 z-30 ${ 
                 scrolledNav && "drop-shadow-md" } ${ 
-                isDashboard || "bg-gray-200 dark:bg-backdrop-dark" 
+                isDashboard ? "sticky" : "relative bg-transparent" 
             }`}
             style={ isDashboard ? { backgroundColor: bgColor as string } : undefined }
         >
             <Link 
                 href={ '/' } 
-                className={ `flex gap-2 items-center text-lg md:text-xl ${ isDashboard || "text-primary dark:text-primary-dark" }`}
+                className={`flex gap-2 items-center text-lg md:text-xl ${ onTeamsPage && "text-primary dark:text-primary-dark" }`}
                 style={{ color: isDashboard 
-                    ? textColor as string 
-                    : undefined 
+                    ? textColor as string   // if displaying team/player dashboard, logo should match text color
+                    : onTeamsPage           // if displaying the Teams page, logo should switch colors with light/dark mode
+                        ? undefined
+                        : "#ffffff" 
                 }}
             >
                 <FontAwesomeIcon icon={faFootball} rotation={90} className="" />
                 <p className="font-protest tracking-wide uppercase">Big Football</p>
             </Link>
-            <div 
-                className={`${ scrolledNav && (team || player) ? "flex gap-2" : "hidden" } items-center`}
-                style={ isDashboard 
-                    ? { color: textColor as string } 
-                    : undefined 
-                }
-            >
-                <p className="font-semibold">
-                    <span className="hidden md:block">{ team?.displayName }</span>
-                    <span className="block md:hidden">{ team?.shortDisplayName }</span>
-                </p>
-                <p className="hidden md:flex text-sm gap-1.5">
-                    { hasTeam && <TeamSummary team={ team } hasTrophy={ false }/> }
-                </p>
+            <div className="flex items-center gap-3 md:gap-2.5">
+                <SearchBar /> 
+                <Link 
+                    href={ '/teams' } 
+                    className={`btn px-3 h-7 min-h-7 md:h-8 md:min-h-8 border-0 ${
+                        isDashboard ? "" : "bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
+                    }`}
+                    style={ isDashboard 
+                        ? { backgroundColor: textColor as string, color: bgColor as string } 
+                        : undefined 
+                    }
+                >
+                    Teams
+                </Link>   
             </div>
-            <Link 
-                href={ '/teams' } 
-                className={`btn h-8 min-h-8 border-0 ${
-                    isDashboard ? "" : "bg-cyan-400 text-backdrop-dark"
-                }`}
-                style={ isDashboard 
-                    ? { backgroundColor: textColor as string, color: bgColor as string } 
-                    : undefined 
-                }
-            >
-                Teams
-            </Link>
-            
-        </header>
+        </nav>
     );
 }
