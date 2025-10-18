@@ -1,6 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFootball } from '@fortawesome/free-solid-svg-icons';
-import '@fortawesome/fontawesome-svg-core/styles.css';
 import getPlayer from "@/app/apiCalls/getPlayer";
 import getPlayerRecentAndUpcomingGames from "@/app/apiCalls/getPlayerRecentAndUpcomingGames";
 import H3 from "@/app/components/H3";
@@ -94,12 +93,11 @@ function displayTeam(team: any, direction: string, gameInProgess: boolean, teamW
                         <p className={`hidden md:block font-semibold text-${direction} text-blue-800 dark:text-cyan-400 group-hover:underline sm:pb-1`}>{ team.name }</p>
                         <p className={`text-sm text-gray-500 text-${direction} dark:text-lighterSecondaryGrey`}>{ team.record }</p>    
                     </div>
-                    
                     <p className={`text-sm italic text-gray-500 text-${direction} dark:text-lighterSecondaryGrey`}>{ direction == "left" ? "Away" : "Home" }</p>
                 </div>
             </Link>  
             { gameInProgess &&
-                <div className={`flex gap-2 ${direction == "left" ? "order-2" : "order-1"}`}>
+                <div className={`flex gap-2 lg:gap-3 items-center ${direction == "left" ? "order-2" : "order-1"}`}>
                     { teamWithPossession == team.id &&
                         <FontAwesomeIcon className="text-sm" icon={faFootball} transform={{ rotate: 80 }} />
                     }

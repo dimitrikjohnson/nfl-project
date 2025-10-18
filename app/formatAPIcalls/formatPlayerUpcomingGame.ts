@@ -22,6 +22,7 @@ export type UpcomingGame = {
 }
 
 type TeamData = {
+    id: string,
     abbreviation: string,
     name: string,
     record: string,
@@ -69,6 +70,7 @@ export default async function formatPlayerUpcomingGame(nextGame: any, player: Pl
         teamWithPossession,
         statsInCurrentGame,
         awayTeam: {
+            id: awayTeam.id,
             abbreviation: awayTeam.abbreviation,
             name: awayTeam.name,
             record: awayTeam.record,
@@ -78,6 +80,7 @@ export default async function formatPlayerUpcomingGame(nextGame: any, player: Pl
             score: currentGame && awayScore
         },
         homeTeam: {
+            id: homeTeam.id,
             abbreviation: homeTeam.abbreviation,
             name: homeTeam.name,
             record: homeTeam.record,
