@@ -41,7 +41,9 @@ async function getNextGame(schedule: FormattedSchedule[]) {
     const upcomingGames = schedule[0].allGames[1].games;
     if (upcomingGames.length == 0) return undefined;
     
-    const game = upcomingGames[0];
+    // if the next game doesn't have an ID (aka it's a bye week), display the following game
+    const game = upcomingGames[0].id ? upcomingGames[0] : upcomingGames[1];
+    
     const { date, time } = formatDateAndTime(game.date);
     
     const awayTeam = findHomeAwayTeam(game.teams, "away").team;
