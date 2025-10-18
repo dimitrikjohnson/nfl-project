@@ -9,15 +9,15 @@ export default async function PlayerHeader({ player }: { player: PlayerOverview 
         <>
             <NavBar player={ player } />
             <section className="w-full">
-                <div className="flex relative h-60 md:h-80 overflow-hidden z-0">
+                <div className="flex relative h-60 md:h-72 overflow-hidden z-0">
                     <div className="absolute w-full h-full" style={{ backgroundColor: player.team.bgColor }}></div>
-                    <div className="flex flex-col md:flex-row relative w-full justify-between items-center md:items-end mt-16 md:mx-6 lg:mx-11">
+                    <div className="flex flex-col md:flex-row relative w-full justify-between items-center mt-5 md:items-end md:mt-10 md:mx-6 lg:mx-11">
                         { player.headshot
                             ? <img className="order-2 md:order-1 w-36 md:w-56 lg:w-72" src={ player.headshot } alt={ player.name } />
                             : <FontAwesomeIcon icon={faUser} className="order-2 md:order-1 w-36 md:w-56 lg:w-72 text-6xl lg:text-[190px]" /> 
                         }
                         <div className="order-1 md:order-2 flex flex-col h-full text-center justify-center" style={{ color: player.team.textColor }}>
-                            <p className="md:hidden font-protest uppercase text-4xl mb-1">{ player.name }</p>
+                            <p className="md:hidden font-protest uppercase text-4xl mb-2">{ player.name }</p>
                             <p className="hidden md:block font-protest uppercase text-3xl md:text-5xl mb-1">{ player.firstName }</p>
                             <p className="hidden md:block font-protest uppercase text-6xl md:text-8xl mb-2">{ player.lastName }</p>
                             <div className="text-sm md:text-base font-semibold flex gap-1.5 items-center justify-center">

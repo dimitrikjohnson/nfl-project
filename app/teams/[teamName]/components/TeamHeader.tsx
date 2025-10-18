@@ -22,18 +22,18 @@ export default async function TeamHeader({ teamName }: { teamName: string }) {
         <>
             <NavBar team={ team } />
             <section className="w-full">
-                <div className="grid md:flex relative h-60 md:h-80 overflow-hidden items-center z-0">
+                <div className="grid md:flex relative h-60 md:h-72 overflow-hidden items-center z-0">
                     <div className="absolute w-full h-full" style={{ backgroundColor: allTeamsColors[teamName].bgColor }}></div>
-                    <div className="md:flex relative w-full justify-between items-center mt-16 md:mx-6 lg:mx-11">
-                        <img className="hidden md:block w-12 sm:w-24 md:w-28 lg:w-40" src={ team.logo } alt={ `${team.displayName} logo` } />
-                        <div className="text-center" style={{ color: allTeamsColors[teamName].textColor }}>
+                    <div className="flex flex-col md:flex-row relative w-full justify-between items-center mt-8 md:mt-10 md:mx-6 lg:mx-11">
+                        <img className="order-2 w-14 md:order-1 md:w-28 lg:w-40" src={ team.logo } alt={ `${team.displayName} logo` } />
+                        <div className="order-1 mb-3 md:mb-0 md:order-2 text-center" style={{ color: allTeamsColors[teamName].textColor }}>
                             <p className="font-protest uppercase text-3xl md:text-5xl mb-1">{ team.location }</p>
                             <p className="font-protest uppercase text-6xl md:text-8xl mb-2">{ team.name }</p>
                             <p className="text-sm md:text-base font-semibold flex gap-1.5 justify-center">
                                 <TeamSummary team={ team } hasTrophy={ true } />
                             </p>
                         </div>
-                        <Image src={ conference.logo } className="hidden md:block w-12 sm:w-24 md:w-28 lg:w-40" alt={ conference.alt } priority />
+                        <Image src={ conference.logo } className="hidden order-3 md:block w-28 lg:w-40" alt={ conference.alt } priority />
                     </div>
                 </div>	
             </section>
