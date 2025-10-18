@@ -25,7 +25,7 @@ export default function SearchBar() {
         const timeout = setTimeout(async () => {
             setLoading(true);
             try {
-                const res = await fetch(`/search?q=${encodeURIComponent(query)}`);
+                const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
                 const data = await res.json();
                 setPlayers(data.players);
                 setTeams(data.teams);    
@@ -78,7 +78,7 @@ export default function SearchBar() {
                 </form>
             </dialog>
 
-            {/* Desktop inline */}
+            {/* Desktop search bar */}
             <div className="hidden md:block group">
                 <SearchInput onTeamsPage={onTeamsPage} query={query} setQuery={setQuery} />
                 <SearchResults
