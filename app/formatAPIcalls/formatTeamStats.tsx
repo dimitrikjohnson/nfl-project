@@ -4,26 +4,20 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
     const GAMES_PLAYED = data[0].stats[5].value;
 
     // function to create the stat objects that will be sent to Statistics component
-    const createStatObject = (
-        label: string, 
-        categoryNum: number, 
-        statNum: number, 
-        shortLabel = data[categoryNum].stats[statNum].shortDisplayName, 
-        perGame = data[categoryNum].stats[statNum].value / GAMES_PLAYED, 
-        reversedColors = false
-    ) => {
+    const createStatObject = (label: string, categoryNum: number, statName: string, shortLabel?: string, perGame?: number | string, reversedColors = false) => {
+        const statData = findStat(data, categoryNum, statName, shortLabel);
         return {
             label: label,
-            shortLabel: shortLabel,
-            total: data[categoryNum].stats[statNum].displayValue,
-            perGame: perGame.toFixed(2),
-            rank: data[categoryNum].stats[statNum].rank,
-            rankDisplay: data[categoryNum].stats[statNum].rankDisplayValue,
+            shortLabel: statData.shortLabel,
+            total: statData.displayValue, 
+            perGame: perGame == "N/A" ? undefined : (statData.value / GAMES_PLAYED).toFixed(2), // some stats don't need a per game value
+            rank: statData.rank, 
+            rankDisplay: statData.rankDisplay, 
             reversedColors: reversedColors
         };
     };
 
-    // the objects that don't use the createStatObject function don't have a perGame value
+    // the objects that don't use createStatObject() have specialized values
     const stats = {
         "Scoring": [
             {
@@ -40,11 +34,11 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
                 rank: data[10].stats[13].rank,
                 rankDisplay: data[10].stats[13].rankDisplayValue,
             },
-            createStatObject("Points Scored", 1, 29, "PTS", data[1].stats[30].value),
-            createStatObject("Touchdowns", 1, 31, "TD")
+            createStatObject("Points Scored", 1, "totalPoints", "PTS", data[1].stats[30].value),
+            createStatObject("Touchdowns", 1, "totalTouchdowns", "TD")
         ],
         "Downs": [
-            createStatObject("1st Downs", 10, 0, data[10].stats[0].shortDisplayName),
+            createStatObject("1st Downs", 10, "firstDowns", data[10].stats[0].shortDisplayName),
             {
                 label: "3rd Down Conversion %",
                 shortLabel: "3RDC%",
@@ -52,7 +46,7 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
                 rank: data[10].stats[15].rank,
                 rankDisplay: data[10].stats[15].rankDisplayValue,
             },
-            createStatObject("4th Down Attempts", 10, 5, "4DA"),
+            createStatObject("4th Down Attempts", 10, "fourthDownAttempts", "4DA"),
             {
                 label: "4th Down Conversion %",
                 shortLabel: "4THC%",
@@ -62,14 +56,14 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
             }
         ],
         "Offense": [
-            createStatObject("Offensive Plays", 1, 28, "OP"),
-            createStatObject("Yards", 1, 10, "YDS", data[1].stats[11].value),
-            createStatObject("Fumbles", 0, 0, "FUM", data[0].stats[0].value / GAMES_PLAYED, true),
-            createStatObject("Fumbles Lost", 0, 1, "FUML", data[0].stats[1].value / GAMES_PLAYED, true),
-            createStatObject("Total Giveaways", 10, 17, "GIVE", data[10].stats[17].value / GAMES_PLAYED, true)
+            createStatObject("Offensive Plays", 1, "totalOffensivePlays", "OP"),
+            createStatObject("Yards", 1, "netTotalYards", "YDS", data[1].stats[11].value),
+            createStatObject("Fumbles", 0, "fumbles", "FUM", undefined, true),
+            createStatObject("Fumbles Lost", 0, "fumblesLost", "FUML", undefined, true),
+            createStatObject("Total Giveaways", 10, "totalGiveaways", "GIVE", undefined, true)
         ],
         "Passing": [
-            createStatObject("Passing Attempts", 1, 12, "PA"),
+            createStatObject("Passing Attempts", 1, "passingAttempts", "PA"),
             {
                 label: "Yards Per Pass Attempt",
                 shortLabel: "YDS/PA",
@@ -77,57 +71,47 @@ export default function formatTeamStats(data: TeamStatCategory[]) {
                 rank: data[1].stats[40].rank,
                 rankDisplay: data[1].stats[40].rankDisplayValue,
             },
-            createStatObject("Completions", 1, 2),
-            {
-                label: "Completion Percentage",
-                shortLabel: "CMP%",
-                total: data[1].stats[1].displayValue,
-                rank: data[1].stats[1].rank,
-                rankDisplay: data[1].stats[1].rankDisplayValue
-            },
-            createStatObject("Passing Yards", 1, 19, "PYDS", data[1].stats[22].value),
-            createStatObject("Passing Touchdowns", 1, 18, "PTDS"),
-            createStatObject("Interceptions", 1, 5, "INT"),
-            createStatObject("Interception Percentage", 1, 4),
-            createStatObject("Sacked", 1, 24, "SACK", data[1].stats[24].value / GAMES_PLAYED, true),
-            {
-                label: "ESPN Quarterback Rating",
-                shortLabel: "ESPN QBR",
-                total: data[1].stats[3].value / 100,
-                rank: data[1].stats[3].rank,
-                rankDisplay: data[1].stats[3].rankDisplayValue
-            },
+            createStatObject("Completions", 1, "completions"),
+            createStatObject("Completion Percentage", 1, "completionPct", undefined, "N/A"),
+            createStatObject("Passing Yards", 1, "passingYards", "PYDS"),
+            createStatObject("Passing Touchdowns", 1, "passingTouchdowns", "PTDS"),
+            createStatObject("Interceptions", 1, "interceptions", "INT"),
+            createStatObject("Interception Percentage", 1, "interceptionPct", undefined, "N/A"),
+            createStatObject("Sacked", 1, "sacks", "SACK", "N/A", true),
+            createStatObject("Quarterback Rating", 1, "QBRating", "QBR", "N/A"),
         ],
         "Rushing": [
-            createStatObject("Rushing Attempts", 2, 6, "RA"),
-            {
-                label: "Yards Per Rush Attempt",
-                shortLabel: "YDS/RA",
-                total: data[2].stats[28].displayValue,
-                rank: data[2].stats[28].rank,
-                rankDisplay: data[2].stats[28].rankDisplayValue
-            },
-            createStatObject("Rushing Yards", 2, 12, "RYDS", data[2].stats[13].value),
-            createStatObject("Rushing Touchdowns", 2, 11, "RTDS"),
-            createStatObject("20+ Yard Runs", 2, 7, "20+ YDS"),
-            createStatObject("Stuffed Runs", 2, 14, "STUFF", data[2].stats[14].value / GAMES_PLAYED, true)
+            createStatObject("Rushing Attempts", 2, "rushingAttempts", "RA"),
+            createStatObject("Yards Per Rush Attempt", 2, "yardsPerRushAttempt", undefined, "N/A"),
+            createStatObject("Rushing Yards", 2, "rushingYards", "RYDS", data[2].stats[13].value),
+            createStatObject("Rushing Touchdowns", 2, "rushingTouchdowns", "RTDS"),
+            createStatObject("20+ Yard Runs", 2, "rushingBigPlays", "20+ YDS"),
+            createStatObject("Stuffed Runs", 2, "stuffs", "STUFF", undefined, true)
         ],
         "Defense": [
-            createStatObject("Tackles for Loss", 4, 20),
-            createStatObject("Sacks", 4, 14),
-            createStatObject("Passes Defended", 4, 12, "PD"),
-            createStatObject("Interceptions", 5, 0, "INT"),
-            createStatObject("Fumble Recoveries", 7, 2),
-            createStatObject("Takeaways", 10, 19, "TAKE"),
-            {
-                label: "Defensive Touchdowns",
-                shortLabel: "DEF TD",
-                total: data[4].stats[6].displayValue,
-                rank: data[4].stats[6].rank,
-                rankDisplay: data[4].stats[6].rankDisplayValue
-            },
+            createStatObject("Tackles for Loss", 4, "tacklesForLoss"),
+            createStatObject("Sacks", 4, "sacks"),
+            createStatObject("Passes Defended", 4, "passesDefended", "PD"),
+            createStatObject("Interceptions", 5, "interceptions", "INT"),
+            createStatObject("Fumble Recoveries", 7, "fumbleRecoveries"),
+            createStatObject("Takeaways", 10, "totalTakeaways", "TAKE"),
+            createStatObject("Defensive Touchdowns", 4, "defensiveTouchdowns", "DEF TD", "N/A")
         ],
     };
 
-    return stats
+    return stats;
+}
+
+function findStat(data: any, categoryNum: number, statName: string, shortLabel?: string) {
+    const category = data[categoryNum].stats.find(
+        (stat: { name: string; }) => stat.name == statName
+    );
+
+    return {
+        shortLabel: shortLabel ?? category.shortDisplayName,
+        displayValue: category.displayValue,
+        value: category.value,
+        rank: category.rank,
+        rankDisplay: category.rankDisplayValue
+    }
 }

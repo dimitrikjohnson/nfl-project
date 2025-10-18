@@ -1,5 +1,5 @@
 
-export default function formatOverviewRankings( season: string | number, seasonType: number, data: { splits: { categories: any; }; } ) {
+export default function formatOverviewRankings(season: string | number, seasonType: number, data: { splits: { categories: any; }; }) {
     const categories = data.splits.categories;
    
     return {
@@ -9,24 +9,28 @@ export default function formatOverviewRankings( season: string | number, seasonT
         },
         "sides": {
             "Offensive": [
-                getValues(categories[1].stats[30], "Points Per Game"),
-                getValues(categories[1].stats[39], "Yards Per Game"),
-                getValues(categories[1].stats[22], "Pass Yards Per Game"),
-                getValues(categories[2].stats[13], "Rush Yards Per Game"),
+                findStat(categories, 1, "totalPointsPerGame", "Points Per Game"),
+                findStat(categories, 1, "yardsPerGame", "Yards Per Game"),
+                findStat(categories, 1, "passingYardsPerGame", "Pass Yards Per Game"),
+                findStat(categories, 2, "rushingYardsPerGame", "Rush Yards Per Game")
             ],
             "Defensive": [
-                getValues(categories[4].stats[20]), // Tackles for Loss
-                getValues(categories[4].stats[14]), // Sacks
-                getValues(categories[5].stats[0]), // Interceptions
-                getValues(categories[10].stats[19], "Takeaways")    
+                findStat(categories, 4, "tacklesForLoss"),
+                findStat(categories, 4, "sacks"),
+                findStat(categories, 5, "interceptions"),
+                findStat(categories, 10, "totalTakeaways") 
             ]    
         }
     }
 }
 
-function getValues(category: { displayName: string; displayValue: string; rank: number; rankDisplayValue: string; }, shortName = category.displayName) {
+function findStat(categories: any, categoryNum: number, statName: string, shortName?: string) {
+    const category = categories[categoryNum].stats.find(
+        (stat: { name: string; }) => stat.name == statName
+    );
+
     return {
-        shortName: shortName,
+        shortName: shortName ?? category.displayName,
         longName: category.displayName,
         value: category.displayValue,
         rank: category.rank,
