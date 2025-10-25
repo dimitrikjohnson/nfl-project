@@ -21,6 +21,7 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
     const isDashboard = hasTeam || hasPlayer;
 
     const onTeamsPage = getCurrentPath() == "teams";
+    const onAlbinoPage = getCurrentPath() == "albinoskies";
 
     // display colors depending on whether the user is on a Team or Player dashboard
     const bgColor = hasTeam 
@@ -52,10 +53,10 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
         >
             <Link 
                 href={ '/' } 
-                className={`flex gap-2 items-center text-lg md:text-xl ${ onTeamsPage && "text-primary dark:text-primary-dark" }`}
+                className={`flex gap-2 items-center text-lg md:text-xl ${onTeamsPage && "text-primary dark:text-primary-dark"} ${onAlbinoPage && "text-backdrop-dark"}`}
                 style={{ color: isDashboard 
-                    ? textColor as string   // if displaying team/player dashboard, logo should match text color
-                    : onTeamsPage           // if displaying the Teams page, logo should switch colors with light/dark mode
+                    ? textColor as string                     // if displaying team/player dashboard, logo should match text color
+                    : (onTeamsPage || onAlbinoPage)           // if displaying the Teams or Albino Skies page, use Tailwind styling above
                         ? undefined
                         : "#ffffff" 
                 }}
@@ -67,9 +68,14 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
                 <SearchBar /> 
                 <Link 
                     href={ '/teams' } 
-                    className={`btn px-3 h-7 min-h-7 md:h-8 md:min-h-8 border-0 ${
-                        isDashboard ? "" : "bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
-                    }`}
+                    className={`btn px-3 h-7 min-h-7 md:h-8 md:min-h-8 border-0 
+                        ${isDashboard 
+                            ? "" 
+                            : onAlbinoPage 
+                                ? "text-primary-dark bg-backdrop-dark"
+                                : "bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
+                        }
+                    `}
                     style={ isDashboard 
                         ? { backgroundColor: textColor as string, color: bgColor as string } 
                         : undefined 

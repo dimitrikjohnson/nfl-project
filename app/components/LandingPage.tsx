@@ -33,15 +33,25 @@ export default async function LandingPage() {
                     <p className="mb-10">
                         View NFL dashboards with schedules, stats, rosters, and standings — all styled to match each team&apos;s identity.
                     </p>
-                    <Link 
-                        href="/teams" 
-                        prefetch={ true } 
-                        className="btn h-10 min-h-10 border-none bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
-                    >
-                        Select a team
-                    </Link> 
+                    <div className="flex gap-4">
+                        <Link 
+                            href="/teams" 
+                            prefetch={ true } 
+                            className="btn h-10 min-h-10 border-none bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
+                        >
+                            Select a team
+                        </Link>
+                        <Link 
+                            href="/albinoskies" 
+                            prefetch={ true } 
+                            className="btn h-10 min-h-10 bg-transparent border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-300 hover:text-backdrop-dark"
+                        >
+                            Albino Skies
+                        </Link>
+                    </div>
+                     
                 </section>
-                <section className="group mb-8 overflow-hidden" aria-label="Scrolling list of NFL teams">
+                <section className="group mb-8 overflow-hidden" aria-label="Scrolling list of NFL team logos">
                     <div className="whitespace-nowrap animate-scroll-x-fast md:animate-scroll-x-slow flex gap-10 pause">
                         { [...teams, ...teams].map((team, index) =>
                             <Link 

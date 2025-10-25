@@ -4,6 +4,7 @@ import Link from "next/link";
 import { TeamInStandings } from "@/app/types/standings";
 import getStandings from "@/app/apiCalls/getStandings";
 import groupNumbersJson from "@/app/data/groupNumbers.json";
+import ToggleButtons from "./ToggleButtons";
 
 type Props = {
     season: string;
@@ -83,22 +84,13 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                     ? <h2 className={ sectionHeadingClasses }>{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h2>
                     : <h3 className={ sectionHeadingClasses }>{ seasonType == 4 && season } { groupNumbers[groupNum] } Standings</h3>
                 }   
-                <div className={`flex gap-2.5 md:gap-3 ${ !isConferenceStandings && "hidden" }`}>
-                    { ["8", "7"].map(num =>
-                       <button 
-                            key={ num } 
-                            className={`btn h-8 min-h-8 px-3.5 md:px-4 md:h-10 md:min-h-10 dark:border-none ${ groupNum == num 
-                                ? "bg-primary text-primary-dark hover:bg-primary hover:text-primary-dark border-none \
-                                    dark:bg-primary-dark dark:text-backdrop-dark dark:hover:bg-primary-dark dark:hover:text-backdrop-dark" 
-                                : "bg-alt-table-row text-primary border border-gray-300 hover:bg-secondaryGrey/[0.25] \
-                                    dark:border-none dark:bg-alt-table-row-dark dark:text-primary-dark" 
-                            }`}
-                            onClick={ () => handleGroupChange(num) }
-                        >
-                            { groupNumbers[num] }
-                        </button> 
-                    )}   
-                </div>
+                <ToggleButtons
+                    options={["8", "7"]}
+                    valueToMatch={ groupNum }
+                    onChange={ handleGroupChange }
+                    extraClasses={ isConferenceStandings ? "flex" : "hidden" }
+                    renderLabel={(num) => groupNumbers[num]} 
+                />
             </div>
             <div className="bg-section border border-gray-300 dark:bg-section-dark dark:border-none rounded-md overflow-x-auto">
                 { loading

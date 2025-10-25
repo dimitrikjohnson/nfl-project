@@ -33,11 +33,16 @@ const config: Config = {
       animation: {
         'scroll-x-slow': 'scrollX 55s linear infinite', // Desktop 
         'scroll-x-fast': 'scrollX 20s linear infinite', // Mobile 
+        fadeIn: 'fadeIn 0.3s ease-in-out forwards',
       },
       keyframes: {
         scrollX: {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
+        },
+        fadeIn: {
+          from: { opacity: '0', transform: 'translateY(0.25rem)' },  // starts slightly below, invisible
+          to:   { opacity: '1', transform: 'translateY(0)' },        // ends at full opacity, normal position
         },
       },
     },
