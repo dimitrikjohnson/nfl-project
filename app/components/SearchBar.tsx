@@ -33,7 +33,7 @@ export default function SearchBar() {
             finally {
                 setLoading(false);
             } 
-        }, 300); // debounce
+        }, 300); // debounce (wait 300 milliseconds after every keystroke before running the function)
 
         return () => clearTimeout(timeout);
     }, [query]);
