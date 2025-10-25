@@ -7,7 +7,7 @@ import YearDropdownButton from '@/app/components/YearDropdownButton';
 import type { Headings, Rows, SeasonType } from '@/app/types/gameAndCareerStats';
 import { displayTableHead, displayTableFoot, convertToNumber, displayTableBody } from '@/app/helpers/gameAndCareerTables';
 import getPlayer from '@/app/apiCalls/getPlayer';
-import FantasyTypeToggle from '@/app/components/FantasyTypeToggle';
+import ToggleButtons from '@/app/components/ToggleButtons';
 
 export default function Gamelog({ playerID }: { playerID: string }) {
     const [resSeason, setResSeason] = useState<string>();
@@ -39,9 +39,12 @@ export default function Gamelog({ playerID }: { playerID: string }) {
                         <div className="flex justify-between items-center pb-3">
                             <h3 className="font-protest text-2xl lg:text-3xl">{ seasonType.name }</h3>
                             { seasonType.includesFantasyData &&
-                                <FantasyTypeToggle
-                                    fantasyType={ fantasyType }
+                                <ToggleButtons
+                                    options={["half-ppr", "ppr"]}
+                                    valueToMatch={ fantasyType }
                                     onChange={ setFantasyType }
+                                    extraClasses="flex"
+                                    uppercase={ true }
                                 />
                             }
                         </div>

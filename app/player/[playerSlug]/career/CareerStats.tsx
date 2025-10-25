@@ -7,7 +7,7 @@ import Link from "next/link";
 import DefaultLogo from '@/app/images/default_logo.png';
 import Image from "next/image";
 import { displayTableFoot, displayTableHead, showStats, convertToNumber } from '@/app/helpers/gameAndCareerTables';
-import FantasyTypeToggle from '@/app/components/FantasyTypeToggle';
+import ToggleButtons from '@/app/components/ToggleButtons';
 
 export default function CareerStats({ playerID, playerSlug }: { playerID: string, playerSlug: string }) {
     const [fantasyType, setFantasyType] = useState<'half-ppr' | 'ppr'>('half-ppr');
@@ -99,9 +99,12 @@ export default function CareerStats({ playerID, playerSlug }: { playerID: string
             <div className="flex justify-between mb-4 md:mb-9 pb-2 border-b-2 border-primary dark:border-primary-dark">
                 <H2>Career Stats</H2>
                 { (includesFantasyData && seasons.length > 0) &&
-                    <FantasyTypeToggle
-                        fantasyType={ fantasyType }
+                    <ToggleButtons
+                        options={["half-ppr", "ppr"]}
+                        valueToMatch={ fantasyType }
                         onChange={ setFantasyType }
+                        extraClasses="flex"
+                        uppercase={ true }
                     />
                 }
             </div>
