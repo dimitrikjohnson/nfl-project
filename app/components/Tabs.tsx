@@ -16,7 +16,7 @@ export default function Tabs({ tabs, url }: { tabs: string[]; url: string }) {
                         key={ tab }
                         href={ `${url}/${tab}` }
                         className={`hover:bg-secondaryGrey/[0.25] px-2 lg:px-3.5 py-3 uppercase ${ isActiveTab && 
-                                    "font-semibold border-b-2 border-cyan-500 dark:border-cyan-400" } 
+                                    "font-semibold border-b-4 border-blue-800 dark:border-cyan-400" } 
                         `}
                     >
                         { tab }
