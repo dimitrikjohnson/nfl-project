@@ -55,23 +55,26 @@ export default function WeeklyTable({ recordMode, tableMargins, extraHeaders, ca
         return <div className={`skeleton w-full rounded-md h-80 ${tableMargins}`}></div>;
 
     return (
-        <div className={`bg-section border border-gray-300 dark:bg-section-dark dark:border-none overflow-x-auto md:rounded-md mb-2 ${tableMargins}`}>
-            <table className="table-auto w-full text-nowrap overflow-hidden text-sm">
-                <WeeklyTableHeader weeks={ weeks } extraHeaders={ extraHeaders } />
-                <tbody>
-                    { Object.entries(data).map(([userID, user], index) => (
-                        <WeeklyTableRow
-                            key={ userID }
-                            index={ index }
-                            recordMode={ recordMode }
-                            user={ user }
-                            weeks={ weeks }
-                        >
-                            { renderCells(user, weeks, minMax?.[0], minMax?.[1]) }
-                        </WeeklyTableRow>
-                    ))}
-                </tbody>
-            </table>
+        <div className="w-full relative">
+            <div className={`bg-section border border-gray-300 dark:bg-section-dark dark:border-none overflow-x-auto w-full md:rounded-md mb-2 ${tableMargins}`}>
+                <table className="table-auto w-full text-nowrap text-sm border-collapse">
+                    <WeeklyTableHeader weeks={ weeks } extraHeaders={ extraHeaders } />
+                    <tbody>
+                        { Object.entries(data).map(([userID, user], index) => (
+                            <WeeklyTableRow
+                                key={ userID }
+                                index={ index }
+                                recordMode={ recordMode }
+                                user={ user }
+                                weeks={ weeks }
+                            >
+                                { renderCells(user, weeks, minMax?.[0], minMax?.[1]) }
+                            </WeeklyTableRow>
+                        ))}
+                    </tbody>
+                </table>
+            </div>    
         </div>
+        
     );
 }
