@@ -20,10 +20,11 @@ All data is courtesy of ESPN's NFL API, and a curated list of many of the availa
 
 Favicon: [Sport](https://icons8.com/icon/W2pGKt6brLlk/sport) icon by [Icons8](https://icons8.com).
 
-Big Football was created and designed by Dimitrik Johnson with help from Elleni Adhanom, and it is a **work in progress**.
+Big Football was created and designed by [Dimitrik Johnson](https://www.dimitrik.dev/) with help from Elleni Adhanom, and it is a **work in progress**.
 
 ## 📁 Project Structure
 - /app
+  - [/albinoskies](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/albinoskies)                    → Dynasty Fantasy Football league pages and components
   - [/apiCalls](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/apiCalls)                          → API calls for various pieces of data
   - [/components](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/components)                      → Reusable UI elements that are used in multiple directories
   - [/data](https://github.com/dimitrikjohnson/nfl-project/tree/master/app/data)                                  → JSON data (e.g. team colors)
@@ -42,7 +43,7 @@ Big Football was created and designed by Dimitrik Johnson with help from Elleni 
 
 
 ## 🔥 Upcoming Features
-- Search functionality to search for players and teams
+✅ Search functionality to search for players and teams
 - Boxscores for each game
 - List of each team's recently drafted players
 - Detailed list of each team's currently injured players
