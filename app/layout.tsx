@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "./css/globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import "@/app/css/globals.css";
 import Link from "next/link";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFootball } from '@fortawesome/free-solid-svg-icons';
@@ -51,6 +52,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                         <span className="group-hover:underline">View on GitHub</span>
                     </a>
                 </footer>
+                <Analytics />
             </body>
         </html>
     );
