@@ -25,8 +25,11 @@ export default async function formatFantasyLeagueData(leagueId: string, users: a
         }    
     });
 
+    // Only get data for *completed* weeks
+    const lastCompletedWeek = Math.min(currentWeek - 1, maxWeeks);
+
     // Fetch each week's matchups to get each user's points for each week
-    for (let week = 1; (week <= currentWeek) && (currentWeek <= maxWeeks); week++) {
+    for (let week = 1; week <= lastCompletedWeek; week++) {
         const matchupsRes = await fetch(
             `https://api.sleeper.app/v1/league/${leagueId}/matchups/${week}`
         );
@@ -38,9 +41,6 @@ export default async function formatFantasyLeagueData(leagueId: string, users: a
             rosterToUser[matchup.roster_id].scores[week] = matchup.points;
         });  
     }
-
-    // Only calculate for *completed* weeks
-    const lastCompletedWeek = Math.min(currentWeek - 1, maxWeeks);
 
     // Compute weekly rankings (use a differnt for loop to stop at the last completed week)
     for (let week = 1; week <= lastCompletedWeek; week++) {    
@@ -69,7 +69,7 @@ export default async function formatFantasyLeagueData(leagueId: string, users: a
 
     const medians = calculateWeeklyMedians(rosterToUser);
     
-    // Now compute recordsWithMedian once, using the regular records + median-based extras:
+    // compute recordsWithMedian using the regular records + median-based extras
     Object.entries(rosterToUser).forEach(([id, user]) => {
         let extraWins = 0;
         let extraLosses = 0;
