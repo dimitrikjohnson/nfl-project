@@ -16,10 +16,11 @@ export default async function formatFantasyLeagueData(leagueId: string, users: a
         const username: string = user?.display_name || user?.metadata?.team_name || "Unknown";
         
         rosterToUser[roster.roster_id] = { 
-            name: realNames[username] || username, // <— display real name if found
+            name: realNames[username] || username, // display real name if found
             scores: {},
             record: { wins: roster.settings.wins, losses: roster.settings.losses }, // normal win/loss record
             recordWithMedian: { wins: 0, losses: 0 }, // win/loss record with median (extra win when over median, extra loss when under median)
+            pointsFor: roster.settings.fpts + (roster.settings.fpts_decimal / 100),
             weeklyRankings: {},
             gamesOverMedian: 0
         }    

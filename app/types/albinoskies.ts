@@ -5,6 +5,7 @@ export type Medians = {
 export type User = {
     name: string;
     gamesOverMedian: number;
+    pointsFor: number;
     record: {
         wins: number;
         losses: number;
