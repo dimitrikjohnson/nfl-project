@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import getPlayerGames from '@/app/apiCalls/getPlayerGames';
 import H2 from '@/app/components/H2';
-import YearDropdownButton from '@/app/components/YearDropdownButton';
+import Dropdown from '@/app/components/Dropdown';
 import type { Headings, Rows, SeasonType } from '@/app/types/gameAndCareerStats';
 import { displayTableHead, displayTableFoot, convertToNumber, displayTableBody } from '@/app/helpers/gameAndCareerTables';
 import getPlayer from '@/app/apiCalls/getPlayer';
@@ -97,15 +97,20 @@ export default function Gamelog({ playerID }: { playerID: string }) {
                 }
                 { isLoading
                     ? <div className="skeleton w-24 h-10"></div>
-                    : <YearDropdownButton 
-                        colors={ teamColors } 
-                        displaySeason={ resSeason 
+                    : <Dropdown
+                        buttonLabel={ resSeason 
                             ? resSeason == "0" 
                                 ? seasonOptions[0] 
                                 : resSeason
                             : seasonOptions[0] 
-                        } 
-                        allYears={ seasonOptions } 
+                        }
+                        colors={ teamColors }
+                        items={
+                            seasonOptions.map((season) => ({
+                                label: season,
+                                href: `?season=${season}`,  
+                            }))
+                        }
                     />
                 }  
             </div>

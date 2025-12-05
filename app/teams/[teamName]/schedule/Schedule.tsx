@@ -10,7 +10,7 @@ import { displayWeek } from '@/app/helpers/displayWeekInfo';
 import formatSchedule from '@/app/formatAPIcalls/formatSchedule';
 import H2 from '@/app/components/H2';
 import H3 from '@/app/components/H3';
-import YearDropdownButton from '@/app/components/YearDropdownButton';
+import Dropdown from '@/app/components/Dropdown';
 
 export default function Schedule({ teamName }: { teamName: string }) {
     const [initialSeason, setInitialSeason] = useState<number>();
@@ -200,10 +200,15 @@ export default function Schedule({ teamName }: { teamName: string }) {
                 }
                 { isLoading
                     ? <div className="skeleton w-24 h-10"></div>
-                    : <YearDropdownButton 
-                        colors={ colors } 
-                        displaySeason={ season ? season : initialSeason } 
-                        allYears={ years } 
+                    : <Dropdown
+                        buttonLabel={ season ? season : initialSeason }
+                        colors={ colors }
+                        items={
+                            years.map((year) => ({
+                                label: year,
+                                href: `?season=${year}`,  
+                            }))
+                        }
                     />
                 }  
             </div>
