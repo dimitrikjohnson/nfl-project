@@ -6,6 +6,7 @@ import WeeklyTableHeader from "./WeeklyTableHeader";
 import WeeklyTableRow from "./WeeklyTableRow";
 
 interface WeeklyTableProps {
+    sortMode: string;
     recordMode: string;
     tableMargins: string;
     extraHeaders?: React.ReactNode;
@@ -19,7 +20,7 @@ interface WeeklyTableProps {
     displayWeeks: "all" | "completed"
 }
 
-export default function WeeklyTable({ recordMode, tableMargins, extraHeaders, calcMinMax, renderCells, displayWeeks }: WeeklyTableProps) {
+export default function WeeklyTable({ sortMode, recordMode, tableMargins, extraHeaders, calcMinMax, renderCells, displayWeeks }: WeeklyTableProps) {
     const [data, setData] = useState<Users>({});
     const [weeks, setWeeks] = useState<number[]>([]);
     const [loading, setLoading] = useState(true);
@@ -60,21 +61,42 @@ export default function WeeklyTable({ recordMode, tableMargins, extraHeaders, ca
                 <table className="table-auto w-full text-nowrap text-sm border-collapse">
                     <WeeklyTableHeader weeks={ weeks } extraHeaders={ extraHeaders } />
                     <tbody>
-                        { Object.entries(data).map(([userID, user], index) => (
-                            <WeeklyTableRow
-                                key={ userID }
-                                index={ index }
-                                recordMode={ recordMode }
-                                user={ user }
-                                weeks={ weeks }
-                            >
-                                { renderCells(user, weeks, minMax?.[0], minMax?.[1]) }
-                            </WeeklyTableRow>
-                        ))}
+                        { Object.entries(data)
+                            .sort(([, a], [, b]) => sortUsers(a, b, sortMode, recordMode))
+                            .map(([userID, user], index) => (
+                                <WeeklyTableRow
+                                    key={ userID }
+                                    index={ index }
+                                    recordMode={ recordMode }
+                                    user={ user }
+                                    weeks={ weeks }
+                                >
+                                    { renderCells(user, weeks, minMax?.[0], minMax?.[1]) }
+                                </WeeklyTableRow>
+                            ))
+                        }
                     </tbody>
                 </table>
             </div>    
         </div>
-        
     );
+}
+
+function sortUsers(a: User, b: User, sortMode: string, recordMode: string) {
+    if (sortMode == "record") {
+        // determine which record type is needed (record or record with median)
+        const aWins = recordMode == "with median" ? a.recordWithMedian.wins : a.record.wins;
+        const bWins = recordMode == "with median" ? b.recordWithMedian.wins : b.record.wins;
+        
+        if (bWins !== aWins) {
+            return bWins - aWins; // primary sort (wins)
+        }    
+    }
+    
+    /*
+     * this will run if ...
+     * a) the record of two users is the same (the points for is the tiebraker), or
+     * b) the sortMode == "points scored"
+    */
+    return b.pointsFor - a.pointsFor;              
 }

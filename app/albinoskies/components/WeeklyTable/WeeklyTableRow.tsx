@@ -10,7 +10,7 @@ interface WeeklyTableRowProps {
 }
 
 export default function WeeklyTableRow({ user, index, recordMode, children }: WeeklyTableRowProps) {
-    const record = recordMode === "w/o Median" ? user.record : user.recordWithMedian;
+    const record = recordMode === "without median" ? user.record : user.recordWithMedian;
     const recordText = `${record.wins}-${record.losses}`;
     
     // find even/odd rows for sticky column styling

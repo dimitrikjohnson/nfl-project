@@ -1,17 +1,16 @@
 import getColorShades from "@/app/helpers/getColorShades";
 import WeeklyTable from "./WeeklyTable/WeeklyTable";
 
-export default function WeeklyScores({ recordMode, tableMargins }: { recordMode: string, tableMargins: string }) {  
+export default function WeeklyScores({ sortMode, recordMode, tableMargins }: { sortMode: string, recordMode: string, tableMargins: string }) {  
     return (
         <WeeklyTable 
+            sortMode={ sortMode }
             recordMode={ recordMode }
             tableMargins={ tableMargins }  
             displayWeeks="all"
             calcMinMax={ (users) => {
-                // calulate everyone's points for (this is collective; total, computed in "renderCells", is individual)
-                const totals = Object.entries(users).map(([_, user]) =>
-                    Object.values(user.scores).reduce((a, b) => a + b, 0)
-                );
+                // calulate everyone's points for (this is collective; total, gathered in "renderCells", is individual)
+                const totals = Object.entries(users).map(([_, user]) => user.pointsFor);
 
                 return [Math.min(...totals), Math.max(...totals)];
             }}
@@ -21,8 +20,8 @@ export default function WeeklyScores({ recordMode, tableMargins }: { recordMode:
                 </th>
             }
             renderCells={ (user, weeks, minTotal, maxTotal) => {
-                // compute the total points the user has scored this season ("points for")
-                const total = Object.values(user.scores).reduce((a, b) => a + b, 0);
+                // get the total points the user has scored this season ("points for")
+                const total = user.pointsFor; 
 
                 return (
                     <>

@@ -1,10 +1,11 @@
 import getColorShades from "@/app/helpers/getColorShades";
 import WeeklyTable from "./WeeklyTable/WeeklyTable";
 
-export default function WeeklyScoreRankings({ recordMode, tableMargins }: { recordMode: string, tableMargins: string }) {
+export default function WeeklyScoreRankings({ sortMode, recordMode, tableMargins }: { sortMode: string, recordMode: string, tableMargins: string }) {
     return (
         <>
             <WeeklyTable 
+                sortMode={ sortMode }
                 recordMode={ recordMode }
                 tableMargins={ tableMargins }  
                 displayWeeks="completed"
