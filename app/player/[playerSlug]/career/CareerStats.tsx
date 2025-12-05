@@ -103,7 +103,6 @@ export default function CareerStats({ playerID, playerSlug }: { playerID: string
                         options={["half-ppr", "ppr"]}
                         valueToMatch={ fantasyType }
                         onChange={ setFantasyType }
-                        extraClasses="flex"
                         uppercase={ true }
                     />
                 }
