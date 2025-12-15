@@ -25,4 +25,10 @@ function getPlayerRankColor(rankValue: number) {
     return tier4
 }
 
-export { getTeamRankColor, getPlayerRankColor }
+function getUserRankColor(rankValue: number, totalUsers: number) {
+    if (rankValue <= 4) { return tier1 } else
+    if (rankValue >= totalUsers-2) { return tier4 } else
+    return "text-gray-600 dark:text-lighterSecondaryGrey";
+}
+
+export { getTeamRankColor, getPlayerRankColor, getUserRankColor }
