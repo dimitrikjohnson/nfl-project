@@ -50,11 +50,11 @@ export default function Podium({ season }: { season: number }) {
                 avatar={finishes.runner_up_avatar}
                 borderColor="border-gray-500"
                 bgColor="bg-gray-400/30"
-                width="w-20 md:w-28"
+                width="w-16 md:w-28"
                 rank="2"
                 rankBGcolor="bg-gray-500"
                 paddingBottom="pb-16"
-                spaceFromTop="top-16 md:top-24"
+                spaceFromTop="top-[52px] md:top-24"
             />
             <PodiumColumn
                 name={realNames[finishes.champion_user_id]} 
@@ -62,11 +62,11 @@ export default function Podium({ season }: { season: number }) {
                 avatar={finishes.champion_avatar}
                 borderColor="border-yellow-400"
                 bgColor="bg-yellow-400/40"
-                width="w-24 md:w-40"
+                width="w-20 md:w-40"
                 rank="Champion"
                 rankBGcolor="bg-yellow-400"
                 paddingBottom="pb-20"
-                spaceFromTop="top-[85px] md:top-36"
+                spaceFromTop="top-[70px] md:top-36"
             />
             <PodiumColumn
                 name={realNames[finishes.third_place_user_id]} 
@@ -74,11 +74,11 @@ export default function Podium({ season }: { season: number }) {
                 avatar={finishes.third_place_avatar}
                 borderColor="border-amber-700"
                 bgColor="bg-amber-700/40"
-                width="w-16 md:w-24"
+                width="w-14 md:w-24"
                 rank="3"
                 rankBGcolor="bg-amber-700"
                 paddingBottom="pb-6"
-                spaceFromTop="top-12 md:top-20"
+                spaceFromTop="top-11 md:top-20"
             />
         </div>
     )
@@ -102,13 +102,13 @@ function PodiumColumn (
                     src={avatar} 
                     alt={`${name}'s avatar`} 
                 />
-                <div className={`absolute ${spaceFromTop} left-1/2 -translate-x-1/2 md:text-lg rounded-lg px-2 font-bold ${rankBGcolor} ${rank == "Champion" && "text-primary"}`}>
+                <div className={`absolute ${spaceFromTop} left-1/2 -translate-x-1/2 text-sm md:text-lg rounded-lg px-2 font-bold ${rankBGcolor} ${rank == "Champion" && "text-primary"}`}>
                     { rank }
                 </div> 
             </div>
             
             <p className="font-bold text-lg md:text-2xl">{ name }</p>
-            <p className="text-xs md:text-sm italic">{ teamName }</p>
+            <p className="text-[10px] md:text-sm italic">{ teamName }</p>
         </div>
     )
 }
