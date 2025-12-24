@@ -29,7 +29,9 @@ export default function Dropdown({ buttonLabel, items, colors, width = "w-28" }:
             <div
                 tabIndex={0}
                 role="button"
-                className="flex btn h-10 min-h-10 items-center gap-1"
+                className="flex btn h-10 min-h-10 items-center gap-1.5 border-none \
+                        bg-primary text-primary-dark hover:bg-primary hover:text-primary-dark \
+                        dark:bg-primary-dark dark:text-backdrop-dark dark:hover:bg-primary-dark dark:hover:text-backdrop-dark"
                 style={ colors
                     ? {
                         backgroundColor: colors.bg,
@@ -45,13 +47,13 @@ export default function Dropdown({ buttonLabel, items, colors, width = "w-28" }:
 
             <ul
                 tabIndex={0}
-                className={`dropdown-content z-[1] menu p-2 shadow bg-section dark:bg-section-dark rounded-md ${width}`}
+                className={`dropdown-content z-20 menu p-2 shadow bg-section dark:bg-section-dark rounded-md ${width}`}
             >
                 { items.map((item, i) => (
-                    <li key={ i } onClick={ () => handleClick(item.onClick) }>
+                    <li key={ i } onClick={() => handleClick(item.onClick)}>
                         { item.href 
-                            ? <Link href={ item.href }>{ item.label }</Link>
-                            : item.label
+                            ? <Link className="text-center px-2 py-2.5" href={ item.href }>{ item.label }</Link>
+                            : <span className="text-center px-4 py-2.5">{ item.label }</span>
                         }
                     </li>
                 ))}
