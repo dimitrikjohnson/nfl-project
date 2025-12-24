@@ -2,8 +2,12 @@ import realNamesJSON from "@/app/data/albinoSkiesUserNames.json";
 import { Users, Medians } from "@/app/types/albinoskies";
 
 export default async function formatFantasyLeagueData(leagueId: string, users: any, currentWeek: number, rosters: any) {
+    const league = (await fetch(`https://api.sleeper.app/v1/league/${leagueId}`).then(
+        res => res.json())
+    );   
+
     // number of regular season fantasy matchups
-    const maxWeeks = 13;    
+    const maxWeeks = league.settings.playoff_week_start - 1;
 
     // assert the type for realNamesJSON
     const realNames = realNamesJSON as Record<string, string>; 
@@ -14,9 +18,11 @@ export default async function formatFantasyLeagueData(leagueId: string, users: a
     rosters.forEach((roster: any) => {
         const user = users.find((user: any) => user.user_id === roster.owner_id);
         const username: string = user?.display_name || user?.metadata?.team_name || "Unknown";
+    
+        const userID: string = user?.user_id;
         
         rosterToUser[roster.roster_id] = { 
-            name: realNames[username] || username, // display real name if found
+            name: realNames[userID] || username, // display real name if found
             scores: {},
             record: { wins: roster.settings.wins, losses: roster.settings.losses }, // normal win/loss record
             recordWithMedian: { wins: 0, losses: 0 }, // win/loss record with median (extra win when over median, extra loss when under median)
