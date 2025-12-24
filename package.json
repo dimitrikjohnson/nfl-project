@@ -6,18 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:fantasy": "node --loader ts-node/esm scripts/seedFantasy.mts",
+    "seed:sleeperIDs": "node --loader ts-node/esm scripts/seedSleeperIDs.mts",
+    "seed:drafts": "node --loader ts-node/esm scripts/seedDrafts.mts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "@neondatabase/serverless": "^1.0.1",
+    "@neondatabase/serverless": "^1.0.2",
     "@next/env": "^15.5.3",
     "@vercel/analytics": "^1.5.0",
     "chart.js": "^4.5.1",
     "client-only": "^0.0.1",
+    "dotenv": "^17.2.3",
     "next": "^16.0.7",
     "react": "^19.2.1",
     "react-chartjs-2": "^5.3.0",
@@ -35,6 +39,6 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.3"
   }
 }
