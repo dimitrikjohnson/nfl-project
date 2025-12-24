@@ -49,7 +49,7 @@ export default function SeasonOutcomeBanner({ season, sidebar }: { season: any, 
     const cards = [
         {
             label: "Most Points Scored",
-            emoji: "💯",
+            emoji: "🔥",
             user: topScorer,
             color: topScoreColor
         },
