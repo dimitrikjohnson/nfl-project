@@ -37,16 +37,16 @@ export default async function LandingPage() {
                         <Link 
                             href="/teams" 
                             prefetch={ true } 
-                            className="btn h-10 min-h-10 border-none bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
+                            className="btn h-10 min-h-10 px-2.5 md:px-4 border-none bg-cyan-400 hover:bg-cyan-300 text-backdrop-dark"
                         >
                             Select a team
                         </Link>
                         <Link 
-                            href="/albinoskies" 
+                            href="/albinoskies/overview" 
                             prefetch={ true } 
-                            className="btn h-10 min-h-10 bg-transparent border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-300 hover:text-backdrop-dark"
+                            className="btn h-10 min-h-10 px-2.5 md:px-4 bg-transparent border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-300 hover:text-backdrop-dark"
                         >
-                            Albino Skies
+                            My fantasy league
                         </Link>
                     </div>
                      
