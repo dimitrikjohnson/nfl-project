@@ -1,7 +1,6 @@
 'use server';
 import { NextResponse } from 'next/server';
-import { neon } from '@neondatabase/serverless'; 
-
+import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL!);
 
 interface Player {
@@ -65,7 +64,7 @@ async function getRosters(teams: { id: number; abbreviation: string }[]) {
         rosters[team.abbreviation] = teamPlayers;
     }
 
-  return rosters;
+    return rosters;
 }
 
 // seed the database with teams and players

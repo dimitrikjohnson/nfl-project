@@ -1,6 +1,6 @@
 {
     "crons": [{
-        "path": "/api/seed",
+        "path": "/api/seed/search",
         "schedule": "0 2 */2 * *"
     }]
 }
