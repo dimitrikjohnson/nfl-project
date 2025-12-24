@@ -40,7 +40,7 @@ export default function ClientStandings({ season, seasonType, originalData, orig
         setGroupNum(group);
     };
 
-    const tableHeadingClasses = "py-2.5 px-2 md:px-3 text-start";
+    const tableHeadingClasses = "py-2.5 px-2 md:px-3";
     const bodyClasses = "py-2.5 px-2 md:py-2 md:px-3";
     const sectionHeadingClasses = "font-protest text-2xl lg:text-3xl";
 
@@ -48,6 +48,10 @@ export default function ClientStandings({ season, seasonType, originalData, orig
     const isConferenceStandings = teamID == "";
 
     const clinchValues = [
+        { 
+            value: "- x", 
+            description: "Clinched Playoffs"
+        },
         { 
             value: "- *", 
             description: "Clinched Division and Bye"
@@ -98,11 +102,17 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                     : <table className="table-auto w-full text-nowrap overflow-hidden border-b border-secondaryGrey">
                         <thead className="border-b border-secondaryGrey">
                             <tr>
-                                <th className={ tableHeadingClasses } title="Playoff Seed">PS</th>
-                                <th className={ tableHeadingClasses }>TEAM</th>
-                                <th className={ tableHeadingClasses }>W-L</th>
+                                <th className={`${tableHeadingClasses} text-start`} title="Playoff Seed">PS</th>
+                                <th className={`${tableHeadingClasses} text-start`}>TEAM</th>
+                                <th className={`${tableHeadingClasses} text-center`}>W-L</th>
                                 { data[0].stats.map(stat =>
-                                    <th key={ stat.heading } className={ tableHeadingClasses } title={ stat.description }>{ stat.heading }</th>
+                                    <th 
+                                        key={ stat.heading } 
+                                        className={`${tableHeadingClasses} text-center`} 
+                                        title={ stat.description }
+                                    >
+                                        { stat.heading }
+                                    </th>
                                 )}
                             </tr>
                         </thead>
@@ -136,11 +146,11 @@ export default function ClientStandings({ season, seasonType, originalData, orig
                                             }    
                                         </span>
                                     </td>
-                                    <td className={ bodyClasses }>{ team.record }</td>
+                                    <td className={`${bodyClasses} text-center`}>{ team.record }</td>
                                     { team.stats.map(stat =>
                                         <td 
                                             key={ team.id + stat.heading } 
-                                            className={`${tableHeadingClasses} ${stat.heading == "DIFF" && differentialColor(stat.value)}`}
+                                            className={`${tableHeadingClasses} text-center ${stat.heading == "DIFF" && differentialColor(stat.value)}`}
                                         >
                                             { stat.value }
                                         </td>
