@@ -93,7 +93,7 @@ export default function Standings({ season }: { season: any }) {
                                                 #{ team.leagueRank }
                                             </span>
                                         </div>
-                                        <div className="text-xs md:text-sm text-gray-600 dark:text-lighterSecondaryGrey">
+                                        <div className="text-[10px] md:text-sm text-gray-600 dark:text-lighterSecondaryGrey">
                                             { team.team_name }
                                         </div>    
                                     </div>
