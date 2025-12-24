@@ -10,6 +10,7 @@ import { Team } from '@/app/types/team';
 import { PlayerOverview } from '@/app/types/player';
 import SearchBar from './SearchBar';
 import getCurrentPath from '../helpers/useCurrentPath';
+import { usePathname } from 'next/navigation';
 
 export default function NavBar({ team, player }: { team?: Team, player?: PlayerOverview }) {
     const [scrolledNav, setScrolledNav] = useState(false);
@@ -21,7 +22,7 @@ export default function NavBar({ team, player }: { team?: Team, player?: PlayerO
     const isDashboard = hasTeam || hasPlayer;
 
     const onTeamsPage = getCurrentPath() == "teams";
-    const onAlbinoPage = getCurrentPath() == "albinoskies";
+    const onAlbinoPage = usePathname().includes("albinoskies"); 
 
     // display colors depending on whether the user is on a Team or Player dashboard
     const bgColor = hasTeam 
