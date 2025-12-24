@@ -23,7 +23,7 @@ export default async function getPlayerRecentAndUpcomingGames(playerID: string, 
         return await formatPlayerRecentGames(data.gameLog, player, includeFantasy);
     }
     else if (type == "upcoming") { 
-        if (data.nextGame.displayName == "Current Game") {
+        if (data.nextGame?.displayName == "Current Game") {
             return await formatPlayerUpcomingGame(data.nextGame, player, includeFantasy);    
         }
 
