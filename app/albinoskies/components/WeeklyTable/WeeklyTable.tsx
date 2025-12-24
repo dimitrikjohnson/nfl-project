@@ -4,11 +4,12 @@ import getFantasyLeagueData from "@/app/apiCalls/getFantasyLeagueData";
 import { User, Users } from "@/app/types/albinoskies";
 import WeeklyTableHeader from "./WeeklyTableHeader";
 import WeeklyTableRow from "./WeeklyTableRow";
+import { tableMargins } from "@/app/helpers/albinoskiesStyling";
 
 interface WeeklyTableProps {
     sortMode: string;
     recordMode: string;
-    tableMargins: string;
+    leagueID: string;
     extraHeaders?: React.ReactNode;
     calcMinMax?: (users: Users) => [number, number];
     renderCells: (
@@ -20,14 +21,14 @@ interface WeeklyTableProps {
     displayWeeks: "all" | "completed"
 }
 
-export default function WeeklyTable({ sortMode, recordMode, tableMargins, extraHeaders, calcMinMax, renderCells, displayWeeks }: WeeklyTableProps) {
+export default function WeeklyTable({ sortMode, recordMode, leagueID, extraHeaders, calcMinMax, renderCells, displayWeeks }: WeeklyTableProps) {
     const [data, setData] = useState<Users>({});
     const [weeks, setWeeks] = useState<number[]>([]);
     const [loading, setLoading] = useState(true);
     const [minMax, setMinMax] = useState<[number, number] | null>(null);
     
     useEffect(() => {
-        getFantasyLeagueData().then((res) => {
+        getFantasyLeagueData(leagueID).then((res) => {
             const validWeeks = displayWeeks == "all" 
                 ? res.allWeeks.filter((week) => {
                     // get all scores for this week
@@ -50,7 +51,7 @@ export default function WeeklyTable({ sortMode, recordMode, tableMargins, extraH
 
             setLoading(false);
         });
-    }, []);
+    }, [leagueID]);
 
     if (loading)
         return <div className={`skeleton w-full rounded-md h-80 ${tableMargins}`}></div>;

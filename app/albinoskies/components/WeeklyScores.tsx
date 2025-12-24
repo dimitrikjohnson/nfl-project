@@ -1,12 +1,12 @@
 import getColorShades from "@/app/helpers/getColorShades";
 import WeeklyTable from "./WeeklyTable/WeeklyTable";
 
-export default function WeeklyScores({ sortMode, recordMode, tableMargins }: { sortMode: string, recordMode: string, tableMargins: string }) {  
+export default function WeeklyScores({ sortMode, recordMode, leagueID }: { sortMode: string, recordMode: string, leagueID: string }) {  
     return (
         <WeeklyTable 
             sortMode={ sortMode }
             recordMode={ recordMode }
-            tableMargins={ tableMargins }  
+            leagueID={ leagueID }
             displayWeeks="all"
             calcMinMax={ (users) => {
                 // calulate everyone's points for (this is collective; total, gathered in "renderCells", is individual)

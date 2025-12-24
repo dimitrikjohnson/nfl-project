@@ -27,11 +27,11 @@ ChartJS.register(
     Filler
 );
 
-export default function WeeklyMedianChart() {
+export default function WeeklyMedianChart({ leagueID }:{ leagueID: string }) {
     const [chartData, setChartData] = useState<ChartData<'line'> | null>(null);
     const [isDarkMode, setIsDarkMode] = useState(false);
 
-    const getMedians = () => (getFantasyLeagueData()).then(
+    const getMedians = () => (getFantasyLeagueData(leagueID)).then(
         (res) => {
             const medians = res.medians;
 
@@ -71,7 +71,7 @@ export default function WeeklyMedianChart() {
         darkQuery.addEventListener("change", handleChange);
 
         return () => darkQuery.removeEventListener("change", handleChange);
-    }, []);
+    }, [leagueID]);
 
     // define colors
     const tickColor = isDarkMode ? "#B3B3B3" : "#4B5563"; // Tailwind: gray-600 in light, lighterSecondaryGrey in dark

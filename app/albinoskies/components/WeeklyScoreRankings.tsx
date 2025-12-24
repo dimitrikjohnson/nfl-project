@@ -1,13 +1,14 @@
 import getColorShades from "@/app/helpers/getColorShades";
 import WeeklyTable from "./WeeklyTable/WeeklyTable";
+import { tableMargins } from "@/app/helpers/albinoskiesStyling";
 
-export default function WeeklyScoreRankings({ sortMode, recordMode, tableMargins }: { sortMode: string, recordMode: string, tableMargins: string }) {
+export default function WeeklyScoreRankings({ sortMode, recordMode, leagueID }: { sortMode: string, recordMode: string, leagueID: string }) {
     return (
         <>
             <WeeklyTable 
                 sortMode={ sortMode }
                 recordMode={ recordMode }
-                tableMargins={ tableMargins }  
+                leagueID={ leagueID }
                 displayWeeks="completed"
                 extraHeaders={
                     <>

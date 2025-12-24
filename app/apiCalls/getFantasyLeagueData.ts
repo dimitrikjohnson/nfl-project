@@ -1,10 +1,8 @@
 import formatFantasyLeagueData from "../formatAPIcalls/formatFantasyLeagueData";
 
-export default async function getFantasyLeagueData() {
-    const leagueId = "1192577981690269696";
-    
+export default async function getFantasyLeagueData(leagueID: string) {    
     const [usersRes] = await Promise.all([
-        fetch(`https://api.sleeper.app/v1/league/${leagueId}/users`)
+        fetch(`https://api.sleeper.app/v1/league/${leagueID}/users`)
     ]);
     const users = await usersRes.json();
 
@@ -13,8 +11,8 @@ export default async function getFantasyLeagueData() {
     const currentWeek = (await currentWeekRes.json()).week;
 
     // Map roster IDs to users
-    const rostersRes = await fetch(`https://api.sleeper.app/v1/league/${leagueId}/rosters`);
+    const rostersRes = await fetch(`https://api.sleeper.app/v1/league/${leagueID}/rosters`);
     const rosters = await rostersRes.json();
 
-    return await formatFantasyLeagueData(leagueId, users, currentWeek, rosters);
+    return await formatFantasyLeagueData(leagueID, users, currentWeek, rosters);
 }
