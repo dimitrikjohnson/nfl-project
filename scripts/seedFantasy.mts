@@ -17,10 +17,10 @@ export async function seed() {
         // fetch league object
         const league = await fetch(`https://api.sleeper.app/v1/league/${LEAGUE_ID}`).then(res => res.json());
 
+        await populateFantasyStandings(league);
+        
         await populateFantasySeason(LEAGUE_ID);
         
-        await populateFantasyStandings(league);
-
         await populateFantasyDivisions(league);
 
         await populateFantasyPlayoffs(league);
