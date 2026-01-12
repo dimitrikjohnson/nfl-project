@@ -1,11 +1,7 @@
 import realNamesJSON from "@/app/data/albinoSkiesUserNames.json";
 import { Users, Medians } from "@/app/types/albinoskies";
 
-export default async function formatFantasyLeagueData(leagueId: string, users: any, currentWeek: number, rosters: any) {
-    const league = (await fetch(`https://api.sleeper.app/v1/league/${leagueId}`).then(
-        res => res.json())
-    );   
-
+export default async function formatFantasyLeagueData(league: any, users: any, currentWeek: number | null, rosters: any) {
     // number of regular season fantasy matchups
     const maxWeeks = league.settings.playoff_week_start - 1;
 
@@ -33,14 +29,15 @@ export default async function formatFantasyLeagueData(leagueId: string, users: a
     });
 
     // Only get data for *completed* weeks
-    const lastCompletedWeek = Math.min(currentWeek - 1, maxWeeks);
+    const lastCompletedWeek = currentWeek == null ? maxWeeks : Math.min(currentWeek - 1, maxWeeks);
 
     // Fetch each week's matchups to get each user's points for each week
     for (let week = 1; week <= lastCompletedWeek; week++) {
         const matchupsRes = await fetch(
-            `https://api.sleeper.app/v1/league/${leagueId}/matchups/${week}`
+            `https://api.sleeper.app/v1/league/${league.league_id}/matchups/${week}`
         );
         if (!matchupsRes.ok) break; // stop if no more weeks yet
+        
         const matchups = await matchupsRes.json();
 
         // Go through all matchups in pairs to assign scores earned each week (Sleeper uses matchup_id to link opponents)
