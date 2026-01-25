@@ -7,6 +7,7 @@ import H2 from "@/app/components/H2";
 import { margins } from "@/app/helpers/albinoskiesStyling";
 import Podium from "../components/Podium";
 import LeagueStats from "../components/LeagueStats";
+import Superlatives from "../components/Superlatives";
 
 export default function HistoryClient({ seasons }: { seasons: any[] }) {
     const [selectedSeason, setSelectedSeason] = useState(seasons[0]);
@@ -30,8 +31,10 @@ export default function HistoryClient({ seasons }: { seasons: any[] }) {
             </div>
          
             <Podium season={selectedSeason.season} />
+            
+            <SeasonOutcomeBanner season={selectedSeason} />
 
-            <SeasonOutcomeBanner season={selectedSeason} /> 
+            <Superlatives season={selectedSeason.season} />
 
             <Standings season={selectedSeason.season} />
 
