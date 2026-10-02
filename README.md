@@ -47,3 +47,7 @@ Big Football was created and designed by [Dimitrik Johnson](https://www.dimitrik
 - Boxscores for each game
 - List of each team's recently drafted players
 - Detailed list of each team's currently injured players
+
+## Notes for Dimitrik
+ - Before each new season, replace environment variable with new league ID
+ - *npm run seed:fantasy <LEAGUE_ID>* only needs to be run after a season ends
