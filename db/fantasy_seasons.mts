@@ -1,6 +1,6 @@
 import { sql } from "./dbConnect.mts";
 
-import realNamesJSON from "../app/data/albinoSkiesUserNames.json" assert { type: "json" };
+import realNamesJSON from "../app/data/albinoSkiesUserNames.json" with { type: "json" };
 
 async function getFantasySeasonOutcome(leagueID: string) {
     // fetch league object (contains winner roster ID)
