@@ -1,4 +1,4 @@
-import getPlayer from "@/app/apiCalls/getPlayer";
+import { getPlayerIDOrNotFound, getPlayerOrNotFound } from "@/app/helpers/routeGuards";
 import Bio from "./components/Bio";
 import StatsSummary from "./components/StatsSummary";
 import InjuryStatus from "./components/InjuryStatus";
@@ -8,12 +8,11 @@ import NextGame from "./components/NextGame";
 import RecentGames from "./components/RecentGames";
 
 export default async function OverviewTab({ params }: { params: Promise<{ playerSlug: string }>}) {
-    const { playerSlug } = await params; 
+    const { playerSlug } = await params;
+    // get the player ID from the params (e.g. gets 1234 from 'josh-allen-1234'), or show a 404 page
+    const playerID = getPlayerIDOrNotFound(playerSlug);
     
-    // get the player ID from the params (e.g. gets 1234 from 'josh-allen-1234')
-    const playerID = playerSlug.substring(playerSlug.lastIndexOf('-')+1);
-    
-    const player = await getPlayer({ playerID });
+    const player = await getPlayerOrNotFound(playerID);
 
     return (
         <>

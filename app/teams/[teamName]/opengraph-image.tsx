@@ -1,5 +1,6 @@
 import getTeam from '@/app/apiCalls/getTeam';
 import { ImageResponse } from 'next/og';
+import { getTeamIDOrNotFound } from "@/app/helpers/routeGuards";
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
 
@@ -8,12 +9,19 @@ const size = {
   height: 630,
 }
 
+// generating images is CPU-heavy, so cache each one and re-generate it at most once a day
+export const revalidate = 86400;
+
+export async function generateStaticParams() {
+  return [];
+}
+
 // opengraph-images are the images that appear when sharing a link to the website via text/social media
 export default async function Image({ params }: { params: { teamName: string }}) {
   const { teamName } = await params;
 
   const allTeamsColors = teamColors as AllTeamsColors;
-  const teamID = allTeamsColors[teamName].id
+  const teamID = getTeamIDOrNotFound(teamName)
 
   // fetch the team data
   const team = await getTeam({teamID});

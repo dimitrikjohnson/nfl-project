@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import cachedJson from "@/app/helpers/cachedJson";
 import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -15,7 +16,7 @@ export async function GET() {
 
         const seasons = rows.map(r => r.season);
 
-        return NextResponse.json({
+        return cachedJson({
             latestSeason: seasons[0] ?? null,
             seasons
         });

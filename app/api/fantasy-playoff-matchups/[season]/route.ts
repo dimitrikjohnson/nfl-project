@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import cachedJson from "@/app/helpers/cachedJson";
 import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -91,7 +92,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ season
                 CROSS JOIN third_place_match t;
             `;
 
-            return NextResponse.json(result[0] ?? null);
+            return cachedJson(result[0] ?? null);
         }
 
         // default: return winners and losers
@@ -109,7 +110,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ season
             ORDER BY round, matchup_id;
         `;
 
-        return NextResponse.json({
+        return cachedJson({
             winners: winners ?? null, 
             losers: losers ?? null
         });

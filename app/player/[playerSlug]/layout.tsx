@@ -1,11 +1,21 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { notFound } from 'next/navigation';
 import Tabs from '@/app/components/Tabs';
-import getPlayer from "@/app/apiCalls/getPlayer";
+import { getPlayerIDOrNotFound, getPlayerOrNotFound } from "@/app/helpers/routeGuards";
 import PlayerHeader from "./components/PlayerHeader";
 import SkipToContent from "@/app/components/SkipToContent";
+
+/*
+ * Cache each player page after its first visit and re-render it at most once an hour.
+ * Returning an empty array means no players are built ahead of time; pages are generated on demand and then served from the cache,
+ * so repeat visits (including bots) don't use server CPU.
+*/
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+    return [];
+}
 
 interface PlayerLayoutProps {
     children: ReactNode;
@@ -17,15 +27,10 @@ interface PlayerLayoutProps {
 export default async function PlayerLayout({ children, params }: PlayerLayoutProps) {
     const { playerSlug } = await params; 
     const tabs = ['overview', 'games', 'career', 'news'];
-    
-    // get the player ID from the params (e.g. gets 1234 from 'josh-allen-1234')
-    const playerID = playerSlug.substring(playerSlug.lastIndexOf('-')+1);
 
-    const player = await getPlayer({ playerID });
+    const playerID = getPlayerIDOrNotFound(playerSlug);
+    const player = await getPlayerOrNotFound(playerID);
 
-    // handle invalid player
-    if (!playerSlug) return notFound();
-    
     return (
         <>
             <SkipToContent />       
@@ -47,10 +52,8 @@ export default async function PlayerLayout({ children, params }: PlayerLayoutPro
 export async function generateMetadata({ params }: { params: Promise<{ playerSlug: string }> }): Promise<Metadata> {
     const { playerSlug } = await params;
 
-    // get the player ID from the params (e.g. gets 1234 from 'josh-allen-1234')
-    const playerID = playerSlug.substring(playerSlug.lastIndexOf('-')+1);
-
-    const player = await getPlayer({ playerID });
+    const playerID = getPlayerIDOrNotFound(playerSlug);
+    const player = await getPlayerOrNotFound(playerID);
 
     return {
         title: {

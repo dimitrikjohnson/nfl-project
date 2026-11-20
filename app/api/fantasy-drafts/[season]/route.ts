@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import cachedJson from "@/app/helpers/cachedJson";
 import { neon } from "@neondatabase/serverless";
 
 const sql = neon(process.env.DATABASE_URL!);
@@ -90,7 +91,7 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ season
             });
         }
 
-        return NextResponse.json(drafts);
+        return cachedJson(drafts);
     } catch (err) {
         console.error("Error loading draft boards:", err);
         return NextResponse.json(

@@ -1,12 +1,23 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { notFound } from 'next/navigation';
+import { getTeamIDOrNotFound } from "@/app/helpers/routeGuards";
 import TeamHeader from '@/app/teams/[teamName]/components/TeamHeader';
 import Tabs from '@/app/components/Tabs';
 import type { AllTeamsColors } from "@/app/types/colors";
 import teamColors from "@/app/data/allTeamsColors.json";
 import SkipToContent from "@/app/components/SkipToContent";
+
+/*
+ * Cache each team page after its first visit and re-render it at most once an hour.
+ * Returning an empty array means no teams are built ahead of time; pages are generated on demand and then served from the cache,
+ * so repeat visits (including bots) don't use server CPU.
+*/
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+    return [];
+}
 
 interface TeamLayoutProps {
     children: ReactNode;
@@ -20,7 +31,7 @@ export default async function TeamLayout({ children, params }: TeamLayoutProps) 
     const tabs = ['overview', 'schedule', 'roster', 'statistics'];
 
     // handle invalid team names
-    if (!teamName) return notFound();
+    getTeamIDOrNotFound(teamName);
 
     return (
         <>

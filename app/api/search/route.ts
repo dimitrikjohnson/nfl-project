@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import cachedJson from "@/app/helpers/cachedJson";
 import { neon } from "@neondatabase/serverless";
 const sql = neon(process.env.DATABASE_URL!);
 
@@ -7,7 +7,7 @@ export async function GET(req: Request) {
     const q = searchParams.get('q')?.trim() ?? '';
 
     // if there's no query, return empty arrays
-    if (!q) return NextResponse.json({ teams: [], players: [] });
+    if (!q) return cachedJson({ teams: [], players: [] });
 
     const [players, teams] = await Promise.all([
         sql`
@@ -27,7 +27,7 @@ export async function GET(req: Request) {
         `
     ]);
 
-    return NextResponse.json({
+    return cachedJson({
         players,
         teams
     });
