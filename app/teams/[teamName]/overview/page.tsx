@@ -4,15 +4,12 @@ import LastTwoGames from "@/app/teams/[teamName]/overview/components/LastTwoGame
 import NextTwoGames from "@/app/teams/[teamName]/overview/components/NextTwoGames";
 import TeamRankings from "@/app/teams/[teamName]/overview/components/TeamRankings";
 import Standings from "@/app/components/Standings";
-import type { AllTeamsColors } from "@/app/types/colors";
-import teamColors from "@/app/data/allTeamsColors.json";
+import { getTeamIDOrNotFound } from "@/app/helpers/routeGuards";
 import H3 from "@/app/components/H3";
 
 export default async function OverviewTab({ params }: { params: Promise<{ teamName: string }>}) {
     const { teamName } = await params;
-    
-    const allTeamsColors = teamColors as AllTeamsColors;
-    const teamID = allTeamsColors[teamName].id;
+    const teamID = getTeamIDOrNotFound(teamName);
 
 	return (
 		<>

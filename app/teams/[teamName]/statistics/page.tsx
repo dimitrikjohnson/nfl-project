@@ -1,3 +1,4 @@
+import { getTeamIDOrNotFound } from "@/app/helpers/routeGuards";
 import Statistics from "@/app/teams/[teamName]/statistics/components/Statistics";
 import FilterList from '@/app/components/FilterList';
 import FilterDropdownButton from '@/app/components/FilterDropdownButton';
@@ -5,6 +6,7 @@ import H2 from "@/app/components/H2";
 
 export default async function StatisticsTab({ params }: { params: Promise<{ teamName: string }>}) {
     const { teamName } = await params;
+    getTeamIDOrNotFound(teamName); // show a 404 page for invalid team names
     const tags = ["team stats","player stats"];
     
 	return (<>
